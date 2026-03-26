@@ -433,3 +433,16 @@ textarea { resize: vertical; }
   .speakers-grid { grid-template-columns: 1fr; }
   .section { padding: 4.2rem 0; }
 }
+
+/* ===== Fix dropdown contrast ===== */
+
+select {
+  background-color: #1e2a38;
+  color: #ffffff;
+  border: 1px solid #3a4a5a;
+}
+
+select option {
+  background-color: #ffffff;
+  color: #000000;
+}
