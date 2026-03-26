@@ -49,7 +49,9 @@ if (registrationForm) {
     const formData = new FormData(registrationForm);
     const payload = Object.fromEntries(formData.entries());
     payload.id = generateUUID();
-    payload.submittedAt = new Date().toISOString();
+    payload.submittedAt = new Date().toLocaleString("sv-SE", {
+      timeZone: "America/Santiago"
+    });
     payload.page = window.location.href;
 
     const requiredFields = ['fullName', 'email', 'affiliation', 'country', 'attendance', 'invitedSpeaker'];
