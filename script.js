@@ -5,6 +5,10 @@ const themeToggle = document.getElementById('themeToggle');
 const registrationForm = document.getElementById('registrationForm');
 const formStatus = document.getElementById('formStatus');
 
+function generateUUID() {
+  return crypto.randomUUID();
+}
+
 if (navToggle && siteNav) {
   navToggle.addEventListener('click', () => {
     const isOpen = siteNav.classList.toggle('open');
@@ -44,6 +48,7 @@ if (registrationForm) {
 
     const formData = new FormData(registrationForm);
     const payload = Object.fromEntries(formData.entries());
+    payload.id = generateUUID();
     payload.submittedAt = new Date().toISOString();
     payload.page = window.location.href;
 
