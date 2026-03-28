@@ -491,14 +491,18 @@ select option {
   padding: 16px;
   border-radius: 18px;
 
+  overflow: hidden;
+
   box-shadow: 0 6px 20px rgba(0,0,0,0.25);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .supporter-logo-utfsm {
-  object-fit: contain;
   padding: 4px;
+  object-fit: contain;
+
   transform: scale(1.4);
+  transform-origin: center;
 }
 
 .supporter-logo-anid {
