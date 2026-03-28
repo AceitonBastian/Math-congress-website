@@ -508,7 +508,8 @@ select option {
 }
 
 .supporter-logo-anid-wide {
-  max-height: 94px;
+  max-height: 180px;
+  margin-bottom: -10px;
 }
 
 .supporter-logo:hover {
@@ -551,10 +552,24 @@ select option {
     grid-template-columns: 1fr;
   }
 
-  .supporter-logo,
+  .supporter-logo-cmm {
+    max-height: 84px;
+  }
+
+  .supporter-logo-puc {
+    max-height: 80px;
+  }
+
+  .supporter-logo-utfsm {
+    max-height: 70px;
+  }
+
+  .supporter-logo-anid-wide {
+    max-height: 130px;
+    margin-bottom: -6px;
+  }
+
   .supporter-placeholder {
-    max-height: 56px;
-    width: auto;
     height: auto;
   }
 }
