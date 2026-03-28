@@ -486,6 +486,7 @@ select option {
   width: 240px;
   height: 130px;
   object-fit: contain;
+  object-position: center;
 
   background: #ffffff;
   padding: 16px;
@@ -504,7 +505,9 @@ select option {
 
 .supporter-logo-anid {
   object-fit: contain;
-  padding: 2px;
+  padding: 0;
+  object-position: center;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .supporter-logo-anid-wide {
