@@ -483,6 +483,8 @@ select option {
 }
 
 .supporter-logo {
+  display: block;
+  margin: 0 auto;
   max-width: 100%;
   width: auto;
   height: auto;
@@ -495,21 +497,39 @@ select option {
 }
 
 .supporter-logo-cmm {
-  max-height: 102px;
+  max-height: 120px;
 }
 
 .supporter-logo-puc {
-  max-height: 96px;
+  max-height: 115px;
+  transform: translateY(-4px);
 }
 
 .supporter-logo-utfsm {
-  max-height: 82px;
+  max-height: 100px;
   padding: 4px;
+  transform: translateY(-6px);
 }
 
 .supporter-logo-anid-wide {
   max-height: 180px;
   margin-bottom: -10px;
+}
+
+.supporter-logo-puc:hover {
+  transform: translateY(-4px) scale(1.06);
+}
+
+.supporter-logo-utfsm:hover {
+  transform: translateY(-6px) scale(1.06);
+}
+
+.supporter-logo-cmm:hover {
+  transform: scale(1.06);
+}
+
+.supporter-logo-anid-wide:hover {
+  transform: scale(1.06);
 }
 
 .supporter-logo:hover {
