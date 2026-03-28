@@ -508,6 +508,8 @@ select option {
   padding: 0;
   object-position: center;
   image-rendering: -webkit-optimize-contrast;
+
+  transform: scale(1.15);
 }
 
 .supporter-logo-anid-wide {
