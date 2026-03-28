@@ -505,15 +505,12 @@ select option {
 
 .supporter-logo-anid {
   object-fit: contain;
-  padding: 0;
+  padding: 6px 0;
   object-position: center;
-  image-rendering: -webkit-optimize-contrast;
-
-  transform: scale(1.15);
 }
 
 .supporter-logo-anid-wide {
-  width: 270px;
+  width: 285px;
 }
 
 .supporter-logo:hover {
