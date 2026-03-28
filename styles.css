@@ -471,7 +471,7 @@ select option {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 2rem 1.5rem; /* reduced spacing */
-  align-items: start;
+  align-items: center;
   margin-top: 2rem;
 }
 
@@ -492,7 +492,7 @@ select option {
 
   padding: 6px 0;
 
-  transition: transform 0.2s ease, filter 0.2s ease;
+  transition: transform 0.2s ease;
 
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
@@ -507,9 +507,22 @@ select option {
   width: auto;
 }
 
+/* ===== Optical scaling (IMPORTANT) ===== */
+
+.supporter-logo-cmm {
+  transform: scale(1.2);
+}
+
+.supporter-logo-puc {
+  transform: scale(1.1);
+}
+
+.supporter-logo-anid-wide {
+  transform: scale(1.15);
+}
+
 .supporter-logo:hover {
-  filter: none;
-  transform: scale(1.04);
+  transform: scale(1.1);
 }
 
 .supporter-item p {
