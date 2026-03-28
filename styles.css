@@ -487,7 +487,7 @@ select option {
   margin: 0 auto;
   max-width: 100%;
   width: auto;
-  height: auto;
+  height: 140px;
   object-fit: contain;
   object-position: center;
   padding: 6px 0;
@@ -502,34 +502,16 @@ select option {
 
 .supporter-logo-puc {
   max-height: 115px;
-  transform: translateY(-4px);
 }
 
 .supporter-logo-utfsm {
   max-height: 100px;
   padding: 4px;
-  transform: translateY(-6px);
 }
 
 .supporter-logo-anid-wide {
   max-height: 180px;
   margin-bottom: -10px;
-}
-
-.supporter-logo-puc:hover {
-  transform: translateY(-4px) scale(1.06);
-}
-
-.supporter-logo-utfsm:hover {
-  transform: translateY(-6px) scale(1.06);
-}
-
-.supporter-logo-cmm:hover {
-  transform: scale(1.06);
-}
-
-.supporter-logo-anid-wide:hover {
-  transform: scale(1.06);
 }
 
 .supporter-logo:hover {
