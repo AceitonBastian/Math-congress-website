@@ -483,12 +483,12 @@ select option {
 }
 
 .supporter-logo {
-  height: 70px;
-  width: 140px;
+  height: 90px;
+  width: 180px;
   object-fit: contain;
 
   background: #ffffff;
-  padding: 10px;
+  padding: 14px;
   border-radius: 16px;
 
   display: flex;
