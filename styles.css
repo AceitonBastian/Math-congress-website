@@ -561,3 +561,12 @@ select option {
   border-top: 1px solid rgba(20, 33, 48, 0.12);
   border-bottom: 1px solid rgba(20, 33, 48, 0.12);
 }
+
+.supporters-section .section-heading h2 {
+  color: #142130;
+}
+
+.supporters-section .supporter-item p,
+.supporters-section .supporter-placeholder {
+  color: #5c6773;
+}
