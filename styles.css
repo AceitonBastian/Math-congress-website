@@ -496,8 +496,6 @@ select option {
 
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
-
-  filter: grayscale(100%) opacity(0.85);
 }
 
 .supporter-logo-utfsm {
@@ -559,11 +557,7 @@ select option {
 }
 
 .supporters-section {
-  background: var(--bg-soft);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-body:not(.light-mode) .supporter-logo {
-  filter: grayscale(60%) opacity(0.95);
+  background: #f3f4f6;
+  border-top: 1px solid rgba(20, 33, 48, 0.12);
+  border-bottom: 1px solid rgba(20, 33, 48, 0.12);
 }
