@@ -498,16 +498,13 @@ select option {
 }
 
 .supporter-logo-utfsm {
-  padding: 4px;
   object-fit: contain;
-
-  transform: scale(1.4);
-  transform-origin: center;
+  padding: 0;
 }
 
 .supporter-logo-anid {
   object-fit: contain;
-  padding: 8px;
+  padding: 2px;
 }
 
 .supporter-logo:hover {
