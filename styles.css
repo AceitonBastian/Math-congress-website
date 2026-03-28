@@ -484,45 +484,35 @@ select option {
 
 .supporter-logo {
   max-width: 100%;
-  max-height: 80px;
   width: auto;
   height: auto;
   object-fit: contain;
   object-position: center;
-
   padding: 6px 0;
-
   transition: transform 0.2s ease;
-
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
 
+.supporter-logo-cmm {
+  max-height: 102px;
+}
+
+.supporter-logo-puc {
+  max-height: 96px;
+}
+
 .supporter-logo-utfsm {
-  object-fit: contain;
+  max-height: 82px;
   padding: 4px;
 }
 
 .supporter-logo-anid-wide {
-  width: auto;
-}
-
-/* ===== Optical scaling (IMPORTANT) ===== */
-
-.supporter-logo-cmm {
-  transform: scale(1.2);
-}
-
-.supporter-logo-puc {
-  transform: scale(1.1);
-}
-
-.supporter-logo-anid-wide {
-  transform: scale(1.15);
+  max-height: 94px;
 }
 
 .supporter-logo:hover {
-  transform: scale(1.1);
+  transform: scale(1.06);
 }
 
 .supporter-item p {
