@@ -528,9 +528,21 @@ select option {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 70px;
-  font-weight: 600;
-  color: var(--muted);
+
+  height: 110px;
+  min-width: 210px;
+  padding: 0.6rem 1rem;
+
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+
+  color: var(--text);
 }
 
 .supporter-item:last-child {
@@ -577,7 +589,11 @@ select option {
   }
 
   .supporter-placeholder {
-    height: auto;
+    height: 90px;
+    min-width: 0;
+    width: 100%;
+    max-width: 240px;
+    font-size: 1.1rem;
   }
 }
 
