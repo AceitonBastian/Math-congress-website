@@ -81,6 +81,13 @@ body.light-mode .site-header { background: rgba(255,255,255,0.88); }
   flex-shrink: 0;
 }
 
+.brand-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .brand-title,
 .brand-subtitle { display: block; }
 .brand-title {
