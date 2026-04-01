@@ -82,7 +82,7 @@ body.light-mode .site-header { background: rgba(255,255,255,0.88); }
 }
 
 .brand-logo {
-  height: 48px;
+  height: 56px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
