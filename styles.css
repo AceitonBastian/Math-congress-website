@@ -29,37 +29,6 @@
   --field-border: var(--line);
 }
 
-body.light-mode {
-  --bg: #f3f4f6;
-  --bg-soft: #0d1b2a;
-  --shadow: 0 18px 44px rgba(30, 41, 59, 0.10);
-
-  --panel: rgba(16, 32, 49, 0.88);
-  --panel-strong: #12263a;
-  --text: #f3f5f8;
-  --muted: #b8c1cb;
-  --line: rgba(255, 255, 255, 0.12);
-  --gold: #d7b16d;
-  --gold-strong: #f1c87a;
-
-  --header-bg: rgba(7, 17, 29, 0.78);
-
-  --hero-overlay-top: rgba(6, 14, 24, 0.62);
-  --hero-overlay-bottom: rgba(6, 14, 24, 0.82);
-  --hero-accent-glow: rgba(215, 177, 109, 0.18);
-  --hero-glass: rgba(6, 14, 24, 0.35);
-  --hero-glass-border: rgba(255, 255, 255, 0.25);
-  --hero-text: #f3f5f8;
-  --hero-muted: rgba(255, 255, 255, 0.88);
-
-  --section-alt-top: transparent;
-  --section-alt-mid: rgba(255, 255, 255, 0.02);
-  --section-alt-bottom: transparent;
-
-  --field-bg: rgba(255, 255, 255, 0.03);
-  --field-border: rgba(255, 255, 255, 0.12);
-}
-
 * {
   box-sizing: border-box;
 }
@@ -176,17 +145,13 @@ textarea {
   color: var(--text);
 }
 
-.nav-toggle,
-.theme-toggle {
+.nav-toggle {
   border: 1px solid var(--line);
   background: transparent;
   color: var(--text);
   border-radius: 12px;
   padding: 0.65rem 0.9rem;
   cursor: pointer;
-}
-
-.nav-toggle {
   display: none;
 }
 
