@@ -1,11 +1,8 @@
 const navToggle = document.querySelector('.nav-toggle');
 const siteNav = document.querySelector('.site-nav');
 const navLinks = document.querySelectorAll('.site-nav a');
-const themeToggle = document.getElementById('themeToggle');
 const registrationForm = document.getElementById('registrationForm');
 const formStatus = document.getElementById('formStatus');
-
-const root = document.body;
 
 function generateUUID() {
   return crypto.randomUUID();
@@ -27,18 +24,6 @@ if (navToggle && siteNav) {
       navToggle.setAttribute('aria-expanded', 'false');
     });
   });
-}
-
-/* =========================
-   Theme
-========================= */
-
-/* Force dark theme always */
-root.classList.remove('light-mode');
-
-/* Optional: hide the theme toggle button if it still exists in HTML */
-if (themeToggle) {
-  themeToggle.style.display = 'none';
 }
 
 /* =========================
