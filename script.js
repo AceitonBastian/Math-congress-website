@@ -111,19 +111,19 @@ const materialTabs = document.querySelectorAll('.materials-tab');
 const MATERIALS = {
   monday: [
     {
-      title: 'Mean curvature flow with free boundary',
-      speaker: 'Felix Schulze',
-      affiliation: 'University of Warwick',
-      pdf: 'pdfs/felix-schulze.pdf'
+      title: 'Tittle1',
+      speaker: 'speaker1',
+      affiliation: 'University1',
+      pdf: 'pdfs/speaker1.pdf'
     },
     {
-      title: 'Minimal surfaces and geometric variational problems',
-      speaker: 'Francisco Martín',
-      affiliation: 'Universidad de Granada',
-      pdf: 'pdfs/francisco-martin.pdf'
+      title: 'Tittle2',
+      speaker: 'Speaker2',
+      affiliation: 'University2',
+      pdf: 'pdfs/speaker2.pdf'
     },
     {
-      title: 'Conformal methods in geometric',
+      title: 'Tittle3',
       speaker: 'Speaker3',
       affiliation: 'University3',
       pdf: 'pdfs/speaker3.pdf'
@@ -131,10 +131,10 @@ const MATERIALS = {
   ],
   tuesday: [
     {
-      title: 'Conformal methods in geometric analysis',
-      speaker: 'Jie Qing',
-      affiliation: 'University of California, Santa Cruz',
-      pdf: 'pdfs/jie-qing.pdf'
+      title: 'Tittle4',
+      speaker: 'Speaker4',
+      affiliation: 'University4',
+      pdf: 'pdfs/speaker4.pdf'
     }
   ],
   wednesday: [],
