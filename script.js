@@ -124,9 +124,9 @@ const MATERIALS = {
     },
     {
       title: 'Conformal methods in geometric analysis',
-      speaker: 'Jie Qing',
-      affiliation: 'University of California, Santa Cruz',
-      pdf: 'pdfs/jie-qing.pdf'
+      speaker: 'Speaker3',
+      affiliation: 'University3',
+      pdf: 'pdfs/speaker3.pdf'
     }
   ],
   tuesday: [
