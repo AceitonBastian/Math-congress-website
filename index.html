@@ -30,6 +30,7 @@
         <a href="#about">About</a>
         <a href="#speakers">Speakers</a>
         <a href="#schedule">Schedule</a>
+        <a href="#materials">Materials</a>
         <a href="#registration">Registration</a>
         <a href="#venue">Venue</a>
         <a href="#organizers">Organizers</a>
@@ -146,6 +147,26 @@
             <p>Closing talks, final remarks, departures</p>
           </div>
         </div>
+      </div>
+    </section>
+    
+    <section class="section section-alt" id="materials">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Materials</span>
+          <h2>Talk materials by day</h2>
+          <p>Browse presentation files organized according to the conference schedule.</p>
+        </div>
+        
+        <div class="materials-tabs" role="tablist" aria-label="Conference days">
+          <button class="materials-tab is-active" type="button" data-day="monday" aria-selected="true">Monday</button>
+          <button class="materials-tab" type="button" data-day="tuesday" aria-selected="false">Tuesday</button>
+          <button class="materials-tab" type="button" data-day="wednesday" aria-selected="false">Wednesday</button>
+          <button class="materials-tab" type="button" data-day="thursday" aria-selected="false">Thursday</button>
+          <button class="materials-tab" type="button" data-day="friday" aria-selected="false">Friday</button>
+        </div>
+        
+        <div id="materialsGrid" class="materials-grid" aria-live="polite"></div>
       </div>
     </section>
 
