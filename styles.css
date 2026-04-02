@@ -616,13 +616,22 @@ select option {
   color: #5c6773;
 }
 
-/* ===== Turnstile styling ===== */
+/* ===== Turnstile styling (improved) ===== */
 
 .turnstile-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1.2rem 0 1rem;
+
+  margin: 1.4rem 0 1.2rem;
+
+  padding: 0.8rem;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+
+  position: relative;
 }
 
 .turnstile-wrap .cf-turnstile {
@@ -632,18 +641,36 @@ select option {
 }
 
 .turnstile-wrap iframe {
-  border-radius: 16px;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+  border-radius: 14px;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(255,255,255,0.05);
+
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.registration-form .btn-full {
-  margin-top: 0.35rem;
+.turnstile-wrap iframe:hover {
+  transform: translateY(-1px);
+}
+
+/* Light mode fix */
+body.light-mode .turnstile-wrap {
+  background: rgba(20,33,48,0.03);
 }
 
 body.light-mode .turnstile-wrap iframe {
-  box-shadow: 0 10px 22px rgba(30, 41, 59, 0.12);
+  box-shadow:
+    0 6px 16px rgba(30, 41, 59, 0.12),
+    inset 0 0 0 1px rgba(0,0,0,0.04);
 }
 
+/* Button spacing */
+.registration-form .btn-full {
+  margin-top: 0.6rem;
+}
+
+/* Mobile */
 @media (max-width: 640px) {
   .turnstile-wrap {
     justify-content: stretch;
@@ -652,4 +679,14 @@ body.light-mode .turnstile-wrap iframe {
   .turnstile-wrap .cf-turnstile {
     justify-content: flex-start;
   }
+}
+
+.turnstile-label {
+  position: absolute;
+  font-size: 0.75rem;
+  color: var(--muted);
+  top: -0.6rem;
+  left: 1rem;
+  background: var(--panel);
+  padding: 0 0.4rem;
 }
