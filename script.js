@@ -6,7 +6,7 @@ const registrationForm = document.getElementById('registrationForm');
 const formStatus = document.getElementById('formStatus');
 
 const THEME_KEY = 'conference-theme';
-const root = document.documentElement;
+const root = document.body;
 
 function generateUUID() {
   return crypto.randomUUID();
@@ -49,9 +49,7 @@ function getSavedTheme() {
 function saveTheme(theme) {
   try {
     localStorage.setItem(THEME_KEY, theme);
-  } catch {
-    // Ignore storage errors
-  }
+  } catch {}
 }
 
 function applyTheme(theme) {
@@ -65,8 +63,6 @@ function applyTheme(theme) {
     );
     themeToggle.textContent = isLight ? '◑' : '◐';
   }
-
-  updateTurnstileTheme(theme);
 }
 
 function getPreferredTheme() {
@@ -88,50 +84,8 @@ if (themeToggle) {
   themeToggle.addEventListener('click', toggleTheme);
 }
 
-/* =========================
-   Turnstile theme sync
-========================= */
-
-function updateTurnstileTheme(theme) {
-  const turnstileContainer = document.querySelector('.cf-turnstile');
-  if (!turnstileContainer) return;
-
-  const currentTheme = turnstileContainer.getAttribute('data-theme');
-  if (currentTheme === theme) return;
-
-  turnstileContainer.setAttribute('data-theme', theme);
-
-  if (window.turnstile) {
-    try {
-      window.turnstile.remove?.(turnstileContainer);
-    } catch {}
-
-    try {
-      turnstileContainer.innerHTML = '';
-    } catch {}
-
-    try {
-      window.turnstile.render(turnstileContainer, {
-        sitekey: turnstileContainer.dataset.sitekey,
-        theme,
-        action: turnstileContainer.dataset.action || 'register'
-      });
-    } catch {
-      // If rerender fails, keep going
-    }
-  }
-}
-
-/* =========================
-   Apply theme on load
-========================= */
-
 applyTheme(getPreferredTheme());
 
-/* Optional:
-   If the user has NOT chosen a theme manually yet,
-   follow system theme changes automatically.
-*/
 const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
 mediaQuery.addEventListener?.('change', () => {
   const savedTheme = getSavedTheme();
@@ -139,6 +93,7 @@ mediaQuery.addEventListener?.('change', () => {
     applyTheme(getSystemTheme());
   }
 });
+
 
 /* =========================
    Registration form
