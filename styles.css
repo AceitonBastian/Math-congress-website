@@ -31,32 +31,33 @@
 
 body.light-mode {
   --bg: #f3f4f6;
-  --bg-soft: #ffffff;
-  --panel: rgba(255, 255, 255, 0.92);
-  --panel-strong: #ffffff;
-  --text: #142130;
-  --muted: #5c6773;
-  --line: rgba(20, 33, 48, 0.12);
-  --gold: #b78a3f;
-  --gold-strong: #8e692f;
+  --bg-soft: #0d1b2a;
   --shadow: 0 18px 44px rgba(30, 41, 59, 0.10);
 
-  --header-bg: rgba(255, 255, 255, 0.88);
+  --panel: rgba(16, 32, 49, 0.88);
+  --panel-strong: #12263a;
+  --text: #f3f5f8;
+  --muted: #b8c1cb;
+  --line: rgba(255, 255, 255, 0.12);
+  --gold: #d7b16d;
+  --gold-strong: #f1c87a;
 
-  --hero-overlay-top: rgba(6, 14, 24, 0.55);
-  --hero-overlay-bottom: rgba(6, 14, 24, 0.75);
-  --hero-accent-glow: rgba(183, 138, 63, 0.10);
-  --hero-glass: rgba(6, 14, 24, 0.25);
-  --hero-glass-border: rgba(255, 255, 255, 0.18);
+  --header-bg: rgba(7, 17, 29, 0.78);
+
+  --hero-overlay-top: rgba(6, 14, 24, 0.62);
+  --hero-overlay-bottom: rgba(6, 14, 24, 0.82);
+  --hero-accent-glow: rgba(215, 177, 109, 0.18);
+  --hero-glass: rgba(6, 14, 24, 0.35);
+  --hero-glass-border: rgba(255, 255, 255, 0.25);
   --hero-text: #f3f5f8;
   --hero-muted: rgba(255, 255, 255, 0.88);
 
-  --section-alt-top: rgba(20, 33, 48, 0.02);
-  --section-alt-mid: rgba(20, 33, 48, 0.04);
-  --section-alt-bottom: rgba(20, 33, 48, 0.02);
+  --section-alt-top: transparent;
+  --section-alt-mid: rgba(255, 255, 255, 0.02);
+  --section-alt-bottom: transparent;
 
-  --field-bg: rgba(20, 33, 48, 0.03);
-  --field-border: var(--line);
+  --field-bg: rgba(255, 255, 255, 0.03);
+  --field-border: rgba(255, 255, 255, 0.12);
 }
 
 * {
