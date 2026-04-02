@@ -615,3 +615,41 @@ select option {
 .supporters-section .supporter-placeholder {
   color: #5c6773;
 }
+
+/* ===== Turnstile styling ===== */
+
+.turnstile-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.2rem 0 1rem;
+}
+
+.turnstile-wrap .cf-turnstile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.turnstile-wrap iframe {
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+.registration-form .btn-full {
+  margin-top: 0.35rem;
+}
+
+body.light-mode .turnstile-wrap iframe {
+  box-shadow: 0 10px 22px rgba(30, 41, 59, 0.12);
+}
+
+@media (max-width: 640px) {
+  .turnstile-wrap {
+    justify-content: stretch;
+  }
+
+  .turnstile-wrap .cf-turnstile {
+    justify-content: flex-start;
+  }
+}
