@@ -5,7 +5,6 @@ const themeToggle = document.getElementById('themeToggle');
 const registrationForm = document.getElementById('registrationForm');
 const formStatus = document.getElementById('formStatus');
 
-const THEME_KEY = 'conference-theme';
 const root = document.body;
 
 function generateUUID() {
@@ -34,66 +33,13 @@ if (navToggle && siteNav) {
    Theme
 ========================= */
 
-function getSystemTheme() {
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-}
+/* Force dark theme always */
+root.classList.remove('light-mode');
 
-function getSavedTheme() {
-  try {
-    return localStorage.getItem(THEME_KEY);
-  } catch {
-    return null;
-  }
-}
-
-function saveTheme(theme) {
-  try {
-    localStorage.setItem(THEME_KEY, theme);
-  } catch {}
-}
-
-function applyTheme(theme) {
-  const isLight = theme === 'light';
-  root.classList.toggle('light-mode', isLight);
-
-  if (themeToggle) {
-    themeToggle.setAttribute(
-      'aria-label',
-      isLight ? 'Switch to dark theme' : 'Switch to light theme'
-    );
-    themeToggle.textContent = isLight ? '◑' : '◐';
-  }
-}
-
-function getPreferredTheme() {
-  const savedTheme = getSavedTheme();
-  if (savedTheme === 'light' || savedTheme === 'dark') {
-    return savedTheme;
-  }
-  return getSystemTheme();
-}
-
-function toggleTheme() {
-  const currentIsLight = root.classList.contains('light-mode');
-  const nextTheme = currentIsLight ? 'dark' : 'light';
-  applyTheme(nextTheme);
-  saveTheme(nextTheme);
-}
-
+/* Optional: hide the theme toggle button if it still exists in HTML */
 if (themeToggle) {
-  themeToggle.addEventListener('click', toggleTheme);
+  themeToggle.style.display = 'none';
 }
-
-applyTheme(getPreferredTheme());
-
-const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
-mediaQuery.addEventListener?.('change', () => {
-  const savedTheme = getSavedTheme();
-  if (savedTheme !== 'light' && savedTheme !== 'dark') {
-    applyTheme(getSystemTheme());
-  }
-});
-
 
 /* =========================
    Registration form
