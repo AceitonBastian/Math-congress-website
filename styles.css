@@ -18,6 +18,8 @@
   --hero-accent-glow: rgba(215, 177, 109, 0.18);
   --hero-glass: rgba(6, 14, 24, 0.35);
   --hero-glass-border: rgba(255, 255, 255, 0.25);
+  --hero-text: #f3f5f8;
+  --hero-muted: rgba(255, 255, 255, 0.88);
 
   --section-alt-top: transparent;
   --section-alt-mid: rgba(255, 255, 255, 0.02);
@@ -46,6 +48,8 @@ body.light-mode {
   --hero-accent-glow: rgba(183, 138, 63, 0.10);
   --hero-glass: rgba(6, 14, 24, 0.25);
   --hero-glass-border: rgba(255, 255, 255, 0.18);
+  --hero-text: #f3f5f8;
+  --hero-muted: rgba(255, 255, 255, 0.88);
 
   --section-alt-top: rgba(20, 33, 48, 0.02);
   --section-alt-mid: rgba(20, 33, 48, 0.04);
@@ -224,7 +228,7 @@ textarea {
   padding: 0.6rem 1rem;
   border-radius: 999px;
   font-size: 0.94rem;
-  color: var(--text);
+  color: var(--hero-text);
 }
 
 .hero h1 {
@@ -233,11 +237,12 @@ textarea {
   line-height: 0.95;
   margin: 1rem 0 1rem;
   max-width: 11ch;
+  color: var(--hero-text);
 }
 
 .hero-lead {
   font-size: clamp(1.05rem, 2vw, 1.35rem);
-  color: var(--muted);
+  color: var(--hero-muted);
   max-width: 760px;
 }
 
@@ -270,7 +275,7 @@ textarea {
 }
 
 .hero-meta span {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--hero-muted);
 }
 
 /* ===== Sections ===== */
@@ -525,7 +530,7 @@ textarea {
 .btn-secondary {
   border-color: var(--hero-glass-border);
   background: var(--hero-glass);
-  color: var(--text);
+  color: var(--hero-text);
   backdrop-filter: blur(6px);
 }
 
