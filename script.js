@@ -48,6 +48,7 @@ if (registrationForm) {
 
     const formData = new FormData(registrationForm);
     const payload = Object.fromEntries(formData.entries());
+    payload.turnstileToken = payload['cf-turnstile-response'] || '';
 
     payload.id = generateUUID();
     payload.submittedAt = new Date().toLocaleString('sv-SE', {
@@ -60,6 +61,11 @@ if (registrationForm) {
 
     if (missingField) {
       formStatus.textContent = 'Please complete all required fields.';
+      return;
+    }
+    
+    if (!payload.turnstileToken) {
+      formStatus.textContent = 'Please complete the security check.';
       return;
     }
 
@@ -82,6 +88,9 @@ if (registrationForm) {
 
       formStatus.textContent = 'Registration submitted successfully.';
       registrationForm.reset();
+      if (window.turnstile) {
+        window.turnstile.reset();
+      }
     } catch (error) {
       console.error(error);
       formStatus.textContent = error.message || 'There was an error sending the form.';
