@@ -100,3 +100,91 @@ if (registrationForm) {
     }
   });
 }
+
+/* =========================
+   Materials
+========================= */
+
+const materialsGrid = document.getElementById('materialsGrid');
+const materialTabs = document.querySelectorAll('.materials-tab');
+
+const MATERIALS = {
+  monday: [
+    {
+      title: 'Mean curvature flow with free boundary',
+      speaker: 'Felix Schulze',
+      affiliation: 'University of Warwick',
+      pdf: 'pdfs/felix-schulze.pdf'
+    },
+    {
+      title: 'Minimal surfaces and geometric variational problems',
+      speaker: 'Francisco Martín',
+      affiliation: 'Universidad de Granada',
+      pdf: 'pdfs/francisco-martin.pdf'
+    }
+  ],
+  tuesday: [
+    {
+      title: 'Conformal methods in geometric analysis',
+      speaker: 'Jie Qing',
+      affiliation: 'University of California, Santa Cruz',
+      pdf: 'pdfs/jie-qing.pdf'
+    }
+  ],
+  wednesday: [],
+  thursday: [],
+  friday: []
+};
+
+let currentMaterialsDay = 'monday';
+
+function renderMaterials(day) {
+  if (!materialsGrid) return;
+
+  const items = MATERIALS[day] || [];
+  materialsGrid.innerHTML = '';
+
+  if (items.length === 0) {
+    materialsGrid.innerHTML = `
+      <div class="materials-empty">
+        Presentation files for this day will be uploaded soon.
+      </div>
+    `;
+    return;
+  }
+
+  items.forEach((item) => {
+    const card = document.createElement('article');
+    card.className = 'material-card';
+
+    card.innerHTML = `
+      <p class="material-meta">Presentation PDF</p>
+      <h3>${item.title}</h3>
+      <p class="material-speaker">${item.speaker}</p>
+      <p class="material-affiliation">${item.affiliation}</p>
+      <a href="${item.pdf}" target="_blank" rel="noopener" class="btn btn-secondary">
+        Open PDF
+      </a>
+    `;
+
+    materialsGrid.appendChild(card);
+  });
+}
+
+if (materialTabs.length && materialsGrid) {
+  materialTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      currentMaterialsDay = tab.dataset.day;
+
+      materialTabs.forEach((btn) => {
+        const isActive = btn.dataset.day === currentMaterialsDay;
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      renderMaterials(currentMaterialsDay);
+    });
+  });
+
+  renderMaterials(currentMaterialsDay);
+}
