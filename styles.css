@@ -838,16 +838,16 @@ textarea {
 
 .materials-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
 }
 
 .material-card {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: 18px;
   box-shadow: var(--shadow);
-  padding: 1.5rem;
+  padding: 1.1rem;
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
@@ -855,19 +855,21 @@ textarea {
 
 .material-card h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.7rem;
-  line-height: 1.05;
+  font-size: 1.35rem;
+  line-height: 1.2;
   margin: 0;
 }
 
 .material-speaker {
   font-weight: 700;
+  font-size: 0.95rem;
   color: var(--text);
   margin: 0;
 }
 
 .material-affiliation {
   color: var(--muted);
+  font-size: 0.9rem;
   margin: 0;
 }
 
@@ -880,6 +882,8 @@ textarea {
 
 .material-card .btn {
   margin-top: 0.5rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
   align-self: flex-start;
 }
 
@@ -896,6 +900,11 @@ textarea {
   .materials-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.material-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
 }
 
 
