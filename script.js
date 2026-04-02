@@ -123,7 +123,7 @@ const MATERIALS = {
       pdf: 'pdfs/francisco-martin.pdf'
     },
     {
-      title: 'Conformal methods in geometric analysis',
+      title: 'Conformal methods in geometric',
       speaker: 'Speaker3',
       affiliation: 'University3',
       pdf: 'pdfs/speaker3.pdf'
