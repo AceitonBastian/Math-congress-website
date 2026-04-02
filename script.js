@@ -121,6 +121,12 @@ const MATERIALS = {
       speaker: 'Francisco Martín',
       affiliation: 'Universidad de Granada',
       pdf: 'pdfs/francisco-martin.pdf'
+    },
+    {
+      title: 'Conformal methods in geometric analysis',
+      speaker: 'Jie Qing',
+      affiliation: 'University of California, Santa Cruz',
+      pdf: 'pdfs/jie-qing.pdf'
     }
   ],
   tuesday: [
