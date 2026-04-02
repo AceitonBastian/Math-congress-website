@@ -804,4 +804,98 @@ textarea {
   }
 }
 
+/* ===== Materials ===== */
+
+.materials-tabs {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 0 2rem;
+}
+
+.materials-tab {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.8rem 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.materials-tab:hover {
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.materials-tab.is-active {
+  color: #10151c;
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.material-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.material-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.material-speaker {
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.material-affiliation {
+  color: var(--muted);
+  margin: 0;
+}
+
+.material-meta {
+  color: var(--gold);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.material-card .btn {
+  margin-top: 0.5rem;
+  align-self: flex-start;
+}
+
+.materials-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted);
+  padding: 2rem 1rem;
+  border: 1px dashed var(--line);
+  border-radius: 20px;
+}
+
+@media (max-width: 760px) {
+  .materials-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
