@@ -4,8 +4,167 @@ const navLinks = document.querySelectorAll('.site-nav a');
 const registrationForm = document.getElementById('registrationForm');
 const formStatus = document.getElementById('formStatus');
 
+let isSubmittingRegistration = false;
+let registrationCompleted = false;
+
 function generateUUID() {
   return crypto.randomUUID();
+}
+
+function setFormSubmitting(form, isSubmitting, options = {}) {
+  const {
+    submittingText = 'Submitting registration...',
+    idleText = null,
+    completed = false
+  } = options;
+
+  const submitBtn = form?.querySelector('button[type="submit"]');
+  const controls = form?.querySelectorAll('input, select, textarea, button');
+
+  if (form) {
+    form.setAttribute('aria-busy', isSubmitting ? 'true' : 'false');
+  }
+
+  if (submitBtn) {
+    if (!submitBtn.dataset.originalText) {
+      submitBtn.dataset.originalText = submitBtn.textContent;
+    }
+
+    if (completed) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Registration submitted';
+      submitBtn.setAttribute('aria-disabled', 'true');
+    } else if (isSubmitting) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.setAttribute('aria-disabled', 'true');
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitBtn.dataset.originalText;
+      submitBtn.removeAttribute('aria-disabled');
+    }
+  }
+
+  if (controls && completed) {
+    controls.forEach((el) => {
+      el.disabled = true;
+    });
+  } else if (controls) {
+    controls.forEach((el) => {
+      if (el !== submitBtn) {
+        el.disabled = isSubmitting;
+      }
+    });
+  }
+
+  if (formStatus) {
+    if (isSubmitting) {
+      formStatus.textContent = submittingText;
+    } else if (idleText !== null) {
+      formStatus.textContent = idleText;
+    }
+  }
+}
+
+async function submitRegistration(event) {
+  event.preventDefault();
+
+  if (!registrationForm || registrationCompleted) return;
+  if (isSubmittingRegistration) return;
+
+  const endpoint = window.CONFERENCE_CONFIG?.registrationEndpoint;
+  if (!endpoint || endpoint.includes('YOUR-CLOUDFLARE-WORKER')) {
+    formStatus.textContent = 'Set your Cloudflare Worker URL first in index.html.';
+    return;
+  }
+
+  const formData = new FormData(registrationForm);
+  const payload = Object.fromEntries(formData.entries());
+  payload.turnstileToken = payload['cf-turnstile-response'] || '';
+
+  const requiredFields = [
+    'fullName',
+    'email',
+    'affiliation',
+    'country',
+    'attendance',
+    'invitedSpeaker'
+  ];
+
+  const missingField = requiredFields.find((field) => !payload[field]?.trim?.());
+
+  if (missingField) {
+    formStatus.textContent = 'Please complete all required fields.';
+    return;
+  }
+
+  if (!payload.turnstileToken) {
+    formStatus.textContent = 'Please complete the security check.';
+    return;
+  }
+
+  const submissionId = generateUUID();
+
+  payload.id = submissionId;
+  payload.submittedAt = new Date().toLocaleString('sv-SE', {
+    timeZone: 'America/Santiago'
+  });
+  payload.page = window.location.href;
+
+  isSubmittingRegistration = true;
+  setFormSubmitting(registrationForm, true);
+
+  const controller = new AbortController();
+  const timeoutMs = 15000;
+
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, timeoutMs);
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Idempotency-Key': submissionId
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+
+    const contentType = response.headers.get('content-type') || '';
+    const result = contentType.includes('application/json')
+      ? await response.json().catch(() => ({}))
+      : {};
+
+    if (!response.ok) {
+      throw new Error(result.error || 'Submission failed.');
+    }
+
+    registrationCompleted = true;
+
+    setFormSubmitting(registrationForm, false, {
+      completed: true,
+      idleText: 'Registration submitted successfully, please check your email.'
+    });
+
+    // No reset here: keep submitted values visible in the disabled form.
+    // Also no Turnstile reset needed, since the form is now permanently completed.
+  } catch (error) {
+    console.error(error);
+
+    if (error.name === 'AbortError') {
+      formStatus.textContent = 'The request took too long. Please try again.';
+    } else {
+      formStatus.textContent =
+        error.message || 'There was an error sending the form.';
+    }
+
+    isSubmittingRegistration = false;
+    setFormSubmitting(registrationForm, false);
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 /* =========================
@@ -31,74 +190,7 @@ if (navToggle && siteNav) {
 ========================= */
 
 if (registrationForm) {
-  registrationForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const endpoint = window.CONFERENCE_CONFIG?.registrationEndpoint;
-    if (!endpoint || endpoint.includes('YOUR-CLOUDFLARE-WORKER')) {
-      formStatus.textContent = 'Set your Cloudflare Worker URL first in index.html.';
-      return;
-    }
-
-    const formData = new FormData(registrationForm);
-    const payload = Object.fromEntries(formData.entries());
-    payload.turnstileToken = payload['cf-turnstile-response'] || '';
-
-    payload.id = generateUUID();
-    payload.submittedAt = new Date().toLocaleString('sv-SE', {
-      timeZone: 'America/Santiago'
-    });
-    payload.page = window.location.href;
-
-    const requiredFields = [
-      'fullName',
-      'email',
-      'affiliation',
-      'country',
-      'attendance',
-      'invitedSpeaker'
-    ];
-
-    const missingField = requiredFields.find((field) => !payload[field]?.trim?.());
-
-    if (missingField) {
-      formStatus.textContent = 'Please complete all required fields.';
-      return;
-    }
-
-    if (!payload.turnstileToken) {
-      formStatus.textContent = 'Please complete the security check.';
-      return;
-    }
-
-    try {
-      formStatus.textContent = 'Submitting registration...';
-
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Submission failed.');
-      }
-
-      formStatus.textContent = 'Registration submitted successfully.';
-      registrationForm.reset();
-
-      if (window.turnstile) {
-        window.turnstile.reset();
-      }
-    } catch (error) {
-      console.error(error);
-      formStatus.textContent = error.message || 'There was an error sending the form.';
-    }
-  });
+  registrationForm.addEventListener('submit', submitRegistration);
 }
 
 /* =========================
