@@ -523,9 +523,10 @@ textarea {
 }
 
 .btn-secondary {
-  border-color: var(--line);
-  background: transparent;
+  border-color: var(--hero-glass-border);
+  background: var(--hero-glass);
   color: var(--text);
+  backdrop-filter: blur(6px);
 }
 
 .btn-full {
