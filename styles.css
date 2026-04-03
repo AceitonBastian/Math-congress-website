@@ -471,12 +471,20 @@ textarea {
 }
 
 .registration-success {
+  margin-top: 0.75rem; /* ← alignment fix */
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 24px;
   box-shadow: var(--shadow);
   padding: 1.75rem;
   animation: fadeIn 0.35s ease;
+}
+
+.registration-success-icon {
+  margin: 0 0 0.6rem;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--gold-strong);
 }
 
 .registration-success-eyebrow {
@@ -502,7 +510,7 @@ textarea {
 }
 
 .registration-success strong {
-  color: var(--text);
+  color: var(--gold-strong);
 }
 
 .registration-success-note {
