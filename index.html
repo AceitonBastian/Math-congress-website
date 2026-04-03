@@ -204,26 +204,62 @@
               <input id="affiliation" name="affiliation" type="text" required />
             </div>
           </div>
-
+          
           <div class="form-row two-up">
             <div>
               <label for="country">Country *</label>
               <input id="country" name="country" type="text" required />
             </div>
+            
             <div>
-              <label for="attendance">Attendance *</label>
+              <label for="attendance">Participation *</label>
               <select id="attendance" name="attendance" required>
                 <option value="">Please choose an option</option>
                 <option value="all-days">All days</option>
-                <option value="selected-days">Selected days only</option>
-                <option value="speaker-only">Speaker participation only</option>
+                <option value="selected-days">Some days</option>
               </select>
             </div>
           </div>
-
-          <div class="form-row">
-            <label for="days">If not all days, which days?</label>
-            <input id="days" name="days" type="text" placeholder="For example: Monday, Wednesday, Friday" />
+          
+          <div id="daysSelector" class="form-row days-selector" hidden>
+            <label id="daysSelectorLabel">Select the days you will attend *</label>
+            <p class="days-selector-help">
+              Choose one or more days between September 7 and September 11.
+            </p>
+            
+            <div class="day-chip-group" role="group" aria-labelledby="daysSelectorLabel">
+              <label class="day-chip">
+                <input type="checkbox" name="days[]" value="monday" />
+                <span class="day-chip-main">Monday</span>
+                <span class="day-chip-sub">Sep 7</span>
+              </label>
+              
+              <label class="day-chip">
+                <input type="checkbox" name="days[]" value="tuesday" />
+                <span class="day-chip-main">Tuesday</span>
+                <span class="day-chip-sub">Sep 8</span>
+              </label>
+              
+              <label class="day-chip">
+                <input type="checkbox" name="days[]" value="wednesday" />
+                <span class="day-chip-main">Wednesday</span>
+                <span class="day-chip-sub">Sep 9</span>
+              </label>
+              
+              <label class="day-chip">
+                <input type="checkbox" name="days[]" value="thursday" />
+                <span class="day-chip-main">Thursday</span>
+                <span class="day-chip-sub">Sep 10</span>
+              </label>
+              
+              <label class="day-chip">
+                <input type="checkbox" name="days[]" value="friday" />
+                <span class="day-chip-main">Friday</span>
+                <span class="day-chip-sub">Sep 11</span>
+              </label>
+            </div>
+            
+            <p id="daysError" class="form-error" hidden>Please select at least one day.</p>
           </div>
 
           <fieldset class="form-row radio-group">
