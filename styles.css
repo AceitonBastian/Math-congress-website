@@ -470,6 +470,90 @@ textarea {
   color: var(--muted);
 }
 
+.days-selector {
+  margin-top: 0.25rem;
+}
+
+.days-selector-help {
+  margin: 0 0 0.85rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.day-chip-group {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.day-chip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.02)
+  );
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+  min-height: 88px;
+}
+
+.day-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(215, 177, 109, 0.45);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.day-chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.day-chip-main {
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.day-chip-sub {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.day-chip:has(input:checked) {
+  border-color: var(--gold);
+  background: linear-gradient(
+    180deg,
+    rgba(215, 177, 109, 0.18),
+    rgba(215, 177, 109, 0.08)
+  );
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+}
+
+.day-chip:has(input:focus-visible) {
+  outline: 2px solid var(--gold-strong);
+  outline-offset: 3px;
+}
+
+.form-error {
+  margin: 0.75rem 0 0;
+  color: #ffb4b4;
+  font-size: 0.92rem;
+}
+
 .registration-success {
   margin-top: 0.75rem; /* ← alignment fix */
   background: var(--panel);
@@ -752,6 +836,11 @@ textarea {
   .hero-meta {
     grid-template-columns: 1fr;
   }
+  
+  .day-chip-group {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
 }
 
 @media (max-width: 760px) {
@@ -818,6 +907,11 @@ textarea {
   .section {
     padding: 4.2rem 0;
   }
+  
+  .day-chip-group {
+    grid-template-columns: 1fr 1fr;
+  }
+
 }
 
 @media (max-width: 640px) {
@@ -859,6 +953,12 @@ textarea {
 
   .turnstile-wrap .cf-turnstile {
     justify-content: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .day-chip-group {
+    grid-template-columns: 1fr;
   }
 }
 
