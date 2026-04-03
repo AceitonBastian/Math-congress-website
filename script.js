@@ -3,6 +3,8 @@ const siteNav = document.querySelector('.site-nav');
 const navLinks = document.querySelectorAll('.site-nav a');
 const registrationForm = document.getElementById('registrationForm');
 const formStatus = document.getElementById('formStatus');
+const registrationSuccess = document.getElementById('registrationSuccess');
+const successEmail = document.getElementById('successEmail');
 
 let isSubmittingRegistration = false;
 let registrationCompleted = false;
@@ -140,16 +142,25 @@ async function submitRegistration(event) {
     if (!response.ok) {
       throw new Error(result.error || 'Submission failed.');
     }
-
+    
     registrationCompleted = true;
-
-    setFormSubmitting(registrationForm, false, {
-      completed: true,
-      idleText: 'Registration submitted successfully, please check your email.'
-    });
-
-    // No reset here: keep submitted values visible in the disabled form.
-    // Also no Turnstile reset needed, since the form is now permanently completed.
+    
+    if (registrationForm) {
+      registrationForm.hidden = true;
+    }
+    
+    if (successEmail) {
+      successEmail.textContent = payload.email;
+    }
+    
+    if (registrationSuccess) {
+      registrationSuccess.hidden = false;
+      registrationSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    
+    if (formStatus) {
+      formStatus.textContent = '';
+    }
   } catch (error) {
     console.error(error);
 
