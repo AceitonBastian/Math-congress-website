@@ -5,12 +5,97 @@ const registrationForm = document.getElementById('registrationForm');
 const formStatus = document.getElementById('formStatus');
 const registrationSuccess = document.getElementById('registrationSuccess');
 const successEmail = document.getElementById('successEmail');
+const attendanceSelect = document.getElementById('attendance');
+const daysSelector = document.getElementById('daysSelector');
+const daysError = document.getElementById('daysError');
 
 let isSubmittingRegistration = false;
 let registrationCompleted = false;
 
 function generateUUID() {
   return crypto.randomUUID();
+}
+
+function getSelectedAttendanceDays() {
+  if (!daysSelector) return [];
+
+  return Array.from(
+    daysSelector.querySelectorAll('input[name="days[]"]:checked')
+  ).map((input) => input.value);
+}
+
+function clearSelectedAttendanceDays() {
+  if (!daysSelector) return;
+
+  daysSelector
+    .querySelectorAll('input[name="days[]"]')
+    .forEach((input) => {
+      input.checked = false;
+    });
+}
+
+function updateDaysSelectorVisibility() {
+  if (!attendanceSelect || !daysSelector) return;
+
+  const shouldShow = attendanceSelect.value === 'selected-days';
+  daysSelector.hidden = !shouldShow;
+
+  if (!shouldShow) {
+    clearSelectedAttendanceDays();
+    if (daysError) {
+      daysError.hidden = true;
+    }
+  }
+  
+  // ✅ Clear any previous error/status message when user changes selection
+  if (formStatus) {
+    formStatus.textContent = '';
+  }
+}
+
+function buildAttendancePayload(attendanceValue, selectedDays = []) {
+  const attendanceData = {
+    daysSummary: '',
+    monday: 0,
+    tuesday: 0,
+    wednesday: 0,
+    thursday: 0,
+    friday: 0
+  };
+
+  if (attendanceValue === 'all-days') {
+    attendanceData.daysSummary = 'All days';
+    attendanceData.monday = 1;
+    attendanceData.tuesday = 1;
+    attendanceData.wednesday = 1;
+    attendanceData.thursday = 1;
+    attendanceData.friday = 1;
+    return attendanceData;
+  }
+
+  if (attendanceValue === 'selected-days') {
+    attendanceData.monday = selectedDays.includes('monday') ? 1 : 0;
+    attendanceData.tuesday = selectedDays.includes('tuesday') ? 1 : 0;
+    attendanceData.wednesday = selectedDays.includes('wednesday') ? 1 : 0;
+    attendanceData.thursday = selectedDays.includes('thursday') ? 1 : 0;
+    attendanceData.friday = selectedDays.includes('friday') ? 1 : 0;
+
+    const labels = {
+      monday: 'Monday',
+      tuesday: 'Tuesday',
+      wednesday: 'Wednesday',
+      thursday: 'Thursday',
+      friday: 'Friday'
+    };
+
+    attendanceData.daysSummary = selectedDays
+      .map((day) => labels[day])
+      .join(', ');
+
+    return attendanceData;
+  }
+
+  return attendanceData;
 }
 
 function setFormSubmitting(form, isSubmitting, options = {}) {
@@ -79,9 +164,16 @@ async function submitRegistration(event) {
     formStatus.textContent = 'Set your Cloudflare Worker URL first in index.html.';
     return;
   }
-
+  
   const formData = new FormData(registrationForm);
-  const payload = Object.fromEntries(formData.entries());
+  const payload = {};
+  
+  formData.forEach((value, key) => {
+    if (key !== 'days[]') {
+      payload[key] = value;
+    }
+  });
+  
   payload.turnstileToken = payload['cf-turnstile-response'] || '';
 
   const requiredFields = [
@@ -92,6 +184,26 @@ async function submitRegistration(event) {
     'attendance',
     'invitedSpeaker'
   ];
+  
+  if (daysError) {
+    daysError.hidden = true;
+  }
+  
+  let selectedDays = [];
+  
+  if (payload.attendance === 'selected-days') {
+    selectedDays = getSelectedAttendanceDays();
+    
+    if (!selectedDays.length) {
+      if (daysError) {
+        daysError.hidden = false;
+      }
+      formStatus.textContent = 'Please select at least one day.';
+      return;
+    }
+  }
+  
+  Object.assign(payload, buildAttendancePayload(payload.attendance, selectedDays));
 
   const missingField = requiredFields.find((field) => !payload[field]?.trim?.());
 
@@ -199,6 +311,17 @@ if (navToggle && siteNav) {
 /* =========================
    Registration form
 ========================= */
+
+if (attendanceSelect && daysSelector) {
+  attendanceSelect.addEventListener('change', updateDaysSelectorVisibility);
+  updateDaysSelectorVisibility();
+  
+  // ✅ Clear error when user selects/deselects a day
+  daysSelector.addEventListener('change', () => {
+    if (daysError) daysError.hidden = true;
+    if (formStatus) formStatus.textContent = '';
+  });
+}
 
 if (registrationForm) {
   registrationForm.addEventListener('submit', submitRegistration);
