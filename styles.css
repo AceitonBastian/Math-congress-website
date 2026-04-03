@@ -470,6 +470,56 @@ textarea {
   color: var(--muted);
 }
 
+.registration-success {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 1.75rem;
+  animation: fadeIn 0.35s ease;
+}
+
+.registration-success-eyebrow {
+  display: inline-block;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+
+.registration-success h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  line-height: 1.05;
+  margin: 0 0 0.75rem;
+}
+
+.registration-success p {
+  color: var(--muted);
+  margin: 0.5rem 0 0;
+}
+
+.registration-success strong {
+  color: var(--text);
+}
+
+.registration-success-note {
+  font-size: 0.95rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ===== Buttons ===== */
 
 .btn {
