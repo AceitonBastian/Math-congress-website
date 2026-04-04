@@ -540,8 +540,12 @@ select:focus {
   border-radius: 16px;
   box-shadow: var(--shadow);
   padding: 0.35rem;
-  display: grid;
+  display: none;
   gap: 0.35rem;
+}
+
+.custom-select.is-open .custom-select-menu {
+  display: grid;
 }
 
 .custom-select-option {
