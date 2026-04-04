@@ -273,15 +273,6 @@ main > .section + .section::before {
   );
 }
 
-.section-alt {
-  background: linear-gradient(
-    180deg,
-    var(--section-alt-top),
-    var(--section-alt-mid),
-    var(--section-alt-bottom)
-  );
-}
-
 .section-heading {
   max-width: 780px;
   margin: 0 auto 2.5rem;
