@@ -212,12 +212,32 @@
             </div>
             
             <div>
-              <label for="attendance">Participation *</label>
-              <select id="attendance" name="attendance" required>
-                <option value="" disabled selected>Select participation type</option>
-                <option value="all-days">All days</option>
-                <option value="selected-days">Some days</option>
-              </select>
+              <label id="attendance-label" for="attendance-trigger">Participation *</label>
+              
+              <div class="custom-select" id="attendanceSelectWrap" data-value="">
+                <input type="hidden" id="attendance" name="attendance">
+                
+                <button
+                  type="button"
+                  id="attendance-trigger"
+                  class="custom-select-trigger"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-labelledby="attendance-label attendance-trigger"
+                  >
+                  <span class="custom-select-text">Select participation type</span>
+                  <span class="custom-select-arrow" aria-hidden="true"></span>
+                </button>
+                
+                <div class="custom-select-menu" role="listbox" aria-label="Participation options" hidden>
+                  <button type="button" class="custom-select-option" role="option" data-value="all-days">
+                    All days
+                  </button>
+                  <button type="button" class="custom-select-option" role="option" data-value="selected-days">
+                    Some days
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           
