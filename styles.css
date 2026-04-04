@@ -250,6 +250,29 @@ textarea {
   padding: 6rem 0;
 }
 
+main > .section + .section {
+  position: relative;
+}
+
+main > .section + .section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(calc(100% - 2rem), var(--max-width));
+  border-top: 1px solid var(--line);
+}
+
+.section-alt {
+  background: linear-gradient(
+    180deg,
+    var(--section-alt-top),
+    var(--section-alt-mid),
+    var(--section-alt-bottom)
+  );
+}
+
 .section-alt {
   background: linear-gradient(
     180deg,
