@@ -8,6 +8,11 @@ const successEmail = document.getElementById('successEmail');
 const attendanceSelect = document.getElementById('attendance');
 const daysSelector = document.getElementById('daysSelector');
 const daysError = document.getElementById('daysError');
+const attendanceSelectWrap = document.getElementById('attendanceSelectWrap');
+const attendanceTrigger = document.getElementById('attendance-trigger');
+const attendanceMenu = attendanceSelectWrap?.querySelector('.custom-select-menu');
+const attendanceText = attendanceSelectWrap?.querySelector('.custom-select-text');
+const attendanceOptions = attendanceSelectWrap?.querySelectorAll('.custom-select-option');
 
 let isSubmittingRegistration = false;
 let registrationCompleted = false;
@@ -50,6 +55,47 @@ function updateDaysSelectorVisibility() {
   // ✅ Clear any previous error/status message when user changes selection
   if (formStatus) {
     formStatus.textContent = '';
+  }
+}
+
+function setAttendanceValue(value, label) {
+  if (!attendanceSelect || !attendanceText || !attendanceSelectWrap) return;
+
+  attendanceSelect.value = value;
+  attendanceText.textContent = label;
+  attendanceText.classList.remove('is-placeholder');
+  attendanceSelectWrap.dataset.value = value;
+
+  attendanceOptions?.forEach((option) => {
+    const isSelected = option.dataset.value === value;
+    option.classList.toggle('is-selected', isSelected);
+    option.setAttribute('aria-selected', String(isSelected));
+  });
+
+  attendanceSelect.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+function openAttendanceMenu() {
+  if (!attendanceSelectWrap || !attendanceTrigger || !attendanceMenu) return;
+  attendanceSelectWrap.classList.add('is-open');
+  attendanceTrigger.setAttribute('aria-expanded', 'true');
+  attendanceMenu.hidden = false;
+}
+
+function closeAttendanceMenu() {
+  if (!attendanceSelectWrap || !attendanceTrigger || !attendanceMenu) return;
+  attendanceSelectWrap.classList.remove('is-open');
+  attendanceTrigger.setAttribute('aria-expanded', 'false');
+  attendanceMenu.hidden = true;
+}
+
+function toggleAttendanceMenu() {
+  if (!attendanceSelectWrap) return;
+
+  if (attendanceSelectWrap.classList.contains('is-open')) {
+    closeAttendanceMenu();
+  } else {
+    openAttendanceMenu();
   }
 }
 
@@ -205,7 +251,10 @@ async function submitRegistration(event) {
   
   Object.assign(payload, buildAttendancePayload(payload.attendance, selectedDays));
 
-  const missingField = requiredFields.find((field) => !payload[field]?.trim?.());
+  const missingField = requiredFields.find((field) => {
+    const value = payload[field];
+    return typeof value !== 'string' || value.trim() === '';
+  });
 
   if (missingField) {
     formStatus.textContent = 'Please complete all required fields.';
@@ -320,6 +369,37 @@ if (attendanceSelect && daysSelector) {
   daysSelector.addEventListener('change', () => {
     if (daysError) daysError.hidden = true;
     if (formStatus) formStatus.textContent = '';
+  });
+}
+
+if (attendanceSelectWrap && attendanceTrigger && attendanceMenu && attendanceOptions?.length) {
+  if (attendanceText) {
+    attendanceText.classList.add('is-placeholder');
+  }
+
+  attendanceTrigger.addEventListener('click', () => {
+    toggleAttendanceMenu();
+  });
+
+  attendanceOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+      setAttendanceValue(option.dataset.value, option.textContent.trim());
+      closeAttendanceMenu();
+      attendanceTrigger.focus();
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!attendanceSelectWrap.contains(event.target)) {
+      closeAttendanceMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeAttendanceMenu();
+      attendanceTrigger?.focus();
+    }
   });
 }
 
