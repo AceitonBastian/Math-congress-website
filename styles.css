@@ -459,6 +459,102 @@ select:focus {
   box-shadow: 0 0 0 2px rgba(215, 177, 109, 0.2);
 }
 
+/* ===== Custom Participation Select ===== */
+
+.custom-select {
+  position: relative;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 0.95rem 1rem;
+  padding-right: 2.8rem;
+  background: var(--bg-soft);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.custom-select-trigger:hover {
+  border-color: rgba(215, 177, 109, 0.4);
+}
+
+.custom-select.is-open .custom-select-trigger,
+.custom-select-trigger:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(215, 177, 109, 0.2);
+}
+
+.custom-select-text.is-placeholder {
+  color: var(--muted);
+}
+
+.custom-select-arrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.custom-select-arrow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg) translateY(-2px);
+  transform-origin: center;
+}
+
+.custom-select.is-open .custom-select-arrow::before {
+  transform: rotate(-135deg) translate(-1px, -1px);
+}
+
+.custom-select-menu {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 0.35rem;
+}
+
+.custom-select-option {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.custom-select-option:hover,
+.custom-select-option:focus-visible {
+  outline: none;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.custom-select-option.is-selected {
+  background: rgba(215, 177, 109, 0.16);
+  color: var(--gold-strong);
+}
+
 textarea {
   resize: vertical;
 }
