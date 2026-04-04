@@ -705,21 +705,34 @@ textarea {
   animation: fadeIn 0.35s ease;
 }
 
+.registration-success-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(215, 177, 109, 0.12);
+  border: 1px solid rgba(215, 177, 109, 0.25);
+  margin-bottom: 0.75rem;
+
+  box-shadow: 0 0 0 1px rgba(215, 177, 109, 0.08),
+              0 4px 12px rgba(215, 177, 109, 0.08);
+}
+
 .registration-success-icon {
-  margin: 0 0 0.6rem;
-  font-size: 2rem;
+  font-size: 0.95rem;
   line-height: 1;
   color: var(--gold-strong);
+  margin: 0;
 }
 
 .registration-success-eyebrow {
-  display: inline-block;
+  margin: 0;
   color: var(--gold);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  margin: 0 0 0.75rem;
 }
 
 .registration-success h3 {
