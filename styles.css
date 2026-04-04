@@ -22,7 +22,7 @@
   --hero-muted: rgba(255, 255, 255, 0.88);
 
   --section-alt-top: transparent;
-  --section-alt-mid: rgba(255, 255, 255, 0.045);
+  --section-alt-mid: rgba(255, 255, 255, 0.02);
   --section-alt-bottom: transparent;
 
   --field-bg: rgba(255, 255, 255, 0.03);
@@ -262,6 +262,15 @@ main > .section + .section::before {
   transform: translateX(-50%);
   width: min(calc(100% - 2rem), var(--max-width));
   border-top: 1px solid var(--line);
+}
+
+.section-alt {
+  background: linear-gradient(
+    180deg,
+    var(--section-alt-top),
+    var(--section-alt-mid),
+    var(--section-alt-bottom)
+  );
 }
 
 .section-alt {
