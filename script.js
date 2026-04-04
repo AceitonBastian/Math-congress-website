@@ -76,17 +76,15 @@ function setAttendanceValue(value, label) {
 }
 
 function openAttendanceMenu() {
-  if (!attendanceSelectWrap || !attendanceTrigger || !attendanceMenu) return;
+  if (!attendanceSelectWrap || !attendanceTrigger) return;
   attendanceSelectWrap.classList.add('is-open');
   attendanceTrigger.setAttribute('aria-expanded', 'true');
-  attendanceMenu.hidden = false;
 }
 
 function closeAttendanceMenu() {
-  if (!attendanceSelectWrap || !attendanceTrigger || !attendanceMenu) return;
+  if (!attendanceSelectWrap || !attendanceTrigger) return;
   attendanceSelectWrap.classList.remove('is-open');
   attendanceTrigger.setAttribute('aria-expanded', 'false');
-  attendanceMenu.hidden = true;
 }
 
 function toggleAttendanceMenu() {
