@@ -21,6 +21,23 @@ function generateUUID() {
   return crypto.randomUUID();
 }
 
+const REGISTRATION_KEY_STORAGE = 'registrationSubmissionId';
+
+function getOrCreateSubmissionId() {
+  let submissionId = sessionStorage.getItem(REGISTRATION_KEY_STORAGE);
+
+  if (!submissionId) {
+    submissionId = generateUUID();
+    sessionStorage.setItem(REGISTRATION_KEY_STORAGE, submissionId);
+  }
+
+  return submissionId;
+}
+
+function clearStoredSubmissionId() {
+  sessionStorage.removeItem(REGISTRATION_KEY_STORAGE);
+}
+
 function getSelectedAttendanceDays() {
   if (!daysSelector) return [];
 
@@ -205,6 +222,7 @@ async function submitRegistration(event) {
 
   const endpoint = window.CONFERENCE_CONFIG?.registrationEndpoint;
   if (!endpoint || endpoint.includes('YOUR-CLOUDFLARE-WORKER')) {
+    clearStoredSubmissionId();
     formStatus.textContent = 'Set your Cloudflare Worker URL first in index.html.';
     return;
   }
@@ -239,6 +257,7 @@ async function submitRegistration(event) {
     selectedDays = getSelectedAttendanceDays();
     
     if (!selectedDays.length) {
+      clearStoredSubmissionId();
       if (daysError) {
         daysError.hidden = false;
       }
@@ -253,18 +272,20 @@ async function submitRegistration(event) {
     const value = payload[field];
     return typeof value !== 'string' || value.trim() === '';
   });
-
+  
   if (missingField) {
+    clearStoredSubmissionId();
     formStatus.textContent = 'Please complete all required fields.';
     return;
   }
-
+  
   if (!payload.turnstileToken) {
+    clearStoredSubmissionId();
     formStatus.textContent = 'Please complete the security check.';
     return;
   }
 
-  const submissionId = generateUUID();
+  const submissionId = getOrCreateSubmissionId();
 
   payload.id = submissionId;
   payload.submittedAt = new Date().toLocaleString('sv-SE', {
@@ -303,6 +324,7 @@ async function submitRegistration(event) {
     }
     
     registrationCompleted = true;
+    clearStoredSubmissionId();
     
     if (registrationForm) {
       registrationForm.hidden = true;
@@ -322,14 +344,15 @@ async function submitRegistration(event) {
     }
   } catch (error) {
     console.error(error);
-
+    
     if (error.name === 'AbortError') {
       formStatus.textContent = 'The request took too long. Please try again.';
     } else {
+      clearStoredSubmissionId();
       formStatus.textContent =
         error.message || 'There was an error sending the form.';
     }
-
+    
     isSubmittingRegistration = false;
     setFormSubmitting(registrationForm, false);
   } finally {
