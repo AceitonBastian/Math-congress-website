@@ -17,11 +17,17 @@ const attendanceOptions = attendanceSelectWrap?.querySelectorAll('.custom-select
 // =========================
 // Text limits + counters
 // =========================
-const MAX_TEXT_LENGTH = 78;
-const TEXT_WARN_AT = 65;
+const MAX_FULL_NAME = 114;
+const WARN_FULL_NAME = 95;
 
-const MAX_COMMENT_LENGTH = 200;
-const COMMENT_WARN_AT = 180;
+const MAX_AFFILIATION = 114;
+const WARN_AFFILIATION = 95;
+
+const MAX_COUNTRY = 30;
+const WARN_COUNTRY = 24;
+
+const MAX_COMMENTS = 400;
+const WARN_COMMENTS = 340;
 
 const fullNameEl = document.getElementById('fullName');
 const fullNameCounterEl = document.getElementById('fullNameCounter');
@@ -58,14 +64,17 @@ function attachTextCounter(inputEl, counterEl, maxLength, warnAt) {
 }
 
 // Attach counters
-attachTextCounter(fullNameEl, fullNameCounterEl, MAX_TEXT_LENGTH, TEXT_WARN_AT);
-attachTextCounter(affiliationEl, affiliationCounterEl, MAX_TEXT_LENGTH, TEXT_WARN_AT);
-attachTextCounter(countryEl, countryCounterEl, MAX_TEXT_LENGTH, TEXT_WARN_AT);
+attachTextCounter(fullNameEl, fullNameCounterEl, MAX_FULL_NAME, WARN_FULL_NAME);
+
+attachTextCounter(affiliationEl, affiliationCounterEl, MAX_AFFILIATION, WARN_AFFILIATION);
+
+attachTextCounter(countryEl, countryCounterEl, MAX_COUNTRY, WARN_COUNTRY);
+
 attachTextCounter(
   additionalCommentsEl,
   additionalCommentsCounterEl,
-  MAX_COMMENT_LENGTH,
-  COMMENT_WARN_AT
+  MAX_COMMENTS,
+  WARN_COMMENTS
 );
 
 let isSubmittingRegistration = false;
