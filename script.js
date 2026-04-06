@@ -77,6 +77,12 @@ attachTextCounter(
   WARN_COMMENTS
 );
 
+[fullNameEl, affiliationEl, countryEl, additionalCommentsEl].forEach((el) => {
+  el?.addEventListener('input', () => {
+    if (formStatus) formStatus.textContent = '';
+  });
+});
+
 let isSubmittingRegistration = false;
 let registrationCompleted = false;
 
@@ -99,6 +105,10 @@ function getOrCreateSubmissionId() {
 
 function clearStoredSubmissionId() {
   sessionStorage.removeItem(REGISTRATION_KEY_STORAGE);
+}
+
+function containsUrl(value) {
+  return /(https?:\/\/|www\.)/i.test(String(value || ''));
 }
 
 function getSelectedAttendanceDays() {
@@ -345,6 +355,23 @@ async function submitRegistration(event) {
   if (!payload.turnstileToken) {
     clearStoredSubmissionId();
     formStatus.textContent = 'Please complete the security check.';
+    return;
+  }
+  
+  const urlBlockedFields = [
+    { key: 'fullName', label: 'Full name' },
+    { key: 'affiliation', label: 'Affiliation' },
+    { key: 'country', label: 'Country' },
+    { key: 'comments', label: 'Additional comments' }
+  ];
+  
+  const invalidUrlField = urlBlockedFields.find(({ key }) =>
+    containsUrl(payload[key])
+  );
+  
+  if (invalidUrlField) {
+    clearStoredSubmissionId();
+    formStatus.textContent = `Links are not allowed in "${invalidUrlField.label}".`;
     return;
   }
 
