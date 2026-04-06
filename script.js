@@ -14,6 +14,60 @@ const attendanceMenu = attendanceSelectWrap?.querySelector('.custom-select-menu'
 const attendanceText = attendanceSelectWrap?.querySelector('.custom-select-text');
 const attendanceOptions = attendanceSelectWrap?.querySelectorAll('.custom-select-option');
 
+// =========================
+// Text limits + counters
+// =========================
+const MAX_TEXT_LENGTH = 78;
+const TEXT_WARN_AT = 65;
+
+const MAX_COMMENT_LENGTH = 200;
+const COMMENT_WARN_AT = 180;
+
+const fullNameEl = document.getElementById('fullName');
+const fullNameCounterEl = document.getElementById('fullNameCounter');
+
+const affiliationEl = document.getElementById('affiliation');
+const affiliationCounterEl = document.getElementById('affiliationCounter');
+
+const countryEl = document.getElementById('country');
+const countryCounterEl = document.getElementById('countryCounter');
+
+const additionalCommentsEl = document.getElementById('additionalComments');
+const additionalCommentsCounterEl = document.getElementById('additionalCommentsCounter');
+
+function attachTextCounter(inputEl, counterEl, maxLength, warnAt) {
+  if (!inputEl || !counterEl) return;
+
+  const updateUI = () => {
+    const len = inputEl.value.length;
+
+    counterEl.textContent = `${len} / ${maxLength}`;
+    counterEl.classList.remove('warn', 'danger');
+
+    if (len >= warnAt && len < maxLength) {
+      counterEl.classList.add('warn');
+    }
+
+    if (len >= maxLength) {
+      counterEl.classList.add('danger');
+    }
+  };
+
+  inputEl.addEventListener('input', updateUI);
+  updateUI();
+}
+
+// Attach counters
+attachTextCounter(fullNameEl, fullNameCounterEl, MAX_TEXT_LENGTH, TEXT_WARN_AT);
+attachTextCounter(affiliationEl, affiliationCounterEl, MAX_TEXT_LENGTH, TEXT_WARN_AT);
+attachTextCounter(countryEl, countryCounterEl, MAX_TEXT_LENGTH, TEXT_WARN_AT);
+attachTextCounter(
+  additionalCommentsEl,
+  additionalCommentsCounterEl,
+  MAX_COMMENT_LENGTH,
+  COMMENT_WARN_AT
+);
+
 let isSubmittingRegistration = false;
 let registrationCompleted = false;
 
