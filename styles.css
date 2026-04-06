@@ -877,12 +877,7 @@ textarea {
 }
 
 .venue-card {
-  transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.venue-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* ===== Supported By section (kept intentionally fixed light) ===== */
@@ -1272,9 +1267,12 @@ textarea {
   }
 }
 
-.material-card:hover {
+.material-card:hover,
+.venue-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 10px 28px rgba(0,0,0,0.28);
 }
 
 
