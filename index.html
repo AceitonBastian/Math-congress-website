@@ -191,7 +191,8 @@
         <form id="registrationForm" class="registration-form">
           <div class="form-row">
             <label for="fullName">Full name *</label>
-            <input id="fullName" name="fullName" type="text" required />
+            <input id="fullName" name="fullName" type="text" maxlength="78" required />
+            <small id="fullNameCounter" class="note-counter">0 / 78</small>
           </div>
 
           <div class="form-row two-up">
@@ -201,14 +202,16 @@
             </div>
             <div>
               <label for="affiliation">Affiliation *</label>
-              <input id="affiliation" name="affiliation" type="text" required />
+              <input id="affiliation" name="affiliation" type="text" maxlength="78" required />
+              <small id="affiliationCounter" class="note-counter">0 / 78</small>
             </div>
           </div>
           
           <div class="form-row two-up">
             <div>
               <label for="country">Country *</label>
-              <input id="country" name="country" type="text" required />
+              <input id="country" name="country" type="text" maxlength="78" required />
+              <small id="countryCounter" class="note-counter">0 / 78</small>
             </div>
             
             <div>
@@ -287,10 +290,17 @@
             <label><input type="radio" name="invitedSpeaker" value="yes" required /> Yes</label>
             <label><input type="radio" name="invitedSpeaker" value="no" required /> No</label>
           </fieldset>
-
+          
           <div class="form-row">
-            <label for="comments">Additional comments</label>
-            <textarea id="comments" name="comments" rows="5" placeholder="Dietary restrictions, accessibility needs, arrival details, etc."></textarea>
+            <label for="additionalComments">Additional comments</label>
+            <textarea
+              id="additionalComments"
+              name="comments"
+              rows="5"
+              maxlength="200"
+              placeholder="Dietary restrictions, accessibility needs, arrival details, etc."
+              ></textarea>
+            <small id="additionalCommentsCounter" class="note-counter">0 / 200</small>
           </div>
 
           <div class="form-row turnstile-wrap">
