@@ -1218,6 +1218,8 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .material-card h3 {
