@@ -420,6 +420,24 @@ main > .section + .section::before {
   border-bottom: 0;
 }
 
+/* ===== Character counters ===== */
+
+.note-counter {
+  display: block;
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.note-counter.warn {
+  color: #f59e0b; /* orange */
+}
+
+.note-counter.danger {
+  color: #ef4444; /* red */
+}
+
 /* ===== Forms ===== */
 
 .registration-form {
