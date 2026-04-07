@@ -458,6 +458,15 @@ main > .section + .section::before {
   padding-left: 1.25rem;
 }
 
+.info-card li {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.info-card li:last-child {
+  margin-bottom: 0;
+}
+
 /* ===== Two-column layouts ===== */
 
 .two-col-layout,
