@@ -346,6 +346,53 @@ main > .section + .section::before {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.contact-email-box {
+  margin-top: 1.4rem;
+  background: rgba(255, 255, 255, 0.02); /* slightly softer than panel */
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--shadow);
+}
+
+.contact-email-header {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  margin-bottom: 0.6rem;
+}
+
+.contact-email-eyebrow {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.contact-email-box p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.contact-email-box strong {
+  color: var(--gold-strong);
+  font-size: 1.05rem;
+}
+
+.contact-email-box a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.contact-email-box a:hover {
+  text-decoration: underline;
+  color: var(--gold);
+}
+
 /* ===== Cards ===== */
 
 .topic-card,
