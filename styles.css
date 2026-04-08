@@ -1065,7 +1065,8 @@ textarea {
 
 .footer-links a,
 .footer-contact a {
-  display: block;
+  display: inline-block;
+  width: fit-content;
   color: var(--muted);
   margin-bottom: 0.55rem;
   font-size: 0.95rem;
