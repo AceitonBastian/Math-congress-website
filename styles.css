@@ -929,18 +929,18 @@ textarea {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.22;
+  opacity: 0.26;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   transform: scale(1.04) skewX(-4deg);
   transform-origin: center;
-  filter: drop-shadow(0 0 14px rgba(215, 177, 109, 0.05));
+  filter: drop-shadow(0 0 18px rgba(215, 177, 109, 0.08));
 
   background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 520' preserveAspectRatio='none'>\
   <g stroke='%23d7b16d' stroke-linecap='round' stroke-linejoin='round' fill='none'>\
-    <g stroke-opacity='0.30' stroke-width='1.05'>\
+    <g stroke-opacity='0.42' stroke-width='1.1'>\
       <path d='M0 78 L142 24 L292 54 L364 132 L214 186 L76 154 Z'/>\
       <path d='M142 24 L336 0 L470 72 L364 132 L292 54 Z'/>\
       <path d='M336 0 L572 18 L674 110 L470 72 Z'/>\
@@ -967,7 +967,7 @@ textarea {
       <path d='M214 186 L470 72 L918 88 L1396 92'/>\
       <path d='M32 338 L350 332 L702 398 L1012 390 L1528 392'/>\
     </g>\
-    <g stroke-opacity='0.12' stroke-width='1.8'>\
+    <g stroke-opacity='0.18' stroke-width='1.9'>\
       <path d='M0 110 L214 186 L476 238 L648 228 L966 214 L1180 238 L1452 232 L1600 300'/>\
       <path d='M292 54 L364 132 L350 332 L442 520'/>\
       <path d='M674 110 L648 228 L702 398'/>\
