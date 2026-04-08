@@ -927,15 +927,29 @@ textarea {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.32;
+  opacity: 0.2;
   background-image:
-    radial-gradient(circle at 20% 30%, rgba(215,177,109,0.08), transparent 40%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23d7b16d' stroke-width='1.5' stroke-opacity='0.55'%3E%3Cpath d='M0 24 L72 0 L126 52 L66 110 L0 92 Z'/%3E%3Cpath d='M72 0 L156 14 L198 72 L126 52 Z'/%3E%3Cpath d='M156 14 L242 0 L284 54 L198 72 Z'/%3E%3Cpath d='M242 0 L320 28 L320 94 L284 54 Z'/%3E%3Cpath d='M66 110 L126 52 L198 72 L176 146 L92 170 Z'/%3E%3Cpath d='M198 72 L284 54 L320 94 L262 156 L176 146 Z'/%3E%3Cpath d='M0 92 L66 110 L92 170 L30 226 L0 206 Z'/%3E%3Cpath d='M92 170 L176 146 L206 224 L118 262 L30 226 Z'/%3E%3Cpath d='M176 146 L262 156 L320 214 L206 224 Z'/%3E%3Cpath d='M30 226 L118 262 L96 320 L0 320 L0 206 Z'/%3E%3Cpath d='M118 262 L206 224 L232 320 L96 320 Z'/%3E%3Cpath d='M206 224 L320 214 L320 320 L232 320 Z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 320px 320px;
-  background-repeat: repeat;
-  background-position: center;
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.18));
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.18));
+    radial-gradient(circle at 20% 30%, rgba(215,177,109,0.06), transparent 42%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23d7b16d' stroke-width='1.5' stroke-opacity='0.55'%3E%3Cpath d='M0 24 L72 0 L126 52 L66 110 L0 92 Z'/%3E%3Cpath d='M72 0 L156 14 L198 72 L126 52 Z'/%3E%3Cpath d='M156 14 L242 0 L284 54 L198 72 Z'/%3E%3Cpath d='M242 0 L320 28 L320 94 L284 54 Z'/%3E%3Cpath d='M66 110 L126 52 L198 72 L176 146 L92 170 Z'/%3E%3Cpath d='M198 72 L284 54 L320 94 L262 156 L176 146 Z'/%3E%3Cpath d='M0 92 L66 110 L92 170 L30 226 L0 206 Z'/%3E%3Cpath d='M92 170 L176 146 L206 224 L118 262 L30 226 Z'/%3E%3Cpath d='M176 146 L262 156 L320 214 L206 224 Z'/%3E%3Cpath d='M30 226 L118 262 L96 320 L0 320 L0 206 Z'/%3E%3Cpath d='M118 262 L206 224 L232 320 L96 320 Z'/%3E%3Cpath d='M206 224 L320 214 L320 320 L232 320 Z'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23d7b16d' stroke-width='1.5' stroke-opacity='0.28'%3E%3Cpath d='M0 24 L72 0 L126 52 L66 110 L0 92 Z'/%3E%3Cpath d='M72 0 L156 14 L198 72 L126 52 Z'/%3E%3Cpath d='M156 14 L242 0 L284 54 L198 72 Z'/%3E%3Cpath d='M242 0 L320 28 L320 94 L284 54 Z'/%3E%3Cpath d='M66 110 L126 52 L198 72 L176 146 L92 170 Z'/%3E%3Cpath d='M198 72 L284 54 L320 94 L262 156 L176 146 Z'/%3E%3Cpath d='M0 92 L66 110 L92 170 L30 226 L0 206 Z'/%3E%3Cpath d='M92 170 L176 146 L206 224 L118 262 L30 226 Z'/%3E%3Cpath d='M176 146 L262 156 L320 214 L206 224 Z'/%3E%3Cpath d='M30 226 L118 262 L96 320 L0 320 L0 206 Z'/%3E%3Cpath d='M118 262 L206 224 L232 320 L96 320 Z'/%3E%3Cpath d='M206 224 L320 214 L320 320 L232 320 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:
+    auto,
+    560px 560px,
+    760px 760px;
+  background-position:
+    center,
+    0 0,
+    190px 140px;
+  background-repeat:
+    no-repeat,
+    repeat,
+    repeat;
+  mask-image:
+    radial-gradient(circle at center, rgba(0,0,0,0.35), rgba(0,0,0,0.95)),
+    linear-gradient(to top, rgba(0,0,0,0.96), rgba(0,0,0,0.22));
+  -webkit-mask-image:
+    radial-gradient(circle at center, rgba(0,0,0,0.35), rgba(0,0,0,0.95)),
+    linear-gradient(to top, rgba(0,0,0,0.96), rgba(0,0,0,0.22));
 }
 
 .footer-grid,
