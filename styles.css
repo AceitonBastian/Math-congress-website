@@ -929,13 +929,13 @@ textarea {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.26;
+  opacity: 0.34;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   transform: scale(1.04) skewX(-4deg);
   transform-origin: center;
-  filter: drop-shadow(0 0 18px rgba(215, 177, 109, 0.08));
+  filter: drop-shadow(0 0 20px rgba(215, 177, 109, 0.10));
 
   background-image: url("data:image/svg+xml;utf8,\
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 520' preserveAspectRatio='none'>\
@@ -984,9 +984,9 @@ textarea {
   background:
     linear-gradient(
       to top,
-      rgba(3, 8, 15, 0.94) 0%,
-      rgba(3, 8, 15, 0.56) 38%,
-      rgba(3, 8, 15, 0.80) 100%
+      rgba(3, 8, 15, 0.88) 0%,
+      rgba(3, 8, 15, 0.42) 38%,
+      rgba(3, 8, 15, 0.72) 100%
     );
 }
 
