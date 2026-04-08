@@ -1063,6 +1063,13 @@ textarea {
   color: var(--gold);
 }
 
+.footer-links,
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .footer-links a,
 .footer-contact a {
   display: inline-block;
