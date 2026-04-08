@@ -914,26 +914,139 @@ textarea {
 /* ===== Footer ===== */
 
 .site-footer {
+  position: relative;
+  overflow: hidden;
   border-top: 1px solid var(--line);
-  padding: 2rem 0 3rem;
+  padding: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 11, 20, 0.96), rgba(3, 8, 15, 1));
 }
 
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+.footer-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.32;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(215, 177, 109, 0.10), transparent 28%),
+    radial-gradient(circle at 80% 70%, rgba(215, 177, 109, 0.08), transparent 32%);
 }
 
-.footer-note,
-.site-footer p {
-  color: var(--muted);
+.footer-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  background-image:
+    repeating-radial-gradient(
+      circle at 18% 120%,
+      rgba(255,255,255,0.10) 0 1px,
+      transparent 1px 18px
+    ),
+    repeating-radial-gradient(
+      circle at 82% 115%,
+      rgba(255,255,255,0.08) 0 1px,
+      transparent 1px 22px
+    );
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.22));
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.22));
 }
 
-.site-footer h3 {
+.footer-grid,
+.footer-bottom {
+  position: relative;
+  z-index: 1;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr 0.9fr;
+  gap: 2rem;
+  padding: 3.2rem 0 2rem;
+}
+
+.footer-brand h3 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 2rem;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.65rem;
+  line-height: 1;
+}
+
+.footer-brand::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 1px;
+  margin-top: 1rem;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.footer-tagline {
+  color: var(--muted);
+  max-width: 40ch;
+  margin: 0 0 0.9rem;
+  line-height: 1.65;
+}
+
+.footer-meta {
+  color: var(--gold);
+  font-weight: 600;
+  margin: 0;
+}
+
+.footer-links h4,
+.footer-contact h4 {
+  margin: 0 0 0.85rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
+
+.footer-links a,
+.footer-contact a {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 0.55rem;
+  font-size: 0.95rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-links a:hover,
+.footer-contact a:hover {
+  color: var(--text);
+  transform: translateX(3px);
+}
+
+.footer-contact p {
+  color: var(--muted);
+  margin: 0.4rem 0 0;
+}
+
+.footer-bottom {
+  padding: 1rem 0 2rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ===== Responsive footer ===== */
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    padding: 2.7rem 0 1.6rem;
+  }
+
+  .footer-brand h3 {
+    font-size: 1.8rem;
+  }
 }
 
 /* ===== Venue map ===== */
