@@ -13,6 +13,9 @@ const attendanceTrigger = document.getElementById('attendance-trigger');
 const attendanceMenu = attendanceSelectWrap?.querySelector('.custom-select-menu');
 const attendanceText = attendanceSelectWrap?.querySelector('.custom-select-text');
 const attendanceOptions = attendanceSelectWrap?.querySelectorAll('.custom-select-option');
+let turnstileWidgetId = null;
+let turnstileRendered = false;
+let currentTurnstileToken = '';
 
 // =========================
 // Text limits + counters
@@ -287,6 +290,38 @@ function setFormSubmitting(form, isSubmitting, options = {}) {
   }
 }
 
+window.onloadTurnstileCallback = () => {
+  if (turnstileRendered) return;
+  
+  const container = document.getElementById('turnstile-container');
+  if (!container || !window.turnstile) return;
+  
+  turnstileWidgetId = window.turnstile.render(container, {
+    sitekey: '0x4AAAAAACzT8PdZtr0263kY',
+    theme: 'light',
+    action: 'register',
+    callback: (token) => {
+      currentTurnstileToken = token;
+
+      if (formStatus) {
+        formStatus.textContent = '';
+      }
+    },
+    'expired-callback': () => {
+      currentTurnstileToken = '';
+    },
+    'error-callback': () => {
+      currentTurnstileToken = '';
+
+      if (formStatus) {
+        formStatus.textContent = 'Security check failed. Please try again.';
+      }
+    }
+  });
+
+  turnstileRendered = true;
+};
+
 async function submitRegistration(event) {
   event.preventDefault();
 
@@ -309,7 +344,7 @@ async function submitRegistration(event) {
     }
   });
   
-  payload.turnstileToken = payload['cf-turnstile-response'] || '';
+  payload.turnstileToken = currentTurnstileToken || '';
 
   const requiredFields = [
     'fullName',
@@ -441,6 +476,11 @@ async function submitRegistration(event) {
       clearStoredSubmissionId();
       formStatus.textContent =
         error.message || 'There was an error sending the form.';
+    }
+    
+    if (window.turnstile && turnstileWidgetId !== null) {
+      window.turnstile.reset(turnstileWidgetId);
+      currentTurnstileToken = '';
     }
     
     isSubmittingRegistration = false;
