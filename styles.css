@@ -541,7 +541,13 @@ main > .section + .section::before {
   gap: 1rem;
 }
 
-input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
 select,
 textarea {
   width: 100%;
@@ -702,13 +708,21 @@ textarea {
 .radio-group label {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   margin-right: 1rem;
   font-weight: 500;
 }
 
-.radio-group input {
-  width: auto;
+.radio-group input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  flex: 0 0 18px;
 }
 
 .form-status {
