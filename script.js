@@ -452,7 +452,7 @@ async function submitRegistration(event) {
     clearStoredSubmissionId();
     
     if (registrationForm) {
-      registrationForm.hidden = true;
+      registrationForm.remove();
     }
     
     if (successEmail) {
