@@ -723,6 +723,8 @@ textarea {
   background: transparent;
   box-shadow: none;
   flex: 0 0 18px;
+
+  accent-color: var(--gold);
 }
 
 .form-status {
