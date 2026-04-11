@@ -705,12 +705,19 @@ textarea {
   padding: 0;
 }
 
+.radio-options {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .radio-group label {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  margin-right: 1rem;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .radio-group input[type="radio"] {
@@ -726,6 +733,8 @@ textarea {
 
   accent-color: var(--gold);
   vertical-align: middle;
+
+  cursor: pointer;
 }
 
 .form-status {

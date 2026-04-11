@@ -295,11 +295,14 @@
             
             <p id="daysError" class="form-error" hidden>Please select at least one day.</p>
           </div>
-
+          
           <fieldset class="form-row radio-group">
             <legend>Are you an invited speaker? *</legend>
-            <label><input type="radio" name="invitedSpeaker" value="yes" required /> Yes</label>
-            <label><input type="radio" name="invitedSpeaker" value="no" required /> No</label>
+            
+            <div class="radio-options">
+              <label><input type="radio" name="invitedSpeaker" value="yes" required /> Yes</label>
+              <label><input type="radio" name="invitedSpeaker" value="no" required /> No</label>
+            </div>
           </fieldset>
           
           <div class="form-row">
