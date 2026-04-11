@@ -44,7 +44,7 @@ section[id] {
 
 @media (max-width: 980px) {
   section[id] {
-    scroll-margin-top: 85px;
+    scroll-margin-top: 70px;
   }
 }
 
