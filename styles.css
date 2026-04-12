@@ -1337,16 +1337,28 @@ textarea {
   .site-nav {
     z-index: 1001;
     position: absolute;
-    top: calc(100% + 1px);
+    top: calc(100% + 0.5rem);
     left: 0;
     right: 0;
     display: none;
     flex-direction: column;
     align-items: stretch;
-    padding: 1rem;
-    background: var(--bg-soft);
-    border-bottom: 1px solid var(--line);
+    gap: 0;
+    padding: 0.55rem 1.25rem;
     margin-left: 0;
+
+    background: rgba(10, 22, 36, 0.74);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 0 0 22px 22px;
+
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    overflow: hidden;
   }
 
   .site-nav.open {
@@ -1354,8 +1366,23 @@ textarea {
   }
 
   .site-nav a {
-    padding: 0.7rem 0;
-    border-bottom: 1px solid var(--line);
+    display: block;
+    padding: 0.88rem 0.6rem;
+    font-size: 1.02rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    transition:
+      background 0.18s ease,
+      color 0.18s ease,
+      padding-left 0.18s ease;
+  }
+
+  .site-nav a:hover,
+  .site-nav a:focus-visible {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+    padding-left: 0.35rem;
+    outline: none;
   }
 
   .site-nav a:last-child {
