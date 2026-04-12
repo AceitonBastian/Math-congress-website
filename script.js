@@ -533,6 +533,32 @@ if (navToggle && siteNav) {
 }
 
 /* =========================
+   Smooth scroll for anchor links
+========================= */
+
+document.querySelectorAll('.site-nav a[href^="#"], .hero a[href^="#"], .footer-links a[href^="#"]').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    const targetId = link.getAttribute('href');
+    const target = document.querySelector(targetId);
+
+    if (!target) return;
+
+    event.preventDefault();
+
+    if (window.innerWidth <= 980) {
+      closeNav();
+    }
+
+    target.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+
+    history.replaceState(null, '', targetId);
+  });
+});
+
+/* =========================
    Registration form
 ========================= */
 
