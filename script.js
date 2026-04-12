@@ -533,29 +533,37 @@ if (navToggle && siteNav) {
 }
 
 /* =========================
-   Smooth scroll for anchor links
+   Smooth scroll for in-page links
 ========================= */
 
-document.querySelectorAll('.site-nav a[href^="#"], .hero a[href^="#"], .footer-links a[href^="#"]').forEach((link) => {
-  link.addEventListener('click', (event) => {
-    const targetId = link.getAttribute('href');
-    const target = document.querySelector(targetId);
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href^="#"]');
+  if (!link) return;
 
-    if (!target) return;
+  const targetId = link.getAttribute('href');
+  if (!targetId || targetId === '#') return;
 
-    event.preventDefault();
+  const target = document.querySelector(targetId);
+  if (!target) return;
 
-    if (window.innerWidth <= 980) {
-      closeNav();
-    }
+  event.preventDefault();
 
-    target.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+  if (window.innerWidth <= 980) {
+    closeNav();
+  }
 
-    history.replaceState(null, '', targetId);
+  const header = document.querySelector('.site-header');
+  const headerOffset = header ? header.offsetHeight : 0;
+
+  const targetTop =
+    target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+
+  window.scrollTo({
+    top: targetTop,
+    behavior: 'smooth'
   });
+
+  history.replaceState(null, '', targetId);
 });
 
 /* =========================
