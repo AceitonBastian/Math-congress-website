@@ -1347,9 +1347,7 @@ textarea {
     padding: 0.55rem 1.25rem;
     margin-left: 0;
     
-    background: rgba(10, 22, 36, 0.93);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: var(--bg-soft);
 
     border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 0 0 22px 22px;
