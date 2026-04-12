@@ -552,11 +552,10 @@ document.addEventListener('click', (event) => {
     closeNav();
   }
 
-  const header = document.querySelector('.site-header');
-  const headerOffset = header ? header.offsetHeight : 0;
+  const offset = 70;
 
   const targetTop =
-    target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+    target.getBoundingClientRect().top + window.pageYOffset - offset;
 
   window.scrollTo({
     top: targetTop,

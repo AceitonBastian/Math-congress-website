@@ -36,16 +36,16 @@
 
 html,
 body {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 section[id] {
-  scroll-margin-top: 70px;
+  scroll-margin-top: 0;
 }
 
 @media (max-width: 980px) {
   section[id] {
-    scroll-margin-top: 70px;
+    scroll-margin-top: 0;
   }
 }
 
