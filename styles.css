@@ -1362,13 +1362,17 @@ textarea {
   .site-nav.open {
     display: flex;
   }
-
+  
   .site-nav a {
     display: block;
     padding: 0.88rem 0.6rem;
     font-size: 1.02rem;
+    
+    color: var(--gold);
+    
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 10px;
+    
     transition:
       background 0.18s ease,
       color 0.18s ease,
@@ -1377,8 +1381,8 @@ textarea {
 
   .site-nav a:hover,
   .site-nav a:focus-visible {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text);
+    background: rgba(215, 177, 109, 0.12);
+    color: var(--gold-strong);
     padding-left: 0.35rem;
     outline: none;
   }
