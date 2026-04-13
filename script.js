@@ -543,14 +543,25 @@ document.addEventListener('click', (event) => {
   const targetId = link.getAttribute('href');
   if (!targetId || targetId === '#') return;
 
-  const target = document.querySelector(targetId);
-  if (!target) return;
-
   event.preventDefault();
 
   if (window.innerWidth <= 980) {
     closeNav();
   }
+
+  // Special case: go to the real top of the page
+  if (targetId === '#top') {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+    history.replaceState(null, '', '#top');
+    return;
+  }
+
+  const target = document.querySelector(targetId);
+  if (!target) return;
 
   const offset = 70;
 
