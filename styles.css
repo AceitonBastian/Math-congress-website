@@ -242,7 +242,7 @@ textarea {
       rgba(6, 14, 24, 0.05) 80%,
       rgba(6, 14, 24, 0.0) 100%
     ),
-    url('assets/Andes-Chile.jpg') center/cover no-repeat;
+    url('assets/Andes-Chile.webp') center/cover no-repeat;
 }
 
 .hero-overlay {
@@ -1463,7 +1463,7 @@ textarea {
         rgba(6, 14, 24, 0.2) 60%,
         rgba(6, 14, 24, 0.05) 100%
       ),
-      url('assets/Andes-Chile.jpg') 60% center / cover no-repeat;
+      url('assets/Andes-Chile.webp') 60% center / cover no-repeat;
   }
 
   .hero-content {
