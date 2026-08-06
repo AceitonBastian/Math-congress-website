@@ -855,7 +855,7 @@ async function submitRegistration(event) {
 const MAX_POSTER_ABSTRACT_WORDS = 250;
 
 const MAX_POSTER_PDF_BYTES =
-  20 * 1024 * 1024;
+  9 * 1024 * 1024;
 
 const POSTER_KEY_STORAGE =
   'posterSubmissionId';
@@ -959,7 +959,7 @@ function validatePosterPdf(file) {
     file.size >
     MAX_POSTER_PDF_BYTES
   ) {
-    return 'The PDF must not exceed 20 MB.';
+    return 'The PDF must not exceed 9 MB.';
   }
 
   return '';
