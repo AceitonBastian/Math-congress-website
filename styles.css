@@ -476,7 +476,8 @@ main > .section + .section::before {
 .organizer-card,
 .info-card,
 .schedule-box,
-.registration-form {
+.registration-form,
+.poster-form {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -572,7 +573,8 @@ main > .section + .section::before {
 
 /* ===== Forms ===== */
 
-.registration-form {
+.registration-form,
+.poster-form {
   padding: 1.5rem;
 }
 
@@ -999,6 +1001,474 @@ textarea {
   width: 100%;
 }
 
+/* ===== Call for Poster Presentations ===== */
+
+.poster-call-grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(0, 1.1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.poster-call-content {
+  position: sticky;
+  top: 110px;
+  padding: 1rem 0;
+}
+
+.poster-call-content h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 5vw, 4.6rem);
+  line-height: 0.96;
+  margin: 0 0 1rem;
+  max-width: 11ch;
+}
+
+.poster-call-lead {
+  max-width: 58ch;
+  color: var(--muted);
+  font-size: 1.08rem;
+  margin: 0 0 1.4rem;
+}
+
+.poster-call-lead strong {
+  color: var(--text);
+}
+
+/* Deadline card */
+
+.poster-deadline-card {
+  display: grid;
+  gap: 0.1rem;
+  max-width: 440px;
+  padding: 1.15rem 1.25rem;
+  margin: 0 0 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.poster-deadline-label {
+  color: var(--gold-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.poster-deadline-card strong {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.poster-deadline-card > span:last-child {
+  color: var(--muted);
+}
+
+/* Expandable submission details */
+
+.poster-details {
+  max-width: 580px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.poster-details summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  color: var(--gold-strong);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.poster-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.poster-details summary::after {
+  content: "+";
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--gold);
+  transition: transform 0.2s ease;
+}
+
+.poster-details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.poster-details-content {
+  padding: 0 0 1.2rem;
+  color: var(--muted);
+}
+
+.poster-details-content p {
+  margin: 0 0 0.9rem;
+}
+
+.poster-details-content ul {
+  margin: 0 0 1rem;
+  padding-left: 1.2rem;
+}
+
+.poster-details-content li {
+  margin-bottom: 0.35rem;
+}
+
+/* Important dates */
+
+.poster-dates-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.15rem 0 0;
+}
+
+.poster-dates-list div {
+  display: grid;
+  grid-template-columns:
+    minmax(130px, 0.7fr)
+    minmax(0, 1.3fr);
+  gap: 1rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--line);
+}
+
+.poster-dates-list dt {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.poster-dates-list dd {
+  margin: 0;
+}
+
+/* Proposal form */
+
+.poster-form-column {
+  min-width: 0;
+}
+
+.poster-form-launcher {
+  position: sticky;
+  top: 110px;
+  padding: clamp(1.6rem, 3vw, 2.35rem);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.poster-form-launcher-kicker {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--gold-strong);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.poster-form-launcher h3 {
+  max-width: 13ch;
+  margin: 0 0 0.8rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.1rem, 4vw, 3.25rem);
+  line-height: 1;
+}
+
+.poster-form-launcher p {
+  max-width: 48ch;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.poster-call-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  min-height: 54px;
+  margin: 1.55rem 0 0 auto;
+  padding: 0.75rem 0.8rem 0.75rem 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.22),
+    inset 0 1px rgba(255, 255, 255, 0.22);
+}
+
+.poster-call-button-icon {
+  display: grid;
+  width: 36px;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(8, 23, 38, 0.16);
+  font-size: 1.15rem;
+  transition: transform 0.2s ease;
+}
+
+.poster-call-button:hover .poster-call-button-icon,
+.poster-call-button:focus-visible .poster-call-button-icon {
+  transform: translateX(3px);
+}
+
+.poster-form-launcher[hidden],
+.poster-form-panel[hidden] {
+  display: none;
+}
+
+.poster-form-panel {
+  scroll-margin-top: 90px;
+  animation: poster-form-reveal 0.35s ease-out;
+}
+
+@keyframes poster-form-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.poster-form {
+  position: relative;
+  border-color: rgba(215, 177, 109, 0.24);
+  box-shadow:
+    var(--shadow),
+    0 18px 55px rgba(0, 0, 0, 0.18);
+}
+
+.poster-form-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.poster-form-heading-copy {
+  min-width: 0;
+}
+
+.poster-form-kicker {
+  display: block;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+}
+
+.poster-form-heading h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.25rem;
+  line-height: 1;
+  margin: 0 0 0.45rem;
+}
+
+.poster-form-heading h3:focus {
+  outline: none;
+}
+
+.poster-form-heading p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.94rem;
+}
+
+.poster-form-close {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.42rem 0.7rem;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.poster-form-close > span:first-child {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.poster-form-close:hover,
+.poster-form-close:focus-visible {
+  border-color: rgba(215, 177, 109, 0.45);
+  background: rgba(215, 177, 109, 0.09);
+  color: var(--gold-strong);
+}
+
+/* Form help text */
+
+.field-help,
+.file-status {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.file-status.is-valid {
+  color: #86d6a2;
+}
+
+.file-status.is-error {
+  color: #ffb4b4;
+}
+
+/* PDF upload control */
+
+.poster-file-row input[type="file"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px dashed rgba(215, 177, 109, 0.35);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.poster-file-row input[type="file"]::file-selector-button {
+  margin-right: 0.85rem;
+  border: 1px solid rgba(215, 177, 109, 0.32);
+  border-radius: 999px;
+  padding: 0.65rem 0.9rem;
+  background: rgba(215, 177, 109, 0.14);
+  color: var(--gold-strong);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.poster-file-row input[type="file"]:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(215, 177, 109, 0.2);
+}
+
+/* Attendance confirmation */
+
+.confirmation-check {
+  display: grid !important;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 0.75rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+}
+
+.confirmation-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0.18rem 0 0;
+  accent-color: var(--gold);
+}
+
+.confirmation-check span {
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.poster-success {
+  margin-top: 0;
+}
+
+/* Poster-section responsiveness */
+
+@media (max-width: 1000px) {
+  .poster-call-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-call-content {
+    position: static;
+    padding-top: 0;
+  }
+
+  .poster-form-launcher {
+    position: static;
+  }
+
+  .poster-call-content h2 {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .poster-deadline-card {
+    max-width: none;
+  }
+
+  .poster-call-button {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .poster-form-heading {
+    position: relative;
+    display: block;
+    padding-right: 2.8rem;
+  }
+
+  .poster-form-heading h3 {
+    font-size: 2rem;
+  }
+
+  .poster-form-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .poster-form-close > span:last-child {
+    display: none;
+  }
+
+  .poster-dates-list div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .poster-file-row input[type="file"]::file-selector-button {
+    display: block;
+    margin: 0 0 0.65rem;
+  }
+}
+
 /* ===== Footer ===== */
 
 .site-footer {
@@ -1334,7 +1804,8 @@ textarea {
   box-shadow: none;
 }
 
-.registration-form .btn-full {
+.registration-form .btn-full,
+.poster-form .btn-full {
   margin-top: 0.75rem;
 }
 
@@ -1381,7 +1852,7 @@ textarea {
 
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1120px) {
   .nav-toggle {
     display: inline-flex;
   }

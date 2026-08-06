@@ -286,6 +286,7 @@
         <a href="#about">About</a>
         <a href="#speakers">Speakers</a>
         <a href="#schedule">Schedule</a>
+        <a href="#posters">Posters</a>
         <a href="#materials">Materials</a>
         <a href="#registration">Registration</a>
         <a href="#venue">Venue</a>
@@ -313,6 +314,369 @@
           <div><strong>Format</strong><span>In person · 5 days</span></div>
           <div><strong>Audience</strong><span>Researchers, faculty, students</span></div>
           <div><strong>Venues</strong><span>Universidad de Chile · PUC Chile</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section poster-section" id="posters">
+      <div class="container">
+        <div class="poster-call-grid">
+
+          <div class="poster-call-content">
+            <span class="eyebrow">Posters</span>
+
+            <h2>Call for Poster Presentations</h2>
+
+            <p class="poster-call-lead">
+              Participants of <strong>Geometric Analysis by the Andes</strong>
+              are invited to submit a proposal for the conference poster session.
+            </p>
+
+            <div
+              class="poster-deadline-card"
+              aria-label="Poster submission deadline"
+            >
+              <span class="poster-deadline-label">
+                Submission deadline
+              </span>
+
+              <strong>August 18, 2026</strong>
+
+              <span>23:59 Chilean time</span>
+            </div>
+
+            <details class="poster-details">
+              <summary>View submission details</summary>
+
+              <div class="poster-details-content">
+                <p>
+                  The call is open to all conference participants.
+                  Each proposal must include:
+                </p>
+
+                <ul>
+                  <li>the poster title;</li>
+                  <li>an abstract of no more than 250 words;</li>
+                  <li>
+                    the name and affiliation of the presenting author;
+                  </li>
+                  <li>
+                    the names of any co-authors, if applicable;
+                  </li>
+                  <li>a contact email address.</li>
+                </ul>
+
+                <p>
+                  The proposal title and abstract, as well as the final
+                  poster, must be written in English. Proposals will be
+                  evaluated by the Poster Committee, and the number of
+                  available spaces is limited.
+                </p>
+
+                <p>
+                  Accepted presenters must attend the conference in
+                  person. Poster dimensions and formatting guidelines
+                  will be shared after acceptance.
+                </p>
+
+                <dl class="poster-dates-list">
+                  <div>
+                    <dt>Call opened</dt>
+                    <dd>August 4, 2026</dd>
+                  </div>
+
+                  <div>
+                    <dt>Submission deadline</dt>
+                    <dd>
+                      August 18, 2026, at 23:59 Chilean time
+                    </dd>
+                  </div>
+
+                  <div>
+                    <dt>Notification of acceptance</dt>
+                    <dd>To be announced</dd>
+                  </div>
+                </dl>
+              </div>
+            </details>
+          </div>
+
+          <div class="poster-form-column" id="poster-form">
+            <div
+              id="posterFormLauncher"
+              class="poster-form-launcher"
+            >
+              <span class="poster-form-launcher-kicker">
+                Poster proposals
+              </span>
+
+              <h3>Would you like to present a poster?</h3>
+
+              <p>
+                Open the proposal form when you are ready.
+                It takes only a few minutes, and the supporting
+                PDF is optional.
+              </p>
+
+              <button
+                id="posterFormToggle"
+                type="button"
+                class="btn btn-primary poster-call-button"
+                aria-expanded="false"
+                aria-controls="posterFormPanel"
+              >
+                <span>Submit your poster proposal</span>
+
+                <span
+                  class="poster-call-button-icon"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+              </button>
+            </div>
+
+            <div
+              id="posterFormPanel"
+              class="poster-form-panel"
+              hidden
+            >
+              <form
+                id="posterForm"
+                class="poster-form"
+                enctype="multipart/form-data"
+                aria-labelledby="posterFormTitle"
+              >
+              <div class="poster-form-heading">
+                <div class="poster-form-heading-copy">
+                  <span class="poster-form-kicker">
+                    Proposal form
+                  </span>
+
+                  <h3 id="posterFormTitle" tabindex="-1">
+                    Submit a poster proposal
+                  </h3>
+
+                  <p>
+                    Fields marked with * are required.
+                    The PDF is optional.
+                  </p>
+                </div>
+
+                <button
+                  id="posterFormClose"
+                  type="button"
+                  class="poster-form-close"
+                  aria-label="Close poster proposal form"
+                >
+                  <span aria-hidden="true">×</span>
+                  <span>Close</span>
+                </button>
+              </div>
+
+              <div class="form-row two-up">
+                <div>
+                  <label for="posterAuthor">
+                    Presenting author *
+                  </label>
+
+                  <input
+                    id="posterAuthor"
+                    name="presentingAuthor"
+                    type="text"
+                    maxlength="114"
+                    autocomplete="name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label for="posterEmail">
+                    Contact email *
+                  </label>
+
+                  <input
+                    id="posterEmail"
+                    name="contactEmail"
+                    type="email"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label for="posterAffiliation">
+                  Affiliation *
+                </label>
+
+                <input
+                  id="posterAffiliation"
+                  name="affiliation"
+                  type="text"
+                  maxlength="160"
+                  autocomplete="organization"
+                  required
+                />
+              </div>
+
+              <div class="form-row">
+                <label for="posterTitle">
+                  Poster title *
+                </label>
+
+                <input
+                  id="posterTitle"
+                  name="posterTitle"
+                  type="text"
+                  maxlength="180"
+                  required
+                />
+
+                <small class="field-help">
+                  The title must be in English.
+                </small>
+              </div>
+
+              <div class="form-row">
+                <label for="posterCoauthors">
+                  Co-authors
+                </label>
+
+                <textarea
+                  id="posterCoauthors"
+                  name="coAuthors"
+                  rows="3"
+                  maxlength="500"
+                  placeholder="List names and affiliations, if applicable."
+                ></textarea>
+              </div>
+
+              <div class="form-row">
+                <label for="posterAbstract">
+                  Abstract *
+                </label>
+
+                <textarea
+                  id="posterAbstract"
+                  name="abstract"
+                  rows="8"
+                  placeholder="Write an abstract of up to 250 words in English."
+                  aria-describedby="posterAbstractCounter"
+                  required
+                ></textarea>
+
+                <small
+                  id="posterAbstractCounter"
+                  class="note-counter"
+                >
+                  0 / 250 words
+                </small>
+              </div>
+
+              <div class="form-row poster-file-row">
+                <label for="posterPdf">
+                  Optional supporting PDF
+                </label>
+
+                <input
+                  id="posterPdf"
+                  name="supportingPdf"
+                  type="file"
+                  accept=".pdf,application/pdf"
+                  aria-describedby="posterPdfHelp posterFileStatus"
+                />
+
+                <small
+                  id="posterPdfHelp"
+                  class="field-help"
+                >
+                  Optional · PDF only · Maximum file size: 20 MB.
+                  Not submitting a PDF will not affect evaluation.
+                </small>
+
+                <small
+                  id="posterFileStatus"
+                  class="file-status"
+                  aria-live="polite"
+                >
+                  No file selected.
+                </small>
+              </div>
+
+              <div class="form-row">
+                <label
+                  class="confirmation-check"
+                  for="posterAttendanceConfirmation"
+                >
+                  <input
+                    id="posterAttendanceConfirmation"
+                    name="attendanceConfirmed"
+                    type="checkbox"
+                    value="yes"
+                    required
+                  />
+
+                  <span>
+                    I confirm that I will attend the conference in
+                    person if my proposal is accepted. *
+                  </span>
+                </label>
+              </div>
+
+              <div class="form-row turnstile-wrap">
+                <div id="poster-turnstile-container"></div>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary btn-full"
+              >
+                Submit poster proposal
+              </button>
+
+              <p
+                id="posterFormStatus"
+                class="form-status"
+                aria-live="polite"
+              ></p>
+              </form>
+
+              <div
+                id="posterSuccess"
+                class="registration-success poster-success"
+                hidden
+              >
+                <div class="registration-success-header">
+                  <span
+                    class="registration-success-icon"
+                    aria-hidden="true"
+                  >
+                    ✔
+                  </span>
+
+                  <span class="registration-success-eyebrow">
+                    Proposal received
+                  </span>
+                </div>
+
+                <h3>
+                  Your poster proposal was submitted successfully
+                </h3>
+
+                <p>
+                  A confirmation email will be sent to
+                  <strong id="posterSuccessEmail"></strong>.
+                </p>
+
+                <p class="registration-success-note">
+                  Proposal:
+                  <strong id="posterSuccessTitle"></strong>
+                </p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -735,6 +1099,7 @@
         <a href="#about">About</a>
         <a href="#speakers">Speakers</a>
         <a href="#schedule">Schedule</a>
+        <a href="#posters">Posters</a>
         <a href="#materials">Materials</a>
         <a href="#registration">Registration</a>
         <a href="#venue">Venue</a>
@@ -754,7 +1119,10 @@
   
   <script>
     window.CONFERENCE_CONFIG = {
-      registrationEndpoint: "https://math-congress-worker.aceiton-bastian.workers.dev"
+      registrationEndpoint:
+        "https://math-congress-worker.aceiton-bastian.workers.dev",
+
+      posterEndpoint: ""
     };
   </script>
   <script src="script.js" defer></script>
