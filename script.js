@@ -74,6 +74,18 @@ const WARN_COUNTRY = 24;
 const MAX_COMMENTS = 400;
 const WARN_COMMENTS = 340;
 
+const MAX_POSTER_AUTHOR = 114;
+const WARN_POSTER_AUTHOR = 95;
+
+const MAX_POSTER_AFFILIATION = 114;
+const WARN_POSTER_AFFILIATION = 95;
+
+const MAX_POSTER_TITLE = 200;
+const WARN_POSTER_TITLE = 170;
+
+const MAX_POSTER_COAUTHORS = 500;
+const WARN_POSTER_COAUTHORS = 425;
+
 const fullNameEl = document.getElementById('fullName');
 const fullNameCounterEl =
   document.getElementById('fullNameCounter');
@@ -90,6 +102,26 @@ const additionalCommentsEl =
   document.getElementById('additionalComments');
 const additionalCommentsCounterEl =
   document.getElementById('additionalCommentsCounter');
+
+const posterAuthorEl =
+  document.getElementById('posterAuthor');
+const posterAuthorCounterEl =
+  document.getElementById('posterAuthorCounter');
+
+const posterAffiliationEl =
+  document.getElementById('posterAffiliation');
+const posterAffiliationCounterEl =
+  document.getElementById('posterAffiliationCounter');
+
+const posterTitleEl =
+  document.getElementById('posterTitle');
+const posterTitleCounterEl =
+  document.getElementById('posterTitleCounter');
+
+const posterCoauthorsEl =
+  document.getElementById('posterCoauthors');
+const posterCoauthorsCounterEl =
+  document.getElementById('posterCoauthorsCounter');
 
 function attachTextCounter(
   inputEl,
@@ -146,6 +178,34 @@ attachTextCounter(
   WARN_COMMENTS
 );
 
+attachTextCounter(
+  posterAuthorEl,
+  posterAuthorCounterEl,
+  MAX_POSTER_AUTHOR,
+  WARN_POSTER_AUTHOR
+);
+
+attachTextCounter(
+  posterAffiliationEl,
+  posterAffiliationCounterEl,
+  MAX_POSTER_AFFILIATION,
+  WARN_POSTER_AFFILIATION
+);
+
+attachTextCounter(
+  posterTitleEl,
+  posterTitleCounterEl,
+  MAX_POSTER_TITLE,
+  WARN_POSTER_TITLE
+);
+
+attachTextCounter(
+  posterCoauthorsEl,
+  posterCoauthorsCounterEl,
+  MAX_POSTER_COAUTHORS,
+  WARN_POSTER_COAUTHORS
+);
+
 [
   fullNameEl,
   affiliationEl,
@@ -178,6 +238,7 @@ function setFormSubmitting(
 ) {
   const {
     submittingText = 'Submitting...',
+    submittingButtonText = 'Submitting...',
     idleText = null,
     completed = false,
     completedText = 'Submitted',
@@ -211,7 +272,8 @@ function setFormSubmitting(
       submitButton.setAttribute('aria-disabled', 'true');
     } else if (isSubmitting) {
       submitButton.disabled = true;
-      submitButton.textContent = 'Submitting...';
+      submitButton.textContent =
+        submittingButtonText;
       submitButton.setAttribute('aria-disabled', 'true');
     } else {
       submitButton.disabled = false;
@@ -1192,7 +1254,11 @@ async function submitPosterProposal(event) {
     true,
     {
       submittingText: file
-        ? 'Uploading and submitting proposal...'
+        ? 'Uploading your PDF and submitting your proposal. Please keep this page open; this can take up to two minutes.'
+        : 'Submitting your proposal. Please keep this page open.',
+
+      submittingButtonText: file
+        ? 'Uploading PDF...'
         : 'Submitting proposal...',
 
       statusElement:
@@ -1240,10 +1306,13 @@ async function submitPosterProposal(event) {
         : {};
 
     if (!response.ok) {
-      throw new Error(
+      const submissionError = new Error(
         result.error ||
           'Poster proposal submission failed.'
       );
+
+      submissionError.status = response.status;
+      throw submissionError;
     }
 
     posterCompleted = true;
@@ -1281,12 +1350,12 @@ async function submitPosterProposal(event) {
   } catch (error) {
     console.error(error);
 
-    clearStoredPosterSubmissionId();
-
     if (posterFormStatus) {
       posterFormStatus.textContent =
         error.name === 'AbortError'
-          ? 'The upload took too long. Please check your connection and try again.'
+          ? 'We could not confirm the result yet. Please check your connection, wait a moment, and try again. Your retry will use the same submission ID.'
+          : error.status === 409
+            ? 'Your proposal is still being processed. Please wait a moment and try again; it will not be submitted twice.'
           : error.message ||
             'There was an error sending the poster proposal.';
     }

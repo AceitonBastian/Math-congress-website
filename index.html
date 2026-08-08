@@ -397,6 +397,35 @@
                     <dd>To be announced</dd>
                   </div>
                 </dl>
+
+                <aside
+                  class="info-card poster-tips-card"
+                  aria-labelledby="posterSubmissionTipsTitle"
+                >
+                  <h3 id="posterSubmissionTipsTitle">After you submit</h3>
+
+                  <ul>
+                    <li>
+                      With a PDF attached, submission may take up to two
+                      minutes. Keep this page open while the form is
+                      processing.
+                    </li>
+
+                    <li>
+                      A success message will appear here when your proposal is
+                      received. The confirmation email should arrive within
+                      10 minutes; please check your spam folder too.
+                    </li>
+
+                    <li>
+                      If the email is still missing, contact
+                      <a
+                        href="mailto:contact@gaandes.com?subject=Poster%20proposal%20%E2%80%93%20Gaandes%20Conference"
+                      >contact@gaandes.com</a>
+                      before submitting the same proposal again.
+                    </li>
+                  </ul>
+                </aside>
               </div>
             </details>
           </div>
@@ -486,8 +515,16 @@
                     type="text"
                     maxlength="114"
                     autocomplete="name"
+                    aria-describedby="posterAuthorCounter"
                     required
                   />
+
+                  <small
+                    id="posterAuthorCounter"
+                    class="note-counter"
+                  >
+                    0 / 114
+                  </small>
                 </div>
 
                 <div>
@@ -510,14 +547,22 @@
                   Affiliation *
                 </label>
 
-                <input
-                  id="posterAffiliation"
-                  name="affiliation"
-                  type="text"
-                  maxlength="160"
-                  autocomplete="organization"
-                  required
-                />
+                  <input
+                    id="posterAffiliation"
+                    name="affiliation"
+                    type="text"
+                    maxlength="114"
+                    autocomplete="organization"
+                    aria-describedby="posterAffiliationCounter"
+                    required
+                  />
+
+                  <small
+                    id="posterAffiliationCounter"
+                    class="note-counter"
+                  >
+                    0 / 114
+                  </small>
               </div>
 
               <div class="form-row">
@@ -525,16 +570,27 @@
                   Poster title *
                 </label>
 
-                <input
-                  id="posterTitle"
-                  name="posterTitle"
-                  type="text"
-                  maxlength="180"
-                  required
-                />
+                  <input
+                    id="posterTitle"
+                    name="posterTitle"
+                    type="text"
+                    maxlength="200"
+                    aria-describedby="posterTitleHelp posterTitleCounter"
+                    required
+                  />
 
-                <small class="field-help">
+                <small
+                  id="posterTitleHelp"
+                  class="field-help"
+                >
                   The title must be in English.
+                </small>
+
+                <small
+                  id="posterTitleCounter"
+                  class="note-counter"
+                >
+                  0 / 200
                 </small>
               </div>
 
@@ -549,7 +605,15 @@
                   rows="3"
                   maxlength="500"
                   placeholder="List names and affiliations, if applicable."
+                  aria-describedby="posterCoauthorsCounter"
                 ></textarea>
+
+                <small
+                  id="posterCoauthorsCounter"
+                  class="note-counter"
+                >
+                  0 / 500
+                </small>
               </div>
 
               <div class="form-row">
@@ -561,6 +625,7 @@
                   id="posterAbstract"
                   name="abstract"
                   rows="8"
+                  maxlength="3500"
                   placeholder="Write an abstract of up to 250 words in English."
                   aria-describedby="posterAbstractCounter"
                   required
@@ -639,6 +704,7 @@
                 id="posterFormStatus"
                 class="form-status"
                 aria-live="polite"
+                aria-atomic="true"
               ></p>
               </form>
 
@@ -665,13 +731,19 @@
                 </h3>
 
                 <p>
-                  A confirmation email will be sent to
+                  A confirmation email should arrive at
                   <strong id="posterSuccessEmail"></strong>.
                 </p>
 
                 <p class="registration-success-note">
                   Proposal:
                   <strong id="posterSuccessTitle"></strong>
+                </p>
+
+                <p class="registration-success-note">
+                  Please allow up to 10 minutes, then check your spam folder.
+                  If the email is still missing, contact us before submitting
+                  the same proposal again.
                 </p>
               </div>
             </div>
