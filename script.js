@@ -955,7 +955,7 @@ function updatePosterAbstractCounter() {
 
   if (
     wordCount >= 220 &&
-    wordCount <=
+    wordCount <
       MAX_POSTER_ABSTRACT_WORDS
   ) {
     posterAbstractCounterEl.classList.add(
@@ -964,7 +964,7 @@ function updatePosterAbstractCounter() {
   }
 
   if (
-    wordCount >
+    wordCount >=
     MAX_POSTER_ABSTRACT_WORDS
   ) {
     posterAbstractCounterEl.classList.add(
