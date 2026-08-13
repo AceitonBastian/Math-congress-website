@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260806-1" />
+  <link rel="stylesheet" href="styles.css?v=20260813-2" />
 
   <script type="application/ld+json">
   {
@@ -806,40 +806,552 @@
       </div>
     </section>
 
-    <section class="section" id="schedule">
-      <div class="container two-col-layout">
-        <div>
-          <div class="section-heading left-aligned">
-            <span class="eyebrow">Program</span>
-            <h2>Schedule overview</h2>
-            <p>Talks will take place from 09:30 to 13:00 and from 14:00 to 16:00</p>
-          </div>
+    <section class="section schedule-section" id="schedule">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Program</span>
+          <h2>Conference schedule</h2>
+          <p>
+            Explore the program one day at a time. All times are shown in
+            Chile time.
+          </p>
         </div>
 
-        <div class="schedule-box">
-          <div class="schedule-day">
-            <h3>Monday</h3>
-            <p>Opening, plenary talks, welcome reception</p>
-            <p>A welcome cocktail reception will be held at 19:00.</p>
-          </div>
-          <div class="schedule-day">
-            <h3>Tuesday</h3>
-            <p>Mini-courses, contributed talks, poster session</p>
-          </div>
-          <div class="schedule-day">
-            <h3>Wednesday</h3>
-            <p>Plenary talks, thematic sessions, conference dinner</p>
-            <p>Afternoon: optional group outing in Santiago.</p>
-          </div>
-          <div class="schedule-day">
-            <h3>Thursday</h3>
-            <p>Parallel sessions, problem discussions, networking</p>
-          </div>
-          <div class="schedule-day">
-            <h3>Friday</h3>
-            <p>Closing talks, final remarks, departures</p>
-            <p>The conference concludes at noon.</p>
-          </div>
+        <div
+          class="schedule-tabs"
+          role="tablist"
+          aria-label="Conference schedule by day"
+        >
+          <button
+            id="schedule-tab-monday"
+            class="schedule-tab is-active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="schedule-panel-monday"
+            data-schedule-day="monday"
+          >
+            <span>Mon</span>
+            <strong>Sep 7</strong>
+          </button>
+          <button
+            id="schedule-tab-tuesday"
+            class="schedule-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="schedule-panel-tuesday"
+            data-schedule-day="tuesday"
+            tabindex="-1"
+          >
+            <span>Tue</span>
+            <strong>Sep 8</strong>
+          </button>
+          <button
+            id="schedule-tab-wednesday"
+            class="schedule-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="schedule-panel-wednesday"
+            data-schedule-day="wednesday"
+            tabindex="-1"
+          >
+            <span>Wed</span>
+            <strong>Sep 9</strong>
+          </button>
+          <button
+            id="schedule-tab-thursday"
+            class="schedule-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="schedule-panel-thursday"
+            data-schedule-day="thursday"
+            tabindex="-1"
+          >
+            <span>Thu</span>
+            <strong>Sep 10</strong>
+          </button>
+          <button
+            id="schedule-tab-friday"
+            class="schedule-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="schedule-panel-friday"
+            data-schedule-day="friday"
+            tabindex="-1"
+          >
+            <span>Fri</span>
+            <strong>Sep 11</strong>
+          </button>
+        </div>
+
+        <div class="schedule-panels">
+          <article
+            id="schedule-panel-monday"
+            class="schedule-panel"
+            role="tabpanel"
+            aria-labelledby="schedule-tab-monday"
+            data-schedule-panel="monday"
+          >
+            <header class="schedule-day-heading">
+              <div>
+                <span class="schedule-day-kicker">Day one</span>
+                <h3>Monday, September 7</h3>
+              </div>
+              <span class="schedule-day-count">8 scheduled events</span>
+            </header>
+            <ol class="schedule-list">
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-07T09:00">09:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-07T10:00">10:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Felix Schulze</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-break">
+                <div class="schedule-time">
+                  <time datetime="2026-09-07T10:00">10:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-07T10:30">10:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Break</span>
+                  <h4>Coffee break</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-07T10:30">10:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-07T11:30">11:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Alessandra Pluda</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-07T11:30">11:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-07T12:30">12:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Renato Velozo</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-meal">
+                <div class="schedule-time">
+                  <time datetime="2026-09-07T12:30">12:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-07T14:30">14:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Meal</span>
+                  <h4>Lunch</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-07T14:30">14:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-07T15:30">15:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Zihui Zhao</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-07T15:30">15:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-07T16:30">16:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Lucas Ambrozio</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-social">
+                <div class="schedule-time">
+                  <time datetime="2026-09-07T16:30">16:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-07T18:30">18:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Social</span>
+                  <h4>Reception</h4>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article
+            id="schedule-panel-tuesday"
+            class="schedule-panel"
+            role="tabpanel"
+            aria-labelledby="schedule-tab-tuesday"
+            data-schedule-panel="tuesday"
+          >
+            <header class="schedule-day-heading">
+              <div>
+                <span class="schedule-day-kicker">Day two</span>
+                <h3>Tuesday, September 8</h3>
+              </div>
+              <span class="schedule-day-count">8 scheduled events</span>
+            </header>
+            <ol class="schedule-list">
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-08T09:00">09:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-08T10:00">10:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Yoshihiro Tonegawa</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-break">
+                <div class="schedule-time">
+                  <time datetime="2026-09-08T10:00">10:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-08T10:30">10:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Break</span>
+                  <h4>Coffee break</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-08T10:30">10:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-08T11:30">11:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Marcos Petrucio Cavalcante</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-08T11:30">11:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-08T12:30">12:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Davide Parise</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-meal">
+                <div class="schedule-time">
+                  <time datetime="2026-09-08T12:30">12:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-08T14:30">14:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Meal</span>
+                  <h4>Lunch</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-08T14:30">14:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-08T15:30">15:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Valentina Wheeler</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-break">
+                <div class="schedule-time">
+                  <time datetime="2026-09-08T15:30">15:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-08T16:00">16:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Break</span>
+                  <h4>Coffee break</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-08T16:00">16:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-08T17:00">17:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Tiarlos Cruz</h4>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article
+            id="schedule-panel-wednesday"
+            class="schedule-panel"
+            role="tabpanel"
+            aria-labelledby="schedule-tab-wednesday"
+            data-schedule-panel="wednesday"
+          >
+            <header class="schedule-day-heading">
+              <div>
+                <span class="schedule-day-kicker">Day three</span>
+                <h3>Wednesday, September 9</h3>
+              </div>
+              <span class="schedule-day-count">5 scheduled events</span>
+            </header>
+            <ol class="schedule-list">
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-09T09:00">09:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-09T10:00">10:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Joaquín Pérez</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-break">
+                <div class="schedule-time">
+                  <time datetime="2026-09-09T10:00">10:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-09T10:30">10:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Break</span>
+                  <h4>Coffee break</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-09T10:30">10:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-09T11:30">11:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>José Espinar</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-09T11:30">11:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-09T12:30">12:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Jessica Trespalacios</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-meal">
+                <div class="schedule-time">
+                  <time datetime="2026-09-09T12:30">12:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-09T14:30">14:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Meal</span>
+                  <h4>Lunch</h4>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article
+            id="schedule-panel-thursday"
+            class="schedule-panel"
+            role="tabpanel"
+            aria-labelledby="schedule-tab-thursday"
+            data-schedule-panel="thursday"
+          >
+            <header class="schedule-day-heading">
+              <div>
+                <span class="schedule-day-kicker">Day four</span>
+                <h3>Thursday, September 10</h3>
+              </div>
+              <span class="schedule-day-count">8 scheduled events</span>
+            </header>
+            <ol class="schedule-list">
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-10T09:00">09:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-10T10:00">10:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Francisco Martín</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-break">
+                <div class="schedule-time">
+                  <time datetime="2026-09-10T10:00">10:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-10T10:30">10:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Break</span>
+                  <h4>Coffee break</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-10T10:30">10:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-10T11:30">11:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Jie Qing</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-tba">
+                <div class="schedule-time">
+                  <time datetime="2026-09-10T11:30">11:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-10T12:30">12:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Pending</span>
+                  <h4>To be announced</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-meal">
+                <div class="schedule-time">
+                  <time datetime="2026-09-10T12:30">12:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-10T14:30">14:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Meal</span>
+                  <h4>Lunch</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-10T14:30">14:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-10T15:30">15:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Guillermo Henry</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-break">
+                <div class="schedule-time">
+                  <time datetime="2026-09-10T15:30">15:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-10T16:00">16:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Break</span>
+                  <h4>Coffee break</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-10T16:00">16:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-10T17:00">17:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Asun Jimenez</h4>
+                </div>
+              </li>
+            </ol>
+          </article>
+
+          <article
+            id="schedule-panel-friday"
+            class="schedule-panel"
+            role="tabpanel"
+            aria-labelledby="schedule-tab-friday"
+            data-schedule-panel="friday"
+          >
+            <header class="schedule-day-heading">
+              <div>
+                <span class="schedule-day-kicker">Day five</span>
+                <h3>Friday, September 11</h3>
+              </div>
+              <span class="schedule-day-count">5 scheduled events</span>
+            </header>
+            <ol class="schedule-list">
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-11T09:00">09:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-11T10:00">10:00</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Raquel Perales</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-break">
+                <div class="schedule-time">
+                  <time datetime="2026-09-11T10:00">10:00</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-11T10:30">10:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Break</span>
+                  <h4>Coffee break</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-11T10:30">10:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-11T11:30">11:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Franco Vargas</h4>
+                </div>
+              </li>
+              <li class="schedule-item">
+                <div class="schedule-time">
+                  <time datetime="2026-09-11T11:30">11:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-11T12:30">12:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Talk</span>
+                  <h4>Frank Pacard</h4>
+                </div>
+              </li>
+              <li class="schedule-item schedule-item-meal">
+                <div class="schedule-time">
+                  <time datetime="2026-09-11T12:30">12:30</time>
+                  <span aria-hidden="true">–</span>
+                  <time datetime="2026-09-11T14:30">14:30</time>
+                </div>
+                <div class="schedule-event">
+                  <span class="schedule-event-type">Meal</span>
+                  <h4>Lunch</h4>
+                </div>
+              </li>
+            </ol>
+          </article>
         </div>
       </div>
     </section>
@@ -1199,7 +1711,7 @@
         "https://math-congress-worker.aceiton-bastian.workers.dev/poster"
     };
   </script>
-  <script src="script.js" defer></script>
+  <script src="script.js?v=20260813-1" defer></script>
   <script
     src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
     defer

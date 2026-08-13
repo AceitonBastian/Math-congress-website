@@ -481,6 +481,14 @@ function buildAttendancePayload(
 // Cloudflare Turnstile
 // =========================
 
+function getTurnstileSize() {
+  return window.matchMedia(
+    '(max-width: 380px)'
+  ).matches
+    ? 'compact'
+    : 'normal';
+}
+
 function renderPosterTurnstile() {
   if (
     !window.turnstile ||
@@ -506,6 +514,7 @@ function renderPosterTurnstile() {
           sitekey:
             '0x4AAAAAACzT8PdZtr0263kY',
           theme: 'light',
+          size: getTurnstileSize(),
           action: 'poster_submission',
 
           callback: (token) => {
@@ -555,6 +564,7 @@ window.onloadTurnstileCallback = () => {
           sitekey:
             '0x4AAAAAACzT8PdZtr0263kY',
           theme: 'light',
+          size: getTurnstileSize(),
           action: 'register',
 
           callback: (token) => {
@@ -1495,6 +1505,115 @@ if (posterForm) {
     'submit',
     submitPosterProposal
   );
+}
+
+// =========================
+// Schedule tabs
+// =========================
+
+const scheduleTabs = Array.from(
+  document.querySelectorAll('.schedule-tab')
+);
+
+const schedulePanels = Array.from(
+  document.querySelectorAll('.schedule-panel')
+);
+
+function activateScheduleTab(
+  selectedTab,
+  { moveFocus = false } = {}
+) {
+  const selectedDay =
+    selectedTab?.dataset.scheduleDay;
+
+  if (!selectedDay) return;
+
+  scheduleTabs.forEach((tab) => {
+    const isSelected =
+      tab === selectedTab;
+
+    tab.classList.toggle(
+      'is-active',
+      isSelected
+    );
+
+    tab.setAttribute(
+      'aria-selected',
+      isSelected ? 'true' : 'false'
+    );
+
+    tab.tabIndex = isSelected ? 0 : -1;
+  });
+
+  schedulePanels.forEach((panel) => {
+    panel.hidden =
+      panel.dataset.schedulePanel !==
+      selectedDay;
+  });
+
+  if (moveFocus) {
+    selectedTab.focus();
+  }
+}
+
+if (
+  scheduleTabs.length &&
+  schedulePanels.length
+) {
+  document.documentElement.classList.add(
+    'schedule-tabs-ready'
+  );
+
+  scheduleTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      activateScheduleTab(tab);
+    });
+
+    tab.addEventListener(
+      'keydown',
+      (event) => {
+        let nextIndex = null;
+
+        if (event.key === 'ArrowRight') {
+          nextIndex =
+            (index + 1) %
+            scheduleTabs.length;
+        }
+
+        if (event.key === 'ArrowLeft') {
+          nextIndex =
+            (index - 1 +
+              scheduleTabs.length) %
+            scheduleTabs.length;
+        }
+
+        if (event.key === 'Home') {
+          nextIndex = 0;
+        }
+
+        if (event.key === 'End') {
+          nextIndex =
+            scheduleTabs.length - 1;
+        }
+
+        if (nextIndex === null) return;
+
+        event.preventDefault();
+
+        activateScheduleTab(
+          scheduleTabs[nextIndex],
+          { moveFocus: true }
+        );
+      }
+    );
+  });
+
+  const initialScheduleTab =
+    scheduleTabs.find((tab) =>
+      tab.classList.contains('is-active')
+    ) || scheduleTabs[0];
+
+  activateScheduleTab(initialScheduleTab);
 }
 
 // =========================
