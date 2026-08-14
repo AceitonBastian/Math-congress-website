@@ -607,6 +607,7 @@ main > .section + .section::before {
   background: transparent;
   color: var(--muted);
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition:
     color 0.18s ease,
     background 0.18s ease,
@@ -645,6 +646,12 @@ main > .section + .section::before {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
+}
+
+.day-tab:not(.is-active):active {
+  color: var(--gold-strong);
+  background: rgba(215, 177, 109, 0.08);
+  transform: translateY(0);
 }
 
 .day-tab:focus-visible {
