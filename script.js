@@ -1511,6 +1511,78 @@ if (posterForm) {
 // Schedule tabs
 // =========================
 
+function syncDayTabIndicator(selectedTab) {
+  const tabList =
+    selectedTab?.closest('.day-tabs');
+
+  if (!tabList) return;
+
+  let indicator =
+    tabList.querySelector(
+      '.day-tabs-indicator'
+    );
+
+  if (!indicator) {
+    indicator = document.createElement('span');
+    indicator.className =
+      'day-tabs-indicator';
+    indicator.setAttribute(
+      'aria-hidden',
+      'true'
+    );
+    tabList.prepend(indicator);
+  }
+
+  indicator.style.width =
+    `${selectedTab.offsetWidth}px`;
+  indicator.style.height =
+    `${selectedTab.offsetHeight}px`;
+  indicator.style.transform =
+    `translate3d(${selectedTab.offsetLeft}px, ${selectedTab.offsetTop}px, 0)`;
+
+  tabList.classList.add(
+    'is-slider-ready'
+  );
+}
+
+let dayTabIndicatorFrame = null;
+
+function refreshDayTabIndicators() {
+  dayTabIndicatorFrame = null;
+
+  document.querySelectorAll(
+    '.day-tabs'
+  ).forEach((tabList) => {
+    syncDayTabIndicator(
+      tabList.querySelector(
+        '.day-tab.is-active'
+      )
+    );
+  });
+}
+
+function queueDayTabIndicatorRefresh() {
+  if (dayTabIndicatorFrame !== null) {
+    return;
+  }
+
+  dayTabIndicatorFrame =
+    window.requestAnimationFrame(
+      refreshDayTabIndicators
+    );
+}
+
+window.addEventListener(
+  'resize',
+  queueDayTabIndicatorRefresh
+);
+
+if (document.fonts?.ready) {
+  document.fonts.ready.then(
+    queueDayTabIndicatorRefresh
+  );
+}
+
 const scheduleTabs = Array.from(
   document.querySelectorAll('.schedule-tab')
 );
@@ -1550,6 +1622,8 @@ function activateScheduleTab(
       panel.dataset.schedulePanel !==
       selectedDay;
   });
+
+  syncDayTabIndicator(selectedTab);
 
   if (moveFocus) {
     selectedTab.focus();
@@ -1873,10 +1947,11 @@ const materialsGrid =
     'materialsGrid'
   );
 
-const materialTabs =
+const materialTabs = Array.from(
   document.querySelectorAll(
     '.materials-tab'
-  );
+  )
+);
 
 const MATERIALS = {
   monday: [
@@ -1976,41 +2051,104 @@ if (
   materialTabs.length &&
   materialsGrid
 ) {
-  materialTabs.forEach((tab) => {
+  function activateMaterialsTab(
+    selectedTab,
+    { moveFocus = false } = {}
+  ) {
+    currentMaterialsDay =
+      selectedTab?.dataset.day;
+
+    if (!currentMaterialsDay) return;
+
+    materialTabs.forEach(
+      (button) => {
+        const isActive =
+          button === selectedTab;
+
+        button.classList.toggle(
+          'is-active',
+          isActive
+        );
+
+        button.setAttribute(
+          'aria-selected',
+          isActive ? 'true' : 'false'
+        );
+
+        button.tabIndex =
+          isActive ? 0 : -1;
+      }
+    );
+
+    materialsGrid.setAttribute(
+      'aria-labelledby',
+      selectedTab.id
+    );
+
+    syncDayTabIndicator(selectedTab);
+
+    renderMaterials(
+      currentMaterialsDay
+    );
+
+    if (moveFocus) {
+      selectedTab.focus();
+    }
+  }
+
+  materialTabs.forEach((tab, index) => {
     tab.addEventListener(
       'click',
       () => {
-        currentMaterialsDay =
-          tab.dataset.day;
+        activateMaterialsTab(tab);
+      }
+    );
 
-        materialTabs.forEach(
-          (button) => {
-            const isActive =
-              button.dataset.day ===
-              currentMaterialsDay;
+    tab.addEventListener(
+      'keydown',
+      (event) => {
+        let nextIndex = null;
 
-            button.classList.toggle(
-              'is-active',
-              isActive
-            );
+        if (event.key === 'ArrowRight') {
+          nextIndex =
+            (index + 1) %
+            materialTabs.length;
+        }
 
-            button.setAttribute(
-              'aria-selected',
-              isActive
-                ? 'true'
-                : 'false'
-            );
-          }
-        );
+        if (event.key === 'ArrowLeft') {
+          nextIndex =
+            (index - 1 +
+              materialTabs.length) %
+            materialTabs.length;
+        }
 
-        renderMaterials(
-          currentMaterialsDay
+        if (event.key === 'Home') {
+          nextIndex = 0;
+        }
+
+        if (event.key === 'End') {
+          nextIndex =
+            materialTabs.length - 1;
+        }
+
+        if (nextIndex === null) return;
+
+        event.preventDefault();
+
+        activateMaterialsTab(
+          materialTabs[nextIndex],
+          { moveFocus: true }
         );
       }
     );
   });
 
-  renderMaterials(
-    currentMaterialsDay
+  const initialMaterialsTab =
+    materialTabs.find((tab) =>
+      tab.classList.contains('is-active')
+    ) || materialTabs[0];
+
+  activateMaterialsTab(
+    initialMaterialsTab
   );
 }

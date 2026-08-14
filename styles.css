@@ -545,23 +545,57 @@ main > .section + .section::before {
   max-width: 720px;
 }
 
-.schedule-tabs {
-  display: none;
+.day-tabs {
+  position: relative;
+  display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.45rem;
   width: min(100%, 1040px);
-  margin: 0 auto 1rem;
+  margin: 0 auto;
   padding: 0.45rem;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--line);
   border-radius: 20px;
 }
 
+.day-tabs-indicator {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border: 1px solid rgba(215, 177, 109, 0.25);
+  border-radius: 15px;
+  background: rgba(215, 177, 109, 0.12);
+  box-shadow:
+    inset 0 0 12px rgba(215, 177, 109, 0.08),
+    0 2px 5px rgba(215, 177, 109, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, width, height;
+}
+
+.day-tabs.is-slider-ready .day-tabs-indicator {
+  opacity: 1;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.schedule-tabs {
+  display: none;
+  margin-bottom: 1rem;
+}
+
 .schedule-tabs-ready .schedule-tabs {
   display: grid;
 }
 
-.schedule-tab {
+.day-tab {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -580,34 +614,48 @@ main > .section + .section::before {
     transform 0.18s ease;
 }
 
-.schedule-tab span {
+.day-tab span {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.schedule-tab strong {
+.day-tab strong {
   color: inherit;
   font-size: 0.95rem;
 }
 
-.schedule-tab:hover {
+.day-tab:hover {
   color: var(--text);
   background: rgba(255, 255, 255, 0.035);
   transform: translateY(-1px);
 }
 
-.schedule-tab.is-active {
-  color: #10151c;
-  background: var(--gold);
-  border-color: var(--gold);
-  box-shadow: 0 8px 22px rgba(215, 177, 109, 0.16);
+.day-tab.is-active {
+  color: var(--gold-strong);
+  background: rgba(215, 177, 109, 0.12);
+  border-color: rgba(215, 177, 109, 0.25);
+  box-shadow:
+    inset 0 0 12px rgba(215, 177, 109, 0.08),
+    0 2px 5px rgba(215, 177, 109, 0.08);
 }
 
-.schedule-tab:focus-visible {
+.day-tabs.is-slider-ready .day-tab.is-active {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.day-tab:focus-visible {
   outline: 2px solid var(--gold-strong);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day-tabs.is-slider-ready .day-tabs-indicator {
+    transition: none;
+  }
 }
 
 .schedule-panel {
@@ -764,24 +812,24 @@ main > .section + .section::before {
 }
 
 @media (max-width: 700px) {
-  .schedule-tabs {
+  .day-tabs {
     gap: 0.25rem;
     padding: 0.3rem;
     border-radius: 16px;
   }
 
-  .schedule-tab {
+  .day-tab {
     flex-direction: column;
     gap: 0;
     padding: 0.65rem 0.2rem;
     border-radius: 12px;
   }
 
-  .schedule-tab span {
+  .day-tab span {
     font-size: 0.68rem;
   }
 
-  .schedule-tab strong {
+  .day-tab strong {
     font-size: 0.8rem;
   }
 
@@ -2303,33 +2351,8 @@ textarea {
 /* ===== Materials ===== */
 
 .materials-tabs {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 0 0 2rem;
-}
-
-.materials-tab {
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--muted);
-  border-radius: 999px;
-  padding: 0.8rem 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.18s ease;
-}
-
-.materials-tab:hover {
-  color: var(--text);
-  transform: translateY(-1px);
-}
-
-.materials-tab.is-active {
-  color: #10151c;
-  background: var(--gold);
-  border-color: var(--gold);
+  width: min(100%, 600px);
+  margin-bottom: 2rem;
 }
 
 .materials-grid {

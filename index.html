@@ -820,13 +820,13 @@
         </div>
 
         <div
-          class="schedule-tabs"
+          class="day-tabs schedule-tabs"
           role="tablist"
           aria-label="Conference schedule by day"
         >
           <button
             id="schedule-tab-monday"
-            class="schedule-tab is-active"
+            class="day-tab schedule-tab is-active"
             type="button"
             role="tab"
             aria-selected="true"
@@ -838,7 +838,7 @@
           </button>
           <button
             id="schedule-tab-tuesday"
-            class="schedule-tab"
+            class="day-tab schedule-tab"
             type="button"
             role="tab"
             aria-selected="false"
@@ -851,7 +851,7 @@
           </button>
           <button
             id="schedule-tab-wednesday"
-            class="schedule-tab"
+            class="day-tab schedule-tab"
             type="button"
             role="tab"
             aria-selected="false"
@@ -864,7 +864,7 @@
           </button>
           <button
             id="schedule-tab-thursday"
-            class="schedule-tab"
+            class="day-tab schedule-tab"
             type="button"
             role="tab"
             aria-selected="false"
@@ -877,7 +877,7 @@
           </button>
           <button
             id="schedule-tab-friday"
-            class="schedule-tab"
+            class="day-tab schedule-tab"
             type="button"
             role="tab"
             aria-selected="false"
@@ -1366,15 +1366,30 @@
           <p>Browse presentation files organized according to the conference schedule.</p>
         </div>
         
-        <div class="materials-tabs" role="tablist" aria-label="Conference days">
-          <button class="materials-tab is-active" type="button" data-day="monday" aria-selected="true">Monday</button>
-          <button class="materials-tab" type="button" data-day="tuesday" aria-selected="false">Tuesday</button>
-          <button class="materials-tab" type="button" data-day="wednesday" aria-selected="false">Wednesday</button>
-          <button class="materials-tab" type="button" data-day="thursday" aria-selected="false">Thursday</button>
-          <button class="materials-tab" type="button" data-day="friday" aria-selected="false">Friday</button>
+        <div class="day-tabs materials-tabs" role="tablist" aria-label="Talk materials by day">
+          <button id="materials-tab-monday" class="day-tab materials-tab is-active" type="button" role="tab" data-day="monday" aria-selected="true" aria-controls="materialsGrid">
+            <span>Mon</span>
+            <strong>Sep 7</strong>
+          </button>
+          <button id="materials-tab-tuesday" class="day-tab materials-tab" type="button" role="tab" data-day="tuesday" aria-selected="false" aria-controls="materialsGrid" tabindex="-1">
+            <span>Tue</span>
+            <strong>Sep 8</strong>
+          </button>
+          <button id="materials-tab-wednesday" class="day-tab materials-tab" type="button" role="tab" data-day="wednesday" aria-selected="false" aria-controls="materialsGrid" tabindex="-1">
+            <span>Wed</span>
+            <strong>Sep 9</strong>
+          </button>
+          <button id="materials-tab-thursday" class="day-tab materials-tab" type="button" role="tab" data-day="thursday" aria-selected="false" aria-controls="materialsGrid" tabindex="-1">
+            <span>Thu</span>
+            <strong>Sep 10</strong>
+          </button>
+          <button id="materials-tab-friday" class="day-tab materials-tab" type="button" role="tab" data-day="friday" aria-selected="false" aria-controls="materialsGrid" tabindex="-1">
+            <span>Fri</span>
+            <strong>Sep 11</strong>
+          </button>
         </div>
         
-        <div id="materialsGrid" class="materials-grid" aria-live="polite"></div>
+        <div id="materialsGrid" class="materials-grid" role="tabpanel" aria-labelledby="materials-tab-monday" aria-live="polite"></div>
       </div>
     </section>
 
