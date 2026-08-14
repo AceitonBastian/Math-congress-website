@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260813-3" />
+  <link rel="stylesheet" href="styles.css?v=20260814-2" />
 
   <script type="application/ld+json">
   {
@@ -640,17 +640,34 @@
               </div>
 
               <div class="form-row poster-file-row">
-                <label for="posterPdf">
+                <span class="poster-file-label" id="posterPdfLabel">
                   Optional supporting PDF
-                </label>
+                </span>
 
-                <input
-                  id="posterPdf"
-                  name="supportingPdf"
-                  type="file"
-                  accept=".pdf,application/pdf"
-                  aria-describedby="posterPdfHelp posterFileStatus"
-                />
+                <div class="poster-file-control">
+                  <input
+                    id="posterPdf"
+                    class="poster-file-input"
+                    name="supportingPdf"
+                    type="file"
+                    accept=".pdf,application/pdf"
+                    aria-labelledby="posterPdfLabel posterPdfButtonText"
+                    aria-describedby="posterPdfHelp posterFileStatus"
+                  />
+
+                  <label class="poster-file-button" for="posterPdf">
+                    <span id="posterPdfButtonText">Choose PDF</span>
+                  </label>
+
+                  <small
+                    id="posterFileStatus"
+                    class="file-status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    No file selected.
+                  </small>
+                </div>
 
                 <small
                   id="posterPdfHelp"
@@ -659,34 +676,37 @@
                   Optional · PDF only · Maximum file size: 9 MB.
                   Not submitting a PDF will not affect evaluation.
                 </small>
-
-                <small
-                  id="posterFileStatus"
-                  class="file-status"
-                  aria-live="polite"
-                >
-                  No file selected.
-                </small>
               </div>
 
               <div class="form-row">
-                <label
-                  class="confirmation-check"
-                  for="posterAttendanceConfirmation"
-                >
+                <div class="confirmation-check">
                   <input
                     id="posterAttendanceConfirmation"
                     name="attendanceConfirmed"
                     type="checkbox"
                     value="yes"
+                    aria-labelledby="posterAttendanceConfirmationText"
                     required
                   />
 
-                  <span>
+                  <span
+                    class="confirmation-toggle"
+                    aria-hidden="true"
+                  >
+                    <span
+                      class="confirmation-box"
+                      aria-hidden="true"
+                    ></span>
+                  </span>
+
+                  <span
+                    id="posterAttendanceConfirmationText"
+                    class="confirmation-text"
+                  >
                     I confirm that I will attend the conference in
                     person if my proposal is accepted. *
                   </span>
-                </label>
+                </div>
               </div>
 
               <div class="form-row turnstile-wrap">
@@ -1728,7 +1748,7 @@
         "https://math-congress-worker.aceiton-bastian.workers.dev/poster"
     };
   </script>
-  <script src="script.js?v=20260813-1" defer></script>
+  <script src="script.js?v=20260814-1" defer></script>
   <script
     src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
     defer

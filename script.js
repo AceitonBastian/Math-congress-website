@@ -514,6 +514,7 @@ function renderPosterTurnstile() {
           sitekey:
             '0x4AAAAAACzT8PdZtr0263kY',
           theme: 'light',
+          language: 'en',
           size: getTurnstileSize(),
           action: 'poster_submission',
 
@@ -564,6 +565,7 @@ window.onloadTurnstileCallback = () => {
           sitekey:
             '0x4AAAAAACzT8PdZtr0263kY',
           theme: 'light',
+          language: 'en',
           size: getTurnstileSize(),
           action: 'register',
 
