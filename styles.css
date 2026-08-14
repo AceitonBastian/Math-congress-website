@@ -2320,6 +2320,12 @@ textarea {
   margin-top: 0.75rem;
 }
 
+.registration-form[aria-busy="true"] button[type="submit"],
+.poster-form[aria-busy="true"] button[type="submit"] {
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* ===== Responsive ===== */
 
 @media (max-width: 1200px) {
