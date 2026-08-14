@@ -655,9 +655,22 @@
                     aria-describedby="posterPdfHelp posterFileStatus"
                   />
 
-                  <label class="poster-file-button" for="posterPdf">
+                  <label
+                    id="posterPdfButton"
+                    class="poster-file-button"
+                    for="posterPdf"
+                  >
                     <span id="posterPdfButtonText">Choose PDF</span>
                   </label>
+
+                  <button
+                    id="posterPdfRemove"
+                    class="poster-file-remove"
+                    type="button"
+                    hidden
+                  >
+                    Remove file
+                  </button>
 
                   <small
                     id="posterFileStatus"

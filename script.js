@@ -45,6 +45,10 @@ const posterAbstractEl =
 const posterAbstractCounterEl =
   document.getElementById('posterAbstractCounter');
 const posterPdfEl = document.getElementById('posterPdf');
+const posterPdfButtonEl =
+  document.getElementById('posterPdfButton');
+const posterPdfRemoveEl =
+  document.getElementById('posterPdfRemove');
 const posterFileStatusEl =
   document.getElementById('posterFileStatus');
 const posterAttendanceConfirmationEl =
@@ -1053,6 +1057,18 @@ function updatePosterFileStatus() {
     'is-valid'
   );
 
+  if (posterPdfEl) {
+    posterPdfEl.tabIndex = file ? -1 : 0;
+  }
+
+  if (posterPdfButtonEl) {
+    posterPdfButtonEl.hidden = Boolean(file);
+  }
+
+  if (posterPdfRemoveEl) {
+    posterPdfRemoveEl.hidden = !file;
+  }
+
   if (!file) {
     posterFileStatusEl.textContent =
       'No file selected.';
@@ -1199,7 +1215,14 @@ async function submitPosterProposal(event) {
         fileError;
     }
 
-    posterPdfEl?.focus();
+    if (
+      posterPdfRemoveEl &&
+      !posterPdfRemoveEl.hidden
+    ) {
+      posterPdfRemoveEl.focus();
+    } else {
+      posterPdfEl?.focus();
+    }
     return;
   }
 
@@ -1481,6 +1504,22 @@ posterPdfEl?.addEventListener(
     if (posterFormStatus) {
       posterFormStatus.textContent = '';
     }
+  }
+);
+
+posterPdfRemoveEl?.addEventListener(
+  'click',
+  () => {
+    if (!posterPdfEl) return;
+
+    posterPdfEl.value = '';
+    updatePosterFileStatus();
+
+    if (posterFormStatus) {
+      posterFormStatus.textContent = '';
+    }
+
+    posterPdfEl.focus();
   }
 );
 
