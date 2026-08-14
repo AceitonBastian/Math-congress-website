@@ -2326,6 +2326,32 @@ textarea {
   transform: none;
 }
 
+.registration-form[aria-busy="true"] button[type="submit"]::before,
+.poster-form[aria-busy="true"] button[type="submit"]::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  opacity: 0.72;
+  animation: form-submit-spin 0.75s linear infinite;
+}
+
+@keyframes form-submit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .registration-form[aria-busy="true"] button[type="submit"]::before,
+  .poster-form[aria-busy="true"] button[type="submit"]::before {
+    animation: none;
+  }
+}
+
 /* ===== Responsive ===== */
 
 @media (max-width: 1200px) {
