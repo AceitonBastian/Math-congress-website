@@ -551,6 +551,45 @@ main > .section + .section::before {
   max-width: 720px;
 }
 
+.schedule-venue-note {
+  display: block;
+  margin-top: 0.6rem;
+  color: rgba(184, 193, 203, 0.82);
+  font-weight: 500;
+}
+
+.schedule-venue-note strong {
+  color: rgba(218, 223, 229, 0.9);
+  font-weight: 600;
+}
+
+.schedule-venue-separator {
+  margin: 0 0.3rem;
+  color: rgba(184, 193, 203, 0.65);
+}
+
+.schedule-venue-note a {
+  color: rgba(218, 223, 229, 0.9);
+  font-weight: 700;
+  text-decoration-color: rgba(218, 223, 229, 0.38);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition:
+    color 0.18s ease,
+    text-decoration-color 0.18s ease;
+}
+
+.schedule-venue-note a:hover {
+  color: var(--text);
+  text-decoration-color: currentColor;
+}
+
+.schedule-venue-note a:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
 .day-tabs {
   position: relative;
   display: grid;
@@ -711,6 +750,89 @@ main > .section + .section::before {
   line-height: 1;
 }
 
+.schedule-day-venue {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  margin-left: 0.4rem;
+  padding: 0.27rem 0.56rem;
+  border: 1px solid;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    filter 0.18s ease,
+    transform 0.18s ease;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+@media (pointer: coarse) {
+  .schedule-day-venue::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 48px;
+    transform: translateY(-50%);
+  }
+}
+
+.schedule-day-venue:hover {
+  filter: brightness(1.14);
+  transform: translateY(-1px);
+}
+
+.schedule-day-venue:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.schedule-day-venue:active {
+  transform: translateY(0);
+}
+
+.schedule-day-venue::before {
+  --venue-pin: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z'/%3E%3C/svg%3E");
+  content: "";
+  flex: 0 0 0.76rem;
+  width: 0.76rem;
+  height: 0.76rem;
+  background: currentColor;
+  -webkit-mask: var(--venue-pin) center / contain no-repeat;
+  mask: var(--venue-pin) center / contain no-repeat;
+  opacity: 0.9;
+}
+
+.schedule-day-venue-puc {
+  color: #93b9e8;
+  border-color: rgba(147, 185, 232, 0.52);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(147, 185, 232, 0.18),
+    rgba(147, 185, 232, 0.06) 75%
+  );
+  box-shadow: inset 0 0 10px rgba(147, 185, 232, 0.2);
+}
+
+.schedule-day-venue-uch {
+  color: #b0a5e8;
+  border-color: rgba(176, 165, 232, 0.52);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(176, 165, 232, 0.18),
+    rgba(176, 165, 232, 0.06) 75%
+  );
+  box-shadow: inset 0 0 10px rgba(176, 165, 232, 0.2);
+}
+
 .schedule-day-count {
   flex: 0 0 auto;
   padding: 0.4rem 0.7rem;
@@ -821,6 +943,18 @@ main > .section + .section::before {
 }
 
 @media (max-width: 700px) {
+  .schedule-venue-group {
+    display: block;
+  }
+
+  .schedule-venue-group + .schedule-venue-group {
+    margin-top: 0.3rem;
+  }
+
+  .schedule-venue-separator {
+    display: none;
+  }
+
   .day-tabs {
     gap: 0.25rem;
     padding: 0.3rem;
