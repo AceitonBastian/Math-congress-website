@@ -2026,8 +2026,24 @@ const MATERIALS = {
   ],
 
   wednesday: [],
-  thursday: [],
-  friday: []
+
+  thursday: [
+    {
+      title: 'When Mean Curvature Flow Breaks: Singularities, Topology, and Ilmanen’s Conjecture',
+      speaker: 'Francisco Martín',
+      affiliation: 'Universidad de Granada, Spain',
+      pdf: 'pdfs/francisco-martin.pdf'
+    }
+  ],
+
+  friday: [
+    {
+      title: 'Convergence and Orientability in RCD and Kato Spaces',
+      speaker: 'Raquel Perales',
+      affiliation: 'CIMAT, Guanajuato, México',
+      pdf: 'pdfs/raquel-perales.pdf'
+    }
+  ]
 };
 
 let currentMaterialsDay = 'monday';
