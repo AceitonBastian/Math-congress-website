@@ -9,18 +9,18 @@ text and mathematical notation.
 ## Create an abstract
 
 1. Duplicate `gaandes-abstract-template.tex` and give the copy a descriptive
-   name, such as `francisco-martin-abstract.tex`.
+   name, such as `name1-name2-abstract.tex`.
 2. In Prism, create a blank project and paste the complete template into its
    main `.tex` file. Edit only the marked metadata block near the top.
 3. Compile in Prism. For a local copy, the equivalent command is:
 
    ```text
-   pdflatex francisco-martin-abstract.tex
+   pdflatex name1-name2-abstract.tex
    ```
 
    The file can also be uploaded to Overleaf and compiled with pdfLaTeX.
 4. Use a stable lowercase filename for the finished PDF, for example
-   `francisco-martin-abstract.pdf`.
+   `name1-name2-abstract.pdf`.
 
 Optional fields such as email, talk date, and time may be left empty with
 `{}`. Escape LaTeX special characters in entered text (`\&`, `\%`, `\#`,
