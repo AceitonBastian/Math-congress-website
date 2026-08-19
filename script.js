@@ -2000,19 +2000,19 @@ const MATERIALS = {
       title: 'Tittle1',
       speaker: 'speaker1',
       affiliation: 'University1',
-      pdf: 'pdfs/speaker1.pdf'
+      pdf: 'pdfs/template.pdf'
     },
     {
       title: 'Tittle2',
       speaker: 'Speaker2',
       affiliation: 'University2',
-      pdf: 'pdfs/speaker2.pdf'
+      pdf: 'pdfs/template.pdf'
     },
     {
       title: 'Tittle3',
       speaker: 'Speaker3',
       affiliation: 'University3',
-      pdf: 'pdfs/speaker3.pdf'
+      pdf: 'pdfs/template.pdf'
     }
   ],
 
@@ -2021,7 +2021,7 @@ const MATERIALS = {
       title: 'Tittle4',
       speaker: 'Speaker4',
       affiliation: 'University4',
-      pdf: 'pdfs/speaker4.pdf'
+      pdf: 'pdfs/template.pdf'
     }
   ],
 
