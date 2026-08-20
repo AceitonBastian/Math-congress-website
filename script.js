@@ -2018,10 +2018,10 @@ const MATERIALS = {
 
   tuesday: [
     {
-      title: 'Tittle4',
-      speaker: 'Speaker4',
-      affiliation: 'University4',
-      pdf: 'pdfs/template.pdf'
+      title: 'Some recent existence and regularity results of the Brakke flow',
+      speaker: 'Yoshihiro Tonegawa',
+      affiliation: 'Institute of Science Tokyo, Japan',
+      pdf: 'pdfs/yoshihiro-tonegawa.pdf'
     }
   ],
 
@@ -2033,6 +2033,18 @@ const MATERIALS = {
       speaker: 'Francisco Martín',
       affiliation: 'Universidad de Granada, Spain',
       pdf: 'pdfs/francisco-martin.pdf'
+    },
+    {
+      title: 'Potentials for sub-Laplacians and geometric applications',
+      speaker: 'Jie Qing',
+      affiliation: 'University of California, Santa Cruz, USA',
+      pdf: 'pdfs/jie-qing.pdf'
+    },
+    {
+      title: 'Towards Yau’s Conjecture: a new estimate for the first eigenvalue of the laplacian of minimal hypersurfaces',
+      speaker: 'Asun Jimenez',
+      affiliation: 'Universidade Federal Fluminense, Brazil',
+      pdf: 'pdfs/asun-jimenez.pdf'
     }
   ],
 
