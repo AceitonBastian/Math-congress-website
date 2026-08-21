@@ -1,0 +1,311 @@
+% Geometric Analysis by the Andes - poster proposal abstract template
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{etoolbox}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{amsmath,amssymb}
+
+\geometry{
+  top=16mm,
+  bottom=18mm,
+  left=21mm,
+  right=21mm
+}
+
+% Colors taken from the automatic email template.
+\definecolor{GaandesNavy}{HTML}{0D1B2A}
+\definecolor{GaandesPanel}{HTML}{243244}
+\definecolor{GaandesGold}{HTML}{D7B16D}
+\definecolor{GaandesGoldLight}{HTML}{F1C87A}
+\definecolor{GaandesTitle}{HTML}{172536}
+\definecolor{GaandesText}{HTML}{243244}
+\definecolor{GaandesMuted}{HTML}{4B5968}
+\definecolor{GaandesRule}{HTML}{DDE3EA}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=GaandesPanel,
+  urlcolor=GaandesPanel,
+  pdfborder={0 0 0}
+}
+
+% =============================================================
+% EDIT ONLY THIS BLOCK FOR EACH POSTER PROPOSAL
+%
+% Leave optional fields empty using {}.
+% Use 24-hour time in \ProposalReceivedAt, for example:
+%   20 August 2026, 14:35 CLT
+% Escape special characters as \&, \%, \#, \_, \{ and \}.
+% =============================================================
+
+\newcommand{\PosterTitle}{
+  Poster title
+}
+
+\newcommand{\PresentingAuthor}{Presenting author}
+\newcommand{\AuthorAffiliation}{University or institution}
+\newcommand{\ContactEmail}{author@example.com}
+
+% Date and time received. Use 24-hour time and include the time zone.
+\newcommand{\ProposalReceivedAt}{20 August 2026, 14:35 CLT}
+
+% Optional. Separate multiple co-authors with semicolons.
+\newcommand{\CoAuthors}{}
+
+% Optional supporting PDF. Leave both fields empty if none was included.
+% The URL may be an https link or a local relative filename.
+\newcommand{\SupportingPDFName}{}
+\newcommand{\SupportingPDFURL}{}
+
+\newcommand{\AbstractText}{%
+Enter the poster abstract here.
+}
+
+% =============================================================
+
+\newcommand{\ConferenceName}{
+  Geometric Analysis by the Andes
+}
+
+\newcommand{\ConferenceDetails}{
+  September 7--11, 2026
+  \enspace
+  \textcolor{GaandesGold}{\textbullet}
+  \enspace
+  Santiago, Chile
+}
+
+\newcommand{\ConferenceWebsite}{
+  https://gaandes.com
+}
+
+% Optional supporting PDF formatter
+\newcommand{\PrintSupportingPDF}{%
+  \ifdefempty{\SupportingPDFName}{%
+    \textit{No supporting PDF was included.}%
+  }{%
+    \ifdefempty{\SupportingPDFURL}{%
+      \SupportingPDFName%
+    }{%
+      \href{\SupportingPDFURL}{\SupportingPDFName}%
+    }%
+  }%
+}
+
+% Footer
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\fancyfoot[L]{%
+  \footnotesize
+  \color{GaandesMuted}
+  \ConferenceName
+}
+
+\fancyfoot[C]{%
+  \footnotesize
+  \color{GaandesMuted}
+  \href{\ConferenceWebsite}{gaandes.com}
+}
+
+\fancyfoot[R]{%
+  \footnotesize
+  \color{GaandesMuted}
+  \thepage
+}
+
+\setlength{\footskip}{12mm}
+\setlength{\parindent}{0pt}
+\setlength{\JustifyingParindent}{0pt}
+\setlength{\parskip}{0.75em}
+\setlength{\emergencystretch}{2em}
+
+\begin{document}
+
+\color{GaandesText}
+
+% Conference header
+\begingroup
+\setlength{\fboxsep}{0pt}
+
+\noindent
+\colorbox{GaandesNavy}{%
+  \parbox{\textwidth}{%
+    \vspace{7mm}
+    \hspace{8mm}%
+    \begin{minipage}{
+      \dimexpr\textwidth-16mm\relax
+    }
+
+      {%
+        \sffamily
+        \fontsize{10.5}{13}\selectfont
+        \bfseries
+        \color{GaandesGoldLight}
+        INTERNATIONAL MATHEMATICS CONFERENCE
+      }\par
+
+      \vspace{2mm}
+
+      {%
+        \rmfamily
+        \fontsize{19}{22}\selectfont
+        \bfseries
+        \color{white}
+        \ConferenceName
+      }\par
+
+      \vspace{1.5mm}
+
+      {%
+        \small
+        \color{white!76}
+        \ConferenceDetails
+      }
+
+    \end{minipage}
+    \vspace{7mm}
+  }%
+}
+
+\endgroup
+
+\vspace{11mm}
+
+{%
+  \sffamily
+  \fontsize{9.5}{12}\selectfont
+  \bfseries
+  \color{GaandesGold}
+  POSTER PROPOSAL
+  \enspace
+  \textcolor{GaandesRule}{/}
+  \enspace
+  ABSTRACT
+}\par
+
+\vspace{3mm}
+
+% Poster title
+% The larger leading gives multiline titles more vertical space.
+% Hyphenation is disabled here to avoid awkwardly split title words.
+\begingroup
+  \raggedright
+  \hyphenpenalty=10000
+  \exhyphenpenalty=10000
+  \rmfamily
+  \fontsize{23}{31}\selectfont
+  \bfseries
+  \color{GaandesTitle}
+  \PosterTitle\par
+\endgroup
+
+\vspace{6mm}
+
+% Presenting author
+{%
+  \fontsize{13}{16}\selectfont
+  \bfseries
+  \color{GaandesPanel}
+  \PresentingAuthor
+}\par
+
+\vspace{1mm}
+
+{%
+  \small
+  \color{GaandesMuted}
+  \AuthorAffiliation
+}
+
+% Contact email
+\ifdefempty{\ContactEmail}{}{%
+  \par
+  \vspace{0.5mm}
+  {%
+    \small
+    \href{mailto:\ContactEmail}{\ContactEmail}
+  }%
+}
+
+% Optional co-authors
+\ifdefempty{\CoAuthors}{}{%
+  \par
+  \vspace{2.5mm}
+  {%
+    \small
+    \color{GaandesMuted}
+    \textbf{Co-author(s):} \CoAuthors
+  }%
+}
+
+% Supporting PDF
+\par
+\vspace{2.5mm}
+{%
+  \small
+  \color{GaandesMuted}
+  \textbf{Supporting PDF:} \PrintSupportingPDF
+}
+
+% Date and time the proposal was received
+\ifdefempty{\ProposalReceivedAt}{}{%
+  \vspace{3mm}
+  \par
+  {%
+    \small
+    \bfseries
+    \color{GaandesPanel}
+    Received: \ProposalReceivedAt
+  }%
+}
+
+% Gold and gray divider
+\vspace{7mm}
+
+{%
+  \color{GaandesGold}
+  \rule{18mm}{1.2pt}
+}
+\hspace{2mm}%
+{%
+  \color{GaandesRule}
+  \rule{
+    \dimexpr\textwidth-20mm\relax
+  }{0.5pt}
+}
+
+\vspace{6mm}
+
+% Abstract heading
+{%
+  \fontsize{12}{15}\selectfont
+  \bfseries
+  \color{GaandesTitle}
+  Abstract
+}\par
+
+\vspace{2mm}
+
+% Abstract text
+\begin{justify}
+  \fontsize{11}{17}\selectfont
+  \AbstractText
+\end{justify}
+
+\end{document}
