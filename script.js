@@ -2041,6 +2041,12 @@ const MATERIALS = {
       pdf: 'pdfs/jie-qing.pdf'
     },
     {
+      title: 'Isoparametric functions and Hardy-Sobolev type equations on riemannian manifolds',
+      speaker: 'Guillermo Henry',
+      affiliation: 'Universidad de Buenos Aires, Argentina',
+      pdf: 'pdfs/guillermo-henry.pdf'
+    },
+    {
       title: 'Towards Yau’s Conjecture: a new estimate for the first eigenvalue of the laplacian of minimal hypersurfaces',
       speaker: 'Asun Jimenez',
       affiliation: 'Universidade Federal Fluminense, Brazil',
