@@ -1997,10 +1997,10 @@ const materialTabs = Array.from(
 const MATERIALS = {
   monday: [
     {
-      title: 'Tittle1',
-      speaker: 'speaker1',
-      affiliation: 'University1',
-      pdf: 'pdfs/template.pdf'
+      title: 'PIC1 pinched manifolds are flat or compact',
+      speaker: 'Felix Schulze',
+      affiliation: 'University of Warwick, UK',
+      pdf: 'pdfs/felix-schulze.pdf'
     },
     {
       title: 'Tittle2',
@@ -2022,6 +2022,12 @@ const MATERIALS = {
       speaker: 'Yoshihiro Tonegawa',
       affiliation: 'Institute of Science Tokyo, Japan',
       pdf: 'pdfs/yoshihiro-tonegawa.pdf'
+    },
+    {
+      title: 'A non local PDE model for fire fronts',
+      speaker: 'Valentina Wheeler',
+      affiliation: 'University of Wollongong, Australia',
+      pdf: 'pdfs/valentina-wheeler.pdf'
     }
   ],
 
