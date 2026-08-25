@@ -321,20 +321,20 @@
 
             <p class="poster-call-lead">
               Participants of <strong>Geometric Analysis by the Andes</strong>
-              are invited to submit a proposal for the conference poster session.
+              were invited to submit a proposal for the conference poster session.
             </p>
 
             <div
               class="poster-deadline-card"
-              aria-label="Poster submission deadline"
+              aria-label="Poster submissions have closed"
             >
               <span class="poster-deadline-label">
-                Submission deadline
+                Poster submissions
               </span>
 
-              <strong>August 24, 2026</strong>
+              <strong>Submissions have closed</strong>
 
-              <span>23:59 Chilean time</span>
+              <span>The proposal deadline has passed.</span>
             </div>
 
             <details class="poster-details">
@@ -342,8 +342,8 @@
 
               <div class="poster-details-content">
                 <p>
-                  The call is open to all conference participants.
-                  Each proposal must include:
+                  The call was open to all conference participants.
+                  Each proposal was required to include:
                 </p>
 
                 <ul>
@@ -394,27 +394,24 @@
                   class="info-card poster-tips-card"
                   aria-labelledby="posterSubmissionTipsTitle"
                 >
-                  <h3 id="posterSubmissionTipsTitle">After you submit</h3>
+                  <h3 id="posterSubmissionTipsTitle">What happens next</h3>
 
                   <ul>
                     <li>
-                      With a PDF attached, submission may take up to two
-                      minutes. Keep this page open while the form is
-                      processing.
+                      The Poster Committee will review all proposals received
+                      before the deadline.
                     </li>
 
                     <li>
-                      A success message will appear here when your proposal is
-                      received. The confirmation email should arrive within
-                      10 minutes; please check your spam folder too.
+                      Presenters will be contacted directly when acceptance
+                      decisions are ready.
                     </li>
 
                     <li>
-                      If the email is still missing, contact
+                      For questions about an existing proposal, contact
                       <a
                         href="mailto:contact@gaandes.com?subject=Poster%20proposal%20%E2%80%93%20Gaandes%20Conference"
-                      >contact@gaandes.com</a>
-                      before submitting the same proposal again.
+                      >contact@gaandes.com</a>.
                     </li>
                   </ul>
                 </aside>
@@ -431,30 +428,13 @@
                 Poster proposals
               </span>
 
-              <h3>Would you like to present a poster?</h3>
+              <h3>Poster submissions are now closed</h3>
 
               <p>
-                Open the proposal form when you are ready.
-                It takes only a few minutes, and the supporting
-                PDF is optional.
+                The submission period has ended. Thank you to everyone who
+                sent a proposal. Presenters will be contacted directly when
+                acceptance decisions are ready.
               </p>
-
-              <button
-                id="posterFormToggle"
-                type="button"
-                class="btn btn-primary poster-call-button"
-                aria-expanded="false"
-                aria-controls="posterFormPanel"
-              >
-                <span>Submit your poster proposal</span>
-
-                <span
-                  class="poster-call-button-icon"
-                  aria-hidden="true"
-                >
-                  →
-                </span>
-              </button>
             </div>
 
             <div
@@ -1787,8 +1767,8 @@
       registrationEndpoint:
         "https://math-congress-worker.aceiton-bastian.workers.dev",
 
-      posterEndpoint:
-        "https://math-congress-worker.aceiton-bastian.workers.dev/poster"
+      // Poster submissions are closed.
+      posterEndpoint: ""
     };
   </script>
   <script src="script.js?v=20260824-2" defer></script>
