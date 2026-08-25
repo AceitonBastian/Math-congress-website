@@ -2003,10 +2003,10 @@ const MATERIALS = {
       pdf: 'pdfs/felix-schulze.pdf'
     },
     {
-      title: 'Tittle2',
-      speaker: 'Speaker2',
-      affiliation: 'University2',
-      pdf: 'pdfs/template.pdf'
+      title: 'Zoll families of minimal spheres and min-max theory',
+      speaker: 'Lucas Ambrozio',
+      affiliation: 'IMPA, Brazil',
+      pdf: 'pdfs/lucas-ambrozio.pdf'
     },
     {
       title: 'Tittle3',
