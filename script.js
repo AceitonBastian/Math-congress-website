@@ -2003,16 +2003,16 @@ const MATERIALS = {
       pdf: 'pdfs/felix-schulze.pdf'
     },
     {
+      title: 'Stable Free-Boundary Minimal Hypersurfaces: Regularity, Compactness, and Existence',
+      speaker: 'Davide Parise',
+      affiliation: 'Imperial College London, UK',
+      pdf: 'pdfs/davide-parise.pdf'
+    },
+    {
       title: 'Zoll families of minimal spheres and min-max theory',
       speaker: 'Lucas Ambrozio',
       affiliation: 'IMPA, Brazil',
       pdf: 'pdfs/lucas-ambrozio.pdf'
-    },
-    {
-      title: 'Tittle3',
-      speaker: 'Speaker3',
-      affiliation: 'University3',
-      pdf: 'pdfs/template.pdf'
     }
   ],
 
@@ -2028,6 +2028,12 @@ const MATERIALS = {
       speaker: 'Valentina Wheeler',
       affiliation: 'University of Wollongong, Australia',
       pdf: 'pdfs/valentina-wheeler.pdf'
+    },
+    {
+      title: 'Band Width Estimates and Rigidity of Manifolds with Negative Curvature',
+      speaker: 'Tiarlos Cruz',
+      affiliation: 'Universidade Federal de Alagoas, Brazil',
+      pdf: 'pdfs/tiarlos-cruz.pdf'
     }
   ],
 
