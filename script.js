@@ -2037,7 +2037,14 @@ const MATERIALS = {
     }
   ],
 
-  wednesday: [],
+  wednesday: [
+    {
+      title: 'Quantitative stability for the fractional Yamabe problem',
+      speaker: 'Benjamín Bórquez',
+      affiliation: 'University of California, Santa Cruz',
+      pdf: 'pdfs/benjamin-borquez.pdf'
+    }
+  ],
 
   thursday: [
     {
@@ -2051,6 +2058,12 @@ const MATERIALS = {
       speaker: 'Jie Qing',
       affiliation: 'University of California, Santa Cruz, USA',
       pdf: 'pdfs/jie-qing.pdf'
+    },
+    {
+      title: 'A Nonlinear Operator Approach to Black Hole Solution Classes in the Ernst Equation',
+      speaker: 'Jessica Trespalacios',
+      affiliation: 'Universidad Austral de Chile, Chile',
+      pdf: 'pdfs/jessica-trespalacios.pdf'
     },
     {
       title: 'Isoparametric functions and Hardy-Sobolev type equations on riemannian manifolds',
