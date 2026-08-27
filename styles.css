@@ -781,7 +781,23 @@ main > .section + .section::before {
   color: var(--gold);
 }
 
-.metro-route strong {
+.metro-route:has(+ .metro-network-map-link) {
+  margin-bottom: 0;
+}
+
+.info-card .metro-network-map-link {
+  margin-top: 0.65rem;
+  font-size: 0.9rem;
+}
+
+.metro-network-map-link a:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--gold-strong);
+  outline-offset: 3px;
+}
+
+.metro-route strong,
+.metro-station-link {
   display: inline-flex;
   align-items: center;
   min-height: 2.2rem;
@@ -789,7 +805,24 @@ main > .section + .section::before {
   border: 1px solid rgba(215, 177, 109, 0.34);
   border-radius: 999px;
   background: rgba(215, 177, 109, 0.08);
+  color: var(--text);
   font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.metro-station-link {
+  transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
+}
+
+.metro-station-link:hover {
+  border-color: var(--gold-strong);
+  background: rgba(215, 177, 109, 0.16);
+  transform: translateY(-1px);
+}
+
+.metro-station-link:focus-visible {
+  outline: 3px solid rgba(215, 177, 109, 0.35);
+  outline-offset: 3px;
 }
 
 .campus-map-card {
