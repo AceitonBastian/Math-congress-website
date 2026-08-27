@@ -1863,7 +1863,14 @@ document.addEventListener(
 
     if (!target) return;
 
-    const offset = 70;
+    const headerHeight =
+      document
+        .querySelector('.site-header')
+        ?.getBoundingClientRect()
+        .height || 70;
+
+    const offset =
+      Math.ceil(headerHeight) + 16;
 
     const targetTop =
       target

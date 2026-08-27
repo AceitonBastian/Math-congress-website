@@ -45,14 +45,13 @@ body {
   scroll-behavior: auto;
 }
 
-section[id] {
-  scroll-margin-top: 0;
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
-@media (max-width: 980px) {
-  section[id] {
-    scroll-margin-top: 0;
-  }
+section[id] {
+  scroll-margin-top: 6rem;
 }
 
 body {
@@ -91,6 +90,7 @@ textarea {
   position: sticky;
   top: 0;
   z-index: 1000;
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   background: var(--header-bg);
   border-bottom: 1px solid var(--line);
@@ -594,6 +594,7 @@ main > .section + .section::before {
 }
 
 .local-info-layout .info-card {
+  min-width: 0;
   padding: clamp(1.5rem, 2.5vw, 2rem);
 }
 
@@ -811,7 +812,20 @@ main > .section + .section::before {
 }
 
 .metro-station-link {
+  position: relative;
   transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
+}
+
+@media (pointer: coarse) {
+  .metro-station-link::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    transform: translateY(-50%);
+  }
 }
 
 .metro-station-link:hover {
@@ -1772,6 +1786,7 @@ textarea {
   border-color: var(--hero-glass-border);
   background: var(--hero-glass);
   color: var(--hero-text);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
@@ -2862,6 +2877,23 @@ textarea {
   .local-info-layout {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .local-info-layout .local-info-column {
+    display: contents;
+  }
+
+  .airport-info-card {
+    order: 1;
+  }
+
+  .venue-info-card {
+    order: 2;
+  }
+
+  .campus-map-card {
+    order: 3;
   }
   
   .day-chip-group {
@@ -2897,7 +2929,11 @@ textarea {
       0 10px 30px rgba(0, 0, 0, 0.28),
       inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
-    overflow: hidden;
+    max-height: calc(100vh - 5.5rem);
+    max-height: calc(100dvh - 5.5rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .site-nav.open {
@@ -2944,6 +2980,7 @@ textarea {
   
   .hero {
     min-height: 100vh;
+    min-height: 100svh;
     background:
       linear-gradient(
         135deg,
@@ -3023,6 +3060,51 @@ textarea {
     min-height: auto;
     padding: 1rem 0.9rem;
     border-radius: 18px;
+  }
+
+  .metro-route {
+    flex-wrap: nowrap;
+    gap: clamp(0.18rem, 0.9vw, 0.35rem);
+  }
+
+  .metro-route strong,
+  .metro-station-link {
+    min-height: 1.8rem;
+    padding: 0.28rem clamp(0.35rem, 1.4vw, 0.5rem);
+    font-size: clamp(0.68rem, 3.1vw, 0.78rem);
+    white-space: nowrap;
+  }
+
+  .metro-route > span {
+    flex: 0 0 auto;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 360px) {
+  section[id] {
+    scroll-margin-top: 7.5rem;
+  }
+
+  .local-info-layout .info-card {
+    padding: 1.25rem;
+  }
+
+  .venue-info-card .compact-info {
+    padding-left: 0.75rem;
+  }
+
+  .metro-route {
+    gap: 0.1rem;
+  }
+
+  .metro-route strong,
+  .metro-station-link {
+    padding-inline: 0.22rem;
+  }
+
+  .metro-route > span {
+    font-size: 0.76rem;
   }
 }
 
