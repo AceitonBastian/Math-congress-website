@@ -1854,6 +1854,29 @@ if (
 // =========================
 
 let navDropdownCloseTimer = null;
+let navDropdownSwitchTimer = null;
+
+function markNavDropdownSwitching() {
+  if (!siteNav) return;
+
+  siteNav.classList.add(
+    'is-switching-dropdown'
+  );
+
+  if (navDropdownSwitchTimer !== null) {
+    window.clearTimeout(
+      navDropdownSwitchTimer
+    );
+  }
+
+  navDropdownSwitchTimer =
+    window.setTimeout(() => {
+      siteNav.classList.remove(
+        'is-switching-dropdown'
+      );
+      navDropdownSwitchTimer = null;
+    }, 80);
+}
 
 function cancelNavDropdownClose() {
   if (navDropdownCloseTimer === null) {
@@ -1937,6 +1960,29 @@ function closeNavDropdowns(
 
 function openNavDropdown(dropdown) {
   cancelNavDropdownClose();
+
+  const openDropdown = Array.from(
+    navDropdowns
+  ).find((item) =>
+    item.classList.contains('is-open')
+  );
+
+  if (
+    openDropdown &&
+    openDropdown !== dropdown
+  ) {
+    markNavDropdownSwitching();
+
+    // Open the destination first so the shared header and backdrop never
+    // pass through a closed state while moving between navigation items.
+    setNavDropdownExpanded(
+      dropdown,
+      true
+    );
+    closeNavDropdowns(dropdown);
+    return;
+  }
+
   closeNavDropdowns(dropdown);
   setNavDropdownExpanded(
     dropdown,
