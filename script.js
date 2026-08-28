@@ -1,7 +1,125 @@
 const navToggle = document.querySelector('.nav-toggle');
 const siteNav = document.querySelector('.site-nav');
 const navLinks = document.querySelectorAll('.site-nav a');
-const NAV_BREAKPOINT = 1120;
+const navDropdowns = document.querySelectorAll('[data-nav-dropdown]');
+const navBackdrop = document.querySelector('[data-nav-backdrop]');
+const siteHeader = document.querySelector('.site-header');
+const NAV_COMPACT_MEDIA_QUERY =
+  window.matchMedia('(max-width: 1120px)');
+const DEFAULT_SITE_HEADER_HEIGHT = 79;
+const SECTION_ANCHOR_OVERLAP = 1;
+const NAV_DROPDOWN_VIEWPORT_GUTTER = 16;
+
+function usesCompactNavLayout() {
+  return NAV_COMPACT_MEDIA_QUERY.matches;
+}
+
+function getSiteHeaderHeight() {
+  return (
+    siteHeader
+      ?.getBoundingClientRect()
+      .height || DEFAULT_SITE_HEADER_HEIGHT
+  );
+}
+
+function getSectionAnchorOffset() {
+  return Math.max(
+    getSiteHeaderHeight() -
+      SECTION_ANCHOR_OVERLAP,
+    0
+  );
+}
+
+function syncSiteHeaderHeight() {
+  document.documentElement.style.setProperty(
+    '--site-header-height',
+    `${getSiteHeaderHeight()}px`
+  );
+}
+
+function syncNavDropdownAnchor(dropdown) {
+  if (usesCompactNavLayout()) {
+    dropdown.style.removeProperty(
+      '--nav-dropdown-anchor-x'
+    );
+    return;
+  }
+
+  const parentRow = dropdown.querySelector(
+    '.nav-parent-row'
+  );
+  const content = dropdown.querySelector(
+    '.nav-dropdown-content'
+  );
+
+  if (!parentRow || !content) return;
+
+  const viewportWidth =
+    document.documentElement.clientWidth ||
+    window.innerWidth;
+  const availableWidth = Math.max(
+    0,
+    viewportWidth -
+      NAV_DROPDOWN_VIEWPORT_GUTTER * 2
+  );
+  const contentWidth = Math.min(
+    Math.max(content.scrollWidth, 220),
+    availableWidth
+  );
+  const maximumLeft = Math.max(
+    NAV_DROPDOWN_VIEWPORT_GUTTER,
+    viewportWidth -
+      NAV_DROPDOWN_VIEWPORT_GUTTER -
+      contentWidth
+  );
+  const preferredLeft =
+    parentRow.getBoundingClientRect().left;
+  const anchoredLeft = Math.min(
+    Math.max(
+      preferredLeft,
+      NAV_DROPDOWN_VIEWPORT_GUTTER
+    ),
+    maximumLeft
+  );
+
+  dropdown.style.setProperty(
+    '--nav-dropdown-anchor-x',
+    `${Math.round(anchoredLeft)}px`
+  );
+}
+
+function syncNavDropdownAnchors() {
+  navDropdowns.forEach(
+    syncNavDropdownAnchor
+  );
+}
+
+syncSiteHeaderHeight();
+syncNavDropdownAnchors();
+
+window.addEventListener(
+  'resize',
+  syncSiteHeaderHeight
+);
+
+window.addEventListener(
+  'resize',
+  syncNavDropdownAnchors
+);
+
+if (siteHeader && 'ResizeObserver' in window) {
+  const siteHeaderResizeObserver =
+    new ResizeObserver(syncSiteHeaderHeight);
+
+  siteHeaderResizeObserver.observe(siteHeader);
+}
+
+if (document.fonts?.ready) {
+  document.fonts.ready.then(() => {
+    syncSiteHeaderHeight();
+    syncNavDropdownAnchors();
+  });
+}
 
 const registrationForm = document.getElementById('registrationForm');
 const formStatus = document.getElementById('formStatus');
@@ -1735,6 +1853,105 @@ if (
 // Navigation
 // =========================
 
+let navDropdownCloseTimer = null;
+
+function cancelNavDropdownClose() {
+  if (navDropdownCloseTimer === null) {
+    return;
+  }
+
+  window.clearTimeout(
+    navDropdownCloseTimer
+  );
+  navDropdownCloseTimer = null;
+}
+
+function scheduleNavDropdownClose(dropdown) {
+  cancelNavDropdownClose();
+
+  navDropdownCloseTimer =
+    window.setTimeout(() => {
+      navDropdownCloseTimer = null;
+
+      if (
+        dropdown.matches(':hover') ||
+        dropdown.contains(
+          document.activeElement
+        )
+      ) {
+        return;
+      }
+
+      closeNavDropdown(dropdown);
+    }, 160);
+}
+
+function setNavDropdownExpanded(
+  dropdown,
+  expanded
+) {
+  if (expanded) {
+    syncNavDropdownAnchor(dropdown);
+  }
+
+  const trigger = dropdown.querySelector(
+    '.nav-dropdown-trigger'
+  );
+
+  dropdown.classList.toggle(
+    'is-open',
+    expanded
+  );
+
+  trigger?.setAttribute(
+    'aria-expanded',
+    String(expanded)
+  );
+
+  document.body.classList.toggle(
+    'has-nav-dropdown-open',
+    !usesCompactNavLayout() &&
+      Array.from(navDropdowns).some(
+        (item) =>
+          item.classList.contains(
+            'is-open'
+          )
+      )
+  );
+}
+
+function closeNavDropdowns(
+  exceptDropdown = null
+) {
+  cancelNavDropdownClose();
+
+  navDropdowns.forEach((dropdown) => {
+    if (dropdown !== exceptDropdown) {
+      setNavDropdownExpanded(
+        dropdown,
+        false
+      );
+    }
+  });
+}
+
+function openNavDropdown(dropdown) {
+  cancelNavDropdownClose();
+  closeNavDropdowns(dropdown);
+  setNavDropdownExpanded(
+    dropdown,
+    true
+  );
+}
+
+function closeNavDropdown(dropdown) {
+  cancelNavDropdownClose();
+  setNavDropdownExpanded(
+    dropdown,
+    false
+  );
+}
+
 function openNav() {
   if (!siteNav || !navToggle) return;
 
@@ -1750,10 +1967,20 @@ function openNav() {
     'aria-label',
     'Close menu'
   );
+
+  if (usesCompactNavLayout()) {
+    navDropdowns.forEach((dropdown) => {
+      dropdown
+        .querySelector('.nav-dropdown-trigger')
+        ?.setAttribute('aria-expanded', 'true');
+    });
+  }
 }
 
 function closeNav() {
   if (!siteNav || !navToggle) return;
+
+  closeNavDropdowns();
 
   siteNav.classList.remove('open');
   navToggle.classList.remove('is-open');
@@ -1782,6 +2009,9 @@ function toggleNav() {
   }
 }
 
+let navUsesCompactLayout =
+  usesCompactNavLayout();
+
 if (navToggle && siteNav) {
   navToggle.addEventListener(
     'click',
@@ -1791,22 +2021,207 @@ if (navToggle && siteNav) {
   navLinks.forEach((link) => {
     link.addEventListener(
       'click',
-      closeNav
+      () => {
+        if (
+          link.classList.contains(
+            'nav-dropdown-trigger'
+          ) &&
+          !canHoverNavDropdowns() &&
+          !usesCompactNavLayout()
+        ) {
+          return;
+        }
+
+        closeNav();
+      }
     );
   });
 
   window.addEventListener(
     'resize',
     () => {
+      const usesCompactLayout =
+        usesCompactNavLayout();
+
       if (
-        window.innerWidth >
-        NAV_BREAKPOINT
+        usesCompactLayout !==
+        navUsesCompactLayout
       ) {
         closeNav();
       }
+
+      navUsesCompactLayout =
+        usesCompactLayout;
     }
   );
 }
+
+function canHoverNavDropdowns() {
+  return (
+    !usesCompactNavLayout() &&
+    window.matchMedia(
+      '(hover: hover) and (pointer: fine)'
+    ).matches
+  );
+}
+
+navDropdowns.forEach((dropdown) => {
+  const trigger = dropdown.querySelector(
+    '.nav-dropdown-trigger'
+  );
+
+  if (!trigger) return;
+
+  trigger.addEventListener('click', (event) => {
+    if (usesCompactNavLayout()) {
+      return;
+    }
+
+    if (canHoverNavDropdowns()) return;
+
+    if (
+      !dropdown.classList.contains(
+        'is-open'
+      )
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+      openNavDropdown(dropdown);
+      return;
+    }
+
+    closeNav();
+  });
+
+  dropdown.addEventListener(
+    'pointerenter',
+    () => {
+      if (!canHoverNavDropdowns()) return;
+
+      cancelNavDropdownClose();
+      openNavDropdown(dropdown);
+    }
+  );
+
+  dropdown.addEventListener(
+    'pointerleave',
+    () => {
+      if (
+        !canHoverNavDropdowns() ||
+        dropdown.contains(
+          document.activeElement
+        )
+      ) {
+        return;
+      }
+
+      scheduleNavDropdownClose(dropdown);
+    }
+  );
+
+  dropdown.addEventListener(
+    'focusin',
+    (event) => {
+      cancelNavDropdownClose();
+
+      if (
+        usesCompactNavLayout() ||
+        dropdown.classList.contains(
+          'suppress-focus-open'
+        ) ||
+        (!canHoverNavDropdowns() &&
+          !event.target.matches(
+            ':focus-visible'
+          ))
+      ) {
+        return;
+      }
+
+      openNavDropdown(dropdown);
+    }
+  );
+
+  dropdown.addEventListener(
+    'focusout',
+    () => {
+      window.requestAnimationFrame(() => {
+        if (
+          dropdown.contains(
+            document.activeElement
+          ) ||
+          (canHoverNavDropdowns() &&
+            dropdown.matches(':hover'))
+        ) {
+          return;
+        }
+
+        closeNavDropdown(dropdown);
+      });
+    }
+  );
+});
+
+navBackdrop?.addEventListener(
+  'click',
+  () => closeNavDropdowns()
+);
+
+document.addEventListener('click', (event) => {
+  if (
+    !event.target.closest(
+      '[data-nav-dropdown], .nav-toggle'
+    )
+  ) {
+    closeNavDropdowns();
+  }
+
+  if (
+    usesCompactNavLayout() &&
+    siteNav?.classList.contains('open') &&
+    !event.target.closest('.site-nav') &&
+    !event.target.closest('.nav-toggle')
+  ) {
+    closeNav();
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape') return;
+
+  const openDropdown = Array.from(
+    navDropdowns
+  ).find((dropdown) =>
+    dropdown.classList.contains(
+      'is-open'
+    )
+  );
+
+  if (openDropdown) {
+    const trigger =
+      openDropdown.querySelector(
+        '.nav-dropdown-trigger'
+      );
+
+    openDropdown.classList.add(
+      'suppress-focus-open'
+    );
+    closeNavDropdowns();
+    trigger?.focus({ preventScroll: true });
+
+    window.requestAnimationFrame(() => {
+      openDropdown.classList.remove(
+        'suppress-focus-open'
+      );
+    });
+
+    return;
+  }
+
+  if (siteNav?.classList.contains('open')) {
+    closeNav();
+    navToggle?.focus({ preventScroll: true });
+  }
+});
 
 // =========================
 // Smooth scrolling
@@ -1834,10 +2249,7 @@ document.addEventListener(
 
     event.preventDefault();
 
-    if (
-      window.innerWidth <=
-      NAV_BREAKPOINT
-    ) {
+    if (usesCompactNavLayout()) {
       closeNav();
     }
 
@@ -1863,14 +2275,8 @@ document.addEventListener(
 
     if (!target) return;
 
-    const headerHeight =
-      document
-        .querySelector('.site-header')
-        ?.getBoundingClientRect()
-        .height || 70;
-
     const offset =
-      Math.ceil(headerHeight) + 16;
+      getSectionAnchorOffset();
 
     const targetTop =
       target
@@ -1971,7 +2377,12 @@ if (
   document.addEventListener(
     'keydown',
     (event) => {
-      if (event.key === 'Escape') {
+      if (
+        event.key === 'Escape' &&
+        attendanceSelectWrap.classList.contains(
+          'is-open'
+        )
+      ) {
         closeAttendanceMenu();
         attendanceTrigger.focus();
       }

@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260827-4" />
+  <link rel="stylesheet" href="styles.css?v=20260827-25" />
 
   <script type="application/ld+json">
   {
@@ -263,6 +263,7 @@
       
       <button
         class="nav-toggle"
+        type="button"
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="site-nav"
@@ -274,19 +275,88 @@
         </span>
       </button>
 
-      <nav class="site-nav" id="site-nav">
-        <a href="#about">About</a>
-        <a href="#speakers">Speakers</a>
-        <a href="#schedule">Schedule</a>
-        <a href="#materials">Materials</a>
-        <a href="#registration">Registration</a>
-        <a href="#posters">Posters</a>
-        <a href="#venue">Venue</a>
+      <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+        <div class="nav-item nav-dropdown nav-dropdown-stacked" data-nav-dropdown>
+          <div class="nav-parent-row">
+            <a
+              class="nav-dropdown-trigger"
+              href="#about"
+              aria-expanded="false"
+              aria-controls="about-submenu"
+            >About</a>
+          </div>
+          <div class="nav-dropdown-menu" id="about-submenu">
+            <div class="nav-dropdown-content">
+              <span class="nav-dropdown-label">Explore the conference</span>
+              <div class="nav-dropdown-features">
+                <a class="nav-dropdown-feature" href="#speakers">
+                  <span>Speakers</span>
+                  <span class="nav-dropdown-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a class="nav-dropdown-feature" href="#schedule">
+                  <span>Schedule</span>
+                  <span class="nav-dropdown-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a class="nav-dropdown-feature" href="#materials">
+                  <span>Materials</span>
+                  <span class="nav-dropdown-arrow" aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item nav-dropdown" data-nav-dropdown>
+          <div class="nav-parent-row">
+            <a
+              class="nav-dropdown-trigger"
+              href="#registration"
+              aria-expanded="false"
+              aria-controls="registration-submenu"
+            >Registration</a>
+          </div>
+          <div class="nav-dropdown-menu" id="registration-submenu">
+            <div class="nav-dropdown-content">
+              <span class="nav-dropdown-label">Explore registration</span>
+              <div class="nav-dropdown-features">
+                <a class="nav-dropdown-feature" href="#posters">
+                  <span>Posters</span>
+                  <span class="nav-dropdown-arrow" aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item nav-dropdown" data-nav-dropdown>
+          <div class="nav-parent-row">
+            <a
+              class="nav-dropdown-trigger"
+              href="#local-info"
+              aria-expanded="false"
+              aria-controls="local-information-submenu"
+            >Local information</a>
+          </div>
+          <div class="nav-dropdown-menu" id="local-information-submenu">
+            <div class="nav-dropdown-content">
+              <span class="nav-dropdown-label">Explore local information</span>
+              <div class="nav-dropdown-features">
+                <a class="nav-dropdown-feature" href="#venue">
+                  <span>Venue</span>
+                  <span class="nav-dropdown-arrow" aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <a href="#organizers">Organizers</a>
       </nav>
       
     </div>
   </header>
+
+  <div class="nav-backdrop" data-nav-backdrop aria-hidden="true"></div>
 
   <main>
     <section class="hero">
@@ -1839,6 +1909,7 @@
         <a href="#registration">Registration</a>
         <a href="#posters">Posters</a>
         <a href="#venue">Venue</a>
+        <a href="#local-info">Local Information</a>
       </div>
       
       <div class="footer-contact">
@@ -1862,7 +1933,7 @@
       posterEndpoint: ""
     };
   </script>
-  <script src="script.js?v=20260827-1" defer></script>
+  <script src="script.js?v=20260827-9" defer></script>
   <script
     src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
     defer
