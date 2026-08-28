@@ -19,6 +19,7 @@
   --max-width: 1180px;
   --site-header-height: 79px;
   --section-anchor-overlap: 1px;
+  --nav-dropdown-height: 0px;
 
   --header-bg: rgba(7, 17, 29, 0.78);
 
@@ -102,7 +103,8 @@ textarea {
   transition: none;
 }
 
-body.has-nav-dropdown-open .site-header {
+body.has-nav-dropdown-open .site-header,
+body.has-nav-dropdown-closing .site-header {
   background: #07111d;
   border-bottom-color: transparent;
 }
@@ -232,43 +234,45 @@ body.has-nav-dropdown-open .site-header {
   left: 0;
   z-index: 2;
   width: 100%;
+  height: var(--nav-dropdown-height);
   min-height: 0;
   padding: 0.35rem 0 0.8rem;
-  border-top: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: #07111d;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(-0.35rem);
-  transition:
-    opacity 0.22s ease,
-    visibility 0.22s ease,
-    transform 0.22s ease;
-}
-
-.site-nav.is-switching-dropdown .nav-dropdown-menu {
-  transition: none;
+  transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-dropdown-content {
   width: max-content;
   min-width: 220px;
   max-width: calc(100vw - 2rem);
+  opacity: 1;
   margin-left: var(
     --nav-dropdown-anchor-x,
     max(1rem, calc((100% - var(--max-width)) / 2))
   );
+  transition: opacity 0.08s ease-out;
+}
+
+.nav-dropdown.is-closing .nav-dropdown-content {
+  opacity: 0;
 }
 
 .nav-dropdown-label {
   display: block;
   margin-bottom: 0.35rem;
   color: var(--muted);
+  opacity: 1;
   font-size: 0.94rem;
   font-weight: 500;
   line-height: 1.2;
+}
+
+.nav-dropdown.is-closing .nav-dropdown-label {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .nav-dropdown-features {
@@ -328,11 +332,30 @@ body.has-nav-dropdown-open .site-header {
   outline-offset: 6px;
 }
 
-.nav-dropdown.is-open > .nav-dropdown-menu {
+.nav-dropdown.is-open > .nav-dropdown-menu,
+.nav-dropdown.is-closing > .nav-dropdown-menu {
   opacity: 1;
   visibility: visible;
+}
+
+.nav-dropdown.is-open > .nav-dropdown-menu {
   pointer-events: auto;
-  transform: translateY(0);
+}
+
+.nav-dropdown-surface {
+  position: fixed;
+  top: var(--site-header-height);
+  right: 0;
+  left: 0;
+  z-index: 999;
+  height: var(--nav-dropdown-height);
+  overflow: hidden;
+  background: #07111d;
+  box-shadow:
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    0 20px 45px rgba(0, 0, 0, 0.22);
+  pointer-events: none;
+  transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-backdrop {
@@ -341,16 +364,16 @@ body.has-nav-dropdown-open .site-header {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 999;
+  z-index: 998;
   background: rgba(3, 8, 14, 0.54);
-  -webkit-backdrop-filter: blur(14px) saturate(0.78);
-  backdrop-filter: blur(14px) saturate(0.78);
+  -webkit-backdrop-filter: blur(16px) saturate(0.78);
+  backdrop-filter: blur(16px) saturate(0.78);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition:
-    opacity 0.24s ease,
-    visibility 0.24s ease;
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body.has-nav-dropdown-open .nav-backdrop {
@@ -3167,6 +3190,7 @@ textarea {
     position: static;
     display: block;
     width: 100%;
+    height: auto;
     min-width: 0;
     min-height: 0;
     margin: 0;
@@ -3180,6 +3204,7 @@ textarea {
     pointer-events: auto;
     transform: none;
     transition: none;
+    overflow: visible;
   }
 
   .site-nav .nav-dropdown-content {
@@ -3199,9 +3224,16 @@ textarea {
     gap: 0;
   }
 
-  .site-nav > .nav-item,
-  .site-nav > a {
+  .site-nav > .nav-item {
     padding-inline: 0;
+  }
+
+  .site-nav > a {
+    padding-left: 0.6rem;
+  }
+
+  .site-nav > a:last-child {
+    padding-right: 0.6rem;
   }
 
   .site-nav .nav-dropdown-feature {
@@ -3222,6 +3254,10 @@ textarea {
   }
 
   .nav-backdrop {
+    display: none;
+  }
+
+  .nav-dropdown-surface {
     display: none;
   }
   
@@ -3250,7 +3286,9 @@ textarea {
 @media (prefers-reduced-motion: reduce) {
   .site-header,
   .nav-dropdown-menu,
+  .nav-dropdown-content,
   .nav-dropdown-arrow,
+  .nav-dropdown-surface,
   .nav-backdrop {
     transition: none;
   }
