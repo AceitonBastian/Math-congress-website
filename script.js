@@ -9,9 +9,12 @@ const NAV_COMPACT_MEDIA_QUERY =
 const DEFAULT_SITE_HEADER_HEIGHT = 79;
 const SECTION_ANCHOR_OVERLAP = 1;
 const NAV_DROPDOWN_VIEWPORT_GUTTER = 16;
-const NAV_DROPDOWN_CLOSE_DELAY_MS = 0;
+// Keep the current panel open slightly longer than the hover-intent delay.
+// This lets the next dropdown take over without the shared surface briefly
+// collapsing when the pointer crosses a tiny gap between navigation items.
+const NAV_DROPDOWN_CLOSE_DELAY_MS = 220;
 const NAV_DROPDOWN_TRANSITION_MS = 200;
-const NAV_DROPDOWN_HOVER_DELAY_MS = 120;
+const NAV_DROPDOWN_HOVER_DELAY_MS = 160;
 
 function usesCompactNavLayout() {
   return NAV_COMPACT_MEDIA_QUERY.matches;

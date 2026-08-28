@@ -248,16 +248,27 @@ body.has-nav-dropdown-closing .site-header {
   width: max-content;
   min-width: 220px;
   max-width: calc(100vw - 2rem);
-  opacity: 1;
+  opacity: 0;
   margin-left: var(
     --nav-dropdown-anchor-x,
     max(1rem, calc((100% - var(--max-width)) / 2))
   );
-  transition: opacity 0.08s ease-out;
+  transition: opacity 0.1s ease-out;
+}
+
+/*
+ * Let the shared surface start expanding before its copy is revealed. This
+ * prevents a clipped label (most noticeably "Explore local information")
+ * from flashing when the pointer only passes briefly over a navigation item.
+ */
+.nav-dropdown.is-open .nav-dropdown-content {
+  opacity: 1;
+  transition-delay: 0.07s;
 }
 
 .nav-dropdown.is-closing .nav-dropdown-content {
   opacity: 0;
+  transition-delay: 0s;
 }
 
 .nav-dropdown-label {
@@ -3216,6 +3227,8 @@ textarea {
     min-width: 0;
     max-width: none;
     margin-left: 0;
+    opacity: 1;
+    transition: none;
   }
 
   .site-nav .nav-dropdown-label {
