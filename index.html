@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260828-02" />
+  <link rel="stylesheet" href="styles.css?v=20260829-08" />
 
   <script type="application/ld+json">
   {
@@ -1858,37 +1858,110 @@
     <section class="section supporters-section" id="supporters">
       <div class="container">
         <div class="section-heading">
-          <h2>Supported By</h2>
+          <h2 id="supporters-heading">Supported By</h2>
         </div>
+      </div>
 
-        <div class="supported-logos">
-          <div class="supporter-item">
-            <img src="assets/cmm-logo.png" alt="CMM logo" class="supporter-logo supporter-logo-cmm">
-            <p>Center for Mathematical Modeling<br>Universidad de Chile</p>
+      <div class="supporters-marquee" aria-labelledby="supporters-heading">
+        <div class="supporters-marquee-track">
+          <div class="supported-logos">
+            <div class="supporter-item">
+              <img src="assets/cmm-logo.png" alt="CMM logo" class="supporter-logo supporter-logo-cmm">
+              <p>Center for Mathematical Modeling<br>Universidad de Chile</p>
+            </div>
+
+            <div class="supporter-item">
+              <img src="assets/puc-logo.png" alt="PUC logo" class="supporter-logo supporter-logo-puc">
+              <p>Pontificia Universidad Católica de Chile</p>
+            </div>
+
+            <div class="supporter-item supporter-item-utfsm">
+              <img src="assets/utfsm-logo.png" alt="UTFSM logo" class="supporter-logo supporter-logo-utfsm">
+              <p>Universidad Técnica Federico Santa María</p>
+            </div>
+
+            <div class="supporter-item">
+              <img src="assets/anid-logo.svg"
+                alt="ANID logo"
+                class="supporter-logo supporter-logo-anid-wide">
+              <p>Agencia Nacional de Investigación y Desarrollo (Chile)</p>
+            </div>
+
+            <div class="supporter-item">
+              <div class="supporter-placeholder">MATH-AmSud</div>
+              <p>Mathematics Americas–South<br>Cooperation Program</p>
+            </div>
           </div>
 
-          <div class="supporter-item">
-            <img src="assets/puc-logo.png" alt="PUC logo" class="supporter-logo supporter-logo-puc">
-            <p>Pontificia Universidad Católica de Chile</p>
-          </div>
+          <div class="supported-logos supported-logos-clone" aria-hidden="true">
+            <div class="supporter-item">
+              <img src="assets/cmm-logo.png" alt="" class="supporter-logo supporter-logo-cmm">
+              <p>Center for Mathematical Modeling<br>Universidad de Chile</p>
+            </div>
 
-          <div class="supporter-item">
-            <img src="assets/utfsm-logo.png" alt="UTFSM logo" class="supporter-logo supporter-logo-utfsm">
-            <p>Universidad Técnica Federico Santa María</p>
-          </div>
+            <div class="supporter-item">
+              <img src="assets/puc-logo.png" alt="" class="supporter-logo supporter-logo-puc">
+              <p>Pontificia Universidad Católica de Chile</p>
+            </div>
 
-          <div class="supporter-item">
-            <img src="assets/anid-logo.svg"
-              alt="ANID logo"
-              class="supporter-logo supporter-logo-anid-wide">
-            <p>Agencia Nacional de Investigación y Desarrollo (Chile)</p>
-          </div>
+            <div class="supporter-item supporter-item-utfsm">
+              <img src="assets/utfsm-logo.png" alt="" class="supporter-logo supporter-logo-utfsm">
+              <p>Universidad Técnica Federico Santa María</p>
+            </div>
 
-          <div class="supporter-item">
-            <div class="supporter-placeholder">MATH-AmSud</div>
-            <p>Mathematics Americas–South<br>Cooperation Program</p>
+            <div class="supporter-item">
+              <img src="assets/anid-logo.svg"
+                alt=""
+                class="supporter-logo supporter-logo-anid-wide">
+              <p>Agencia Nacional de Investigación y Desarrollo (Chile)</p>
+            </div>
+
+            <div class="supporter-item">
+              <div class="supporter-placeholder">MATH-AmSud</div>
+              <p>Mathematics Americas–South<br>Cooperation Program</p>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div class="supporters-marquee-controls">
+        <button
+          class="supporters-marquee-step supporters-marquee-step-left"
+          type="button"
+          aria-label="Move supporter logos left"
+          data-supporters-direction="left"
+          hidden
+        >
+          <svg class="supporters-step-icon" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M10.5 3 5.5 8l5 5"></path>
+          </svg>
+        </button>
+        <button
+          class="supporters-marquee-toggle"
+          type="button"
+          aria-label="Pause supporter logo animation"
+          aria-pressed="false"
+          hidden
+        >
+          <svg class="supporters-toggle-icon supporters-toggle-icon-pause" viewBox="0 0 16 16" aria-hidden="true">
+            <rect x="3" y="2" width="3" height="12" rx="1"></rect>
+            <rect x="10" y="2" width="3" height="12" rx="1"></rect>
+          </svg>
+          <svg class="supporters-toggle-icon supporters-toggle-icon-play" viewBox="0 0 16 16" aria-hidden="true" hidden>
+            <path d="M4 2.8v10.4c0 .65.72 1.04 1.27.69l8.12-5.2a.82.82 0 0 0 0-1.38l-8.12-5.2A.82.82 0 0 0 4 2.8Z"></path>
+          </svg>
+        </button>
+        <button
+          class="supporters-marquee-step supporters-marquee-step-right"
+          type="button"
+          aria-label="Move supporter logos right"
+          data-supporters-direction="right"
+          hidden
+        >
+          <svg class="supporters-step-icon" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="m5.5 3 5 5-5 5"></path>
+          </svg>
+        </button>
       </div>
     </section>
   </main>
@@ -1939,7 +2012,7 @@
       posterEndpoint: ""
     };
   </script>
-  <script src="script.js?v=20260828-01" defer></script>
+  <script src="script.js?v=20260829-04" defer></script>
   <script
     src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
     defer

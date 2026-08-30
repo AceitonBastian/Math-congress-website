@@ -4,6 +4,26 @@ const navLinks = document.querySelectorAll('.site-nav a');
 const navDropdowns = document.querySelectorAll('[data-nav-dropdown]');
 const navBackdrop = document.querySelector('[data-nav-backdrop]');
 const siteHeader = document.querySelector('.site-header');
+const supportersMarquee = document.querySelector('.supporters-marquee');
+const supportersMarqueeToggle = document.querySelector(
+  '.supporters-marquee-toggle'
+);
+const supportersMarqueeTrack = document.querySelector(
+  '.supporters-marquee-track'
+);
+const supportersMarqueeStepButtons = document.querySelectorAll(
+  '[data-supporters-direction]'
+);
+const supportersPauseIcon = document.querySelector(
+  '.supporters-toggle-icon-pause'
+);
+const supportersPlayIcon = document.querySelector(
+  '.supporters-toggle-icon-play'
+);
+const SUPPORTERS_REDUCED_MOTION_QUERY = window.matchMedia(
+  '(prefers-reduced-motion: reduce)'
+);
+let supportersMarqueeOffsetMs = 0;
 const NAV_COMPACT_MEDIA_QUERY =
   window.matchMedia('(max-width: 1120px)');
 const DEFAULT_SITE_HEADER_HEIGHT = 79;
@@ -126,6 +146,101 @@ if (document.fonts?.ready) {
     syncNavDropdownAnchors();
     syncOpenNavDropdownHeight();
   });
+}
+
+function setSupportersMarqueePaused(isPaused) {
+  if (!supportersMarquee || !supportersMarqueeToggle) return;
+
+  supportersMarquee.classList.toggle('is-paused', isPaused);
+  supportersMarqueeToggle.setAttribute(
+    'aria-pressed',
+    String(isPaused)
+  );
+  supportersMarqueeToggle.setAttribute(
+    'aria-label',
+    isPaused
+      ? 'Play supporter logo animation'
+      : 'Pause supporter logo animation'
+  );
+
+  if (supportersPauseIcon) {
+    supportersPauseIcon.toggleAttribute('hidden', isPaused);
+  }
+
+  if (supportersPlayIcon) {
+    supportersPlayIcon.toggleAttribute('hidden', !isPaused);
+  }
+}
+
+function stepSupportersMarquee(direction) {
+  if (!supportersMarqueeTrack) return;
+
+  const logoGroup = supportersMarqueeTrack.querySelector(
+    '.supported-logos:not(.supported-logos-clone)'
+  );
+  const firstSupporter = logoGroup?.querySelector('.supporter-item');
+  const groupWidth = logoGroup?.getBoundingClientRect().width ?? 0;
+  const itemWidth = firstSupporter?.getBoundingClientRect().width ?? 0;
+  const groupStyles = logoGroup ? getComputedStyle(logoGroup) : null;
+  const itemGap = Number.parseFloat(groupStyles?.columnGap) || 0;
+  const trackStyles = getComputedStyle(supportersMarqueeTrack);
+  const durationValue = trackStyles.animationDuration.trim();
+  const iterationDuration = Number.parseFloat(durationValue) *
+    (durationValue.endsWith('ms') ? 1 : 1000);
+
+  if (!groupWidth || !itemWidth || !iterationDuration) return;
+
+  const stepDuration =
+    iterationDuration * ((itemWidth + itemGap) / groupWidth);
+  supportersMarqueeOffsetMs += direction === 'left'
+    ? stepDuration
+    : -stepDuration;
+  supportersMarqueeOffsetMs =
+    ((supportersMarqueeOffsetMs % iterationDuration) + iterationDuration) %
+    iterationDuration;
+  supportersMarqueeTrack.style.animationDelay =
+    `${-supportersMarqueeOffsetMs}ms`;
+}
+
+if (supportersMarquee && supportersMarqueeToggle) {
+  setSupportersMarqueePaused(
+    SUPPORTERS_REDUCED_MOTION_QUERY.matches
+  );
+  supportersMarqueeToggle.hidden = false;
+
+  supportersMarqueeStepButtons.forEach((button) => {
+    button.hidden = false;
+    button.addEventListener('click', () => {
+      stepSupportersMarquee(button.dataset.supportersDirection);
+    });
+  });
+
+  supportersMarqueeToggle.addEventListener('click', () => {
+    setSupportersMarqueePaused(
+      !supportersMarquee.classList.contains('is-paused')
+    );
+  });
+
+  const handleSupportersReducedMotionChange = (event) => {
+    setSupportersMarqueePaused(event.matches);
+  };
+
+  if (
+    typeof SUPPORTERS_REDUCED_MOTION_QUERY.addEventListener ===
+    'function'
+  ) {
+    SUPPORTERS_REDUCED_MOTION_QUERY.addEventListener(
+      'change',
+      handleSupportersReducedMotionChange
+    );
+  } else if (
+    typeof SUPPORTERS_REDUCED_MOTION_QUERY.addListener === 'function'
+  ) {
+    // Older iOS Safari exposes the legacy MediaQueryList listener API.
+    SUPPORTERS_REDUCED_MOTION_QUERY.addListener(
+      handleSupportersReducedMotionChange
+    );
+  }
 }
 
 const registrationForm = document.getElementById('registrationForm');
