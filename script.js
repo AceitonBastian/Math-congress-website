@@ -2714,6 +2714,12 @@ const MATERIALS = {
       pdf: 'pdfs/felix-schulze.pdf'
     },
     {
+      title: 'Inverse mean curvature flow and applications',
+      speaker: 'Alessandra Pluda',
+      affiliation: 'Università di Pisa, Italy',
+      pdf: 'pdfs/alessandra-pluda.pdf'
+    },
+    {
       title: 'Stable Free-Boundary Minimal Hypersurfaces: Regularity, Compactness, and Existence',
       speaker: 'Davide Parise',
       affiliation: 'Imperial College London, UK',
