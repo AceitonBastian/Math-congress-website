@@ -2801,7 +2801,7 @@ const MATERIALS = {
       title: 'Convergence of Timed-Metric Spaces and Causality',
       speaker: 'Raquel Perales',
       affiliation: 'CIMAT, Guanajuato, México',
-      pdf: 'pdfs/raquel-perales.pdf'
+      pdf: 'pdfs/raquel-perales.pdf?v=20260831-01'
     }
   ]
 };
