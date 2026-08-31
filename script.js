@@ -2798,7 +2798,7 @@ const MATERIALS = {
 
   friday: [
     {
-      title: 'Convergence and Orientability in RCD and Kato Spaces',
+      title: 'Convergence of Timed-Metric Spaces and Causality',
       speaker: 'Raquel Perales',
       affiliation: 'CIMAT, Guanajuato, México',
       pdf: 'pdfs/raquel-perales.pdf'
