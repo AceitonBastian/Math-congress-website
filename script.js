@@ -3030,6 +3030,12 @@ const MATERIALS = {
       speaker: 'Raquel Perales',
       affiliation: 'CIMAT, Guanajuato, México',
       pdf: 'pdfs/raquel-perales.pdf?v=20260831-01'
+    },
+    {
+      title: 'Higher Codimensional Isoperimetric Problems',
+      speaker: 'Frank Pacard',
+      affiliation: 'École Polytechnique, France',
+      pdf: 'pdfs/frank-pacard.pdf'
     }
   ]
 };
