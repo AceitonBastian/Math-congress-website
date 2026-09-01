@@ -4,6 +4,7 @@ const navLinks = document.querySelectorAll('.site-nav a');
 const navDropdowns = document.querySelectorAll('[data-nav-dropdown]');
 const navBackdrop = document.querySelector('[data-nav-backdrop]');
 const siteHeader = document.querySelector('.site-header');
+const supportersHeading = document.querySelector('#supporters-heading');
 const supportersMarquee = document.querySelector('.supporters-marquee');
 const supportersMarqueeToggle = document.querySelector(
   '.supporters-marquee-toggle'
@@ -35,6 +36,16 @@ const NAV_DROPDOWN_VIEWPORT_GUTTER = 16;
 const NAV_DROPDOWN_CLOSE_DELAY_MS = 220;
 const NAV_DROPDOWN_TRANSITION_MS = 200;
 const NAV_DROPDOWN_HOVER_DELAY_MS = 160;
+const SITE_HEADER_HEADING_CLEARANCE_PX = 12;
+const SITE_HEADER_HIDE_SCROLL_MULTIPLIER = 1.35;
+const SITE_HEADER_DAMPING_TIME_MS = 95;
+const SITE_HEADER_CONTENT_FADE_START_PROGRESS = 0.45;
+let siteHeaderVisibilityFrame = null;
+let siteHeaderAnimationFrame = null;
+let siteHeaderAnimationTimestamp = null;
+let siteHeaderTargetProgress = 0;
+let siteHeaderRenderedProgress = 0;
+let siteHeaderAnimationInitialized = false;
 
 function usesCompactNavLayout() {
   return NAV_COMPACT_MEDIA_QUERY.matches;
@@ -135,7 +146,10 @@ window.addEventListener(
 
 if (siteHeader && 'ResizeObserver' in window) {
   const siteHeaderResizeObserver =
-    new ResizeObserver(syncSiteHeaderHeight);
+    new ResizeObserver(() => {
+      syncSiteHeaderHeight();
+      queueSiteHeaderVisibilitySync();
+    });
 
   siteHeaderResizeObserver.observe(siteHeader);
 }
@@ -145,6 +159,7 @@ if (document.fonts?.ready) {
     syncSiteHeaderHeight();
     syncNavDropdownAnchors();
     syncOpenNavDropdownHeight();
+    queueSiteHeaderVisibilitySync();
   });
 }
 
@@ -223,6 +238,7 @@ if (supportersMarquee && supportersMarqueeToggle) {
 
   const handleSupportersReducedMotionChange = (event) => {
     setSupportersMarqueePaused(event.matches);
+    queueSiteHeaderVisibilitySync();
   };
 
   if (
@@ -2245,6 +2261,10 @@ function openNav() {
   );
 
   if (usesCompactNavLayout()) {
+    document.body.classList.add(
+      'has-mobile-nav-open'
+    );
+
     navDropdowns.forEach((dropdown) => {
       dropdown
         .querySelector('.nav-dropdown-trigger')
@@ -2260,6 +2280,9 @@ function closeNav() {
 
   siteNav.classList.remove('open');
   navToggle.classList.remove('is-open');
+  document.body.classList.remove(
+    'has-mobile-nav-open'
+  );
 
   navToggle.setAttribute(
     'aria-expanded',
@@ -2454,10 +2477,14 @@ navDropdowns.forEach((dropdown) => {
   );
 });
 
-navBackdrop?.addEventListener(
-  'click',
-  () => closeNavDropdowns()
-);
+navBackdrop?.addEventListener('click', () => {
+  if (usesCompactNavLayout()) {
+    closeNav();
+    return;
+  }
+
+  closeNavDropdowns();
+});
 
 document.addEventListener('click', (event) => {
   if (
@@ -2515,6 +2542,207 @@ document.addEventListener('keydown', (event) => {
     navToggle?.focus({ preventScroll: true });
   }
 });
+
+function getSiteHeaderTargetProgress() {
+  const headerHeight = getSiteHeaderHeight();
+  const hideStart =
+    headerHeight + SITE_HEADER_HEADING_CLEARANCE_PX;
+  const scrollPastHideStart =
+    hideStart -
+    supportersHeading.getBoundingClientRect().top;
+  const hideScrollDistance = Math.max(
+    headerHeight * SITE_HEADER_HIDE_SCROLL_MULTIPLIER,
+    1
+  );
+  const hideProgress = Math.min(
+    Math.max(scrollPastHideStart / hideScrollDistance, 0),
+    1
+  );
+
+  return hideProgress;
+}
+
+function easeSiteHeaderProgress(progress) {
+  return progress * progress * (3 - 2 * progress);
+}
+
+function renderSiteHeaderVisibility(progress) {
+  if (!siteHeader) return;
+
+  const prefersReducedMotion = SUPPORTERS_REDUCED_MOTION_QUERY.matches;
+  const clampedProgress = prefersReducedMotion
+    ? 0
+    : Math.min(Math.max(progress, 0), 1);
+  const movementProgress = easeSiteHeaderProgress(
+    clampedProgress
+  );
+  const contentFadeProgress = Math.min(
+    Math.max(
+      (clampedProgress -
+        SITE_HEADER_CONTENT_FADE_START_PROGRESS) /
+        (1 - SITE_HEADER_CONTENT_FADE_START_PROGRESS),
+      0
+    ),
+    1
+  );
+  const easedContentFadeProgress = easeSiteHeaderProgress(
+    contentFadeProgress
+  );
+  const headerHeight = getSiteHeaderHeight();
+  const maxHideOffset = headerHeight + SECTION_ANCHOR_OVERLAP;
+  // Scrolling moves the heading immediately; the damped animation can lag.
+  // Keep this clearance even before the animation has caught up.
+  const clearanceOffset = !prefersReducedMotion && supportersHeading
+    ? Math.max(
+        headerHeight + SITE_HEADER_HEADING_CLEARANCE_PX -
+          supportersHeading.getBoundingClientRect().top,
+        0
+      )
+    : 0;
+  const hideOffset = Math.min(
+    Math.max(movementProgress * maxHideOffset, clearanceOffset),
+    maxHideOffset
+  );
+  const contentOpacity = 1 - easedContentFadeProgress;
+  const shouldStartHiding = hideOffset > 0;
+  const isFullyHidden = hideOffset >= maxHideOffset - 0.01;
+
+  if (shouldStartHiding) {
+    siteHeader.style.setProperty(
+      '--site-header-hide-offset',
+      `${hideOffset.toFixed(3)}px`
+    );
+    siteHeader.style.setProperty(
+      '--site-header-content-opacity',
+      contentOpacity.toFixed(4)
+    );
+  } else {
+    siteHeader.style.removeProperty(
+      '--site-header-hide-offset'
+    );
+    siteHeader.style.removeProperty(
+      '--site-header-content-opacity'
+    );
+  }
+
+  siteHeader.classList.toggle(
+    'is-hiding-past-supporters',
+    shouldStartHiding
+  );
+  siteHeader.classList.toggle(
+    'is-hidden-past-supporters',
+    isFullyHidden
+  );
+  siteHeader.inert = isFullyHidden;
+}
+
+function stopSiteHeaderAnimation() {
+  if (siteHeaderAnimationFrame !== null) {
+    window.cancelAnimationFrame(siteHeaderAnimationFrame);
+  }
+
+  siteHeaderAnimationFrame = null;
+  siteHeaderAnimationTimestamp = null;
+}
+
+function animateSiteHeaderVisibility(timestamp) {
+  siteHeaderAnimationFrame = null;
+
+  const elapsed =
+    siteHeaderAnimationTimestamp === null
+      ? 1000 / 60
+      : Math.min(timestamp - siteHeaderAnimationTimestamp, 64);
+  siteHeaderAnimationTimestamp = timestamp;
+  const damping =
+    1 - Math.exp(-elapsed / SITE_HEADER_DAMPING_TIME_MS);
+
+  siteHeaderRenderedProgress +=
+    (siteHeaderTargetProgress - siteHeaderRenderedProgress) *
+    damping;
+
+  if (
+    Math.abs(
+      siteHeaderTargetProgress - siteHeaderRenderedProgress
+    ) < 0.001
+  ) {
+    siteHeaderRenderedProgress = siteHeaderTargetProgress;
+  }
+
+  renderSiteHeaderVisibility(siteHeaderRenderedProgress);
+
+  if (siteHeaderRenderedProgress !== siteHeaderTargetProgress) {
+    siteHeaderAnimationFrame = window.requestAnimationFrame(
+      animateSiteHeaderVisibility
+    );
+  } else {
+    siteHeaderAnimationTimestamp = null;
+  }
+}
+
+function startSiteHeaderAnimation() {
+  if (siteHeaderAnimationFrame !== null) return;
+
+  siteHeaderAnimationFrame = window.requestAnimationFrame(
+    animateSiteHeaderVisibility
+  );
+}
+
+// Start hiding while there is still space above "Supported By", so the heading
+// does not have to touch the panel before the upward glide begins.
+function syncSiteHeaderVisibility() {
+  siteHeaderVisibilityFrame = null;
+
+  if (!siteHeader || !supportersHeading) return;
+
+  // Static supporter logos do not need the header/blur workaround.
+  // Also restore the header if this preference changes while it is hidden.
+  if (SUPPORTERS_REDUCED_MOTION_QUERY.matches) {
+    stopSiteHeaderAnimation();
+    siteHeaderTargetProgress = 0;
+    siteHeaderRenderedProgress = 0;
+    renderSiteHeaderVisibility(0);
+    return;
+  }
+
+  const nextTargetProgress = getSiteHeaderTargetProgress();
+  const wasAtStart = siteHeaderTargetProgress === 0;
+  siteHeaderTargetProgress = nextTargetProgress;
+
+  if (nextTargetProgress > 0 && wasAtStart) {
+    closeNavDropdowns();
+    closeNav();
+  }
+
+  if (!siteHeaderAnimationInitialized) {
+    siteHeaderAnimationInitialized = true;
+    siteHeaderRenderedProgress = nextTargetProgress;
+    renderSiteHeaderVisibility(siteHeaderRenderedProgress);
+    return;
+  }
+
+  startSiteHeaderAnimation();
+}
+
+function queueSiteHeaderVisibilitySync() {
+  if (siteHeaderVisibilityFrame !== null) return;
+
+  siteHeaderVisibilityFrame = window.requestAnimationFrame(
+    syncSiteHeaderVisibility
+  );
+}
+
+window.addEventListener(
+  'scroll',
+  queueSiteHeaderVisibilitySync,
+  { passive: true }
+);
+
+window.addEventListener(
+  'resize',
+  queueSiteHeaderVisibilitySync
+);
+
+queueSiteHeaderVisibilitySync();
 
 // =========================
 // Smooth scrolling

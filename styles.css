@@ -103,6 +103,25 @@ textarea {
   transition: none;
 }
 
+.site-header.is-hiding-past-supporters {
+  transform: translate3d(
+    0,
+    calc(-1 * var(--site-header-hide-offset)),
+    0
+  );
+  will-change: transform;
+}
+
+.site-header.is-hiding-past-supporters .nav-wrap {
+  opacity: var(--site-header-content-opacity, 1);
+  will-change: opacity;
+}
+
+.site-header.is-hidden-past-supporters {
+  pointer-events: none;
+  visibility: hidden;
+}
+
 body.has-nav-dropdown-open .site-header,
 body.has-nav-dropdown-closing .site-header {
   background: #07111d;
@@ -204,6 +223,32 @@ body.has-nav-dropdown-closing .site-header {
   color: var(--text);
 }
 
+.site-nav > a,
+.nav-parent-row > .nav-dropdown-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-parent-row > .nav-dropdown-trigger {
+  gap: 0.42rem;
+}
+
+.nav-parent-row > .nav-dropdown-trigger::after {
+  content: "";
+  width: 0.38rem;
+  height: 0.38rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-0.12rem) rotate(45deg);
+  transition: transform 0.18s ease;
+}
+
+.nav-dropdown.is-open .nav-dropdown-trigger::after {
+  transform: translateY(0.1rem) rotate(225deg);
+}
+
 .nav-item {
   position: static;
   display: flex;
@@ -221,7 +266,8 @@ body.has-nav-dropdown-closing .site-header {
   color: var(--text);
 }
 
-.nav-dropdown-trigger:focus-visible {
+.nav-dropdown-trigger:focus-visible,
+.site-nav > a:focus-visible {
   border-radius: 4px;
   outline: 2px solid var(--gold-strong);
   outline-offset: 5px;
@@ -367,6 +413,13 @@ body.has-nav-dropdown-closing .site-header {
   transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Join the two backgrounds even when zoom places their edges between pixels. */
+body.has-nav-dropdown-open .nav-dropdown-surface,
+body.has-nav-dropdown-closing .nav-dropdown-surface {
+  top: calc(var(--site-header-height) - 1px);
+  height: calc(var(--nav-dropdown-height) + 1px);
+}
+
 .nav-backdrop {
   position: fixed;
   top: var(--site-header-height);
@@ -404,6 +457,20 @@ body.has-nav-dropdown-open .nav-backdrop {
   display: none;
   align-items: center;
   justify-content: center;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.nav-toggle:hover,
+.nav-toggle.is-open {
+  border-color: rgba(215, 177, 109, 0.52);
+  background: rgba(215, 177, 109, 0.1);
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--gold-strong);
+  outline-offset: 3px;
 }
 
 .nav-toggle-bars {
@@ -2988,6 +3055,12 @@ textarea {
   border-bottom: 1px solid rgba(20, 33, 48, 0.12);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .section.supporters-section {
+    padding: 2.5rem 0;
+  }
+}
+
 .supporters-section .section-heading {
   margin-bottom: 1.5rem;
 }
@@ -3337,7 +3410,7 @@ textarea {
     top: calc(100% + 0.5rem);
     left: 0;
     right: 0;
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
@@ -3362,10 +3435,23 @@ textarea {
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-0.55rem) scale(0.985);
+    transform-origin: top right;
+    transition:
+      opacity 0.18s ease,
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0.22s;
   }
 
   .site-nav.open {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
   }
   
   .site-nav a {
@@ -3400,7 +3486,12 @@ textarea {
   .site-nav .nav-parent-row > a {
     min-width: 0;
     flex: 1;
+    height: auto;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .site-nav .nav-dropdown-trigger::after {
+    display: none;
   }
 
   .site-nav .nav-dropdown-menu {
@@ -3417,8 +3508,9 @@ textarea {
     background: transparent;
     box-shadow: none;
     opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    /* Keep closed mobile submenus out of hit testing and keyboard navigation. */
+    visibility: inherit;
+    pointer-events: inherit;
     transform: none;
     transition: none;
     overflow: visible;
@@ -3449,6 +3541,7 @@ textarea {
 
   .site-nav > a {
     padding-left: 0.6rem;
+    height: auto;
   }
 
   .site-nav > a:last-child {
@@ -3472,8 +3565,14 @@ textarea {
     display: none;
   }
 
-  .nav-backdrop {
-    display: none;
+  body.has-mobile-nav-open {
+    overflow: hidden;
+  }
+
+  body.has-mobile-nav-open .nav-backdrop {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .nav-dropdown-surface {
@@ -3504,6 +3603,10 @@ textarea {
 
 @media (prefers-reduced-motion: reduce) {
   .site-header,
+  .site-nav,
+  .nav-toggle,
+  .nav-toggle-bars span,
+  .nav-dropdown-trigger::after,
   .nav-dropdown-menu,
   .nav-dropdown-content,
   .nav-dropdown-arrow,
