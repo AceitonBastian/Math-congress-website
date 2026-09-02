@@ -2954,6 +2954,12 @@ const MATERIALS = {
       pdf: 'pdfs/davide-parise.pdf'
     },
     {
+      title: 'Singularity models for the one-phase free boundary problem',
+      speaker: 'Zihui Zhao',
+      affiliation: 'Johns Hopkins University, USA',
+      pdf: 'pdfs/zihui-zhao.pdf'
+    },
+    {
       title: 'Zoll families of minimal spheres and min-max theory',
       speaker: 'Lucas Ambrozio',
       affiliation: 'IMPA, Brazil',
