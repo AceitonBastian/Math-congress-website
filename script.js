@@ -2993,12 +2993,6 @@ const MATERIALS = {
 
   thursday: [
     {
-      title: 'When Mean Curvature Flow Breaks: Singularities, Topology, and Ilmanen’s Conjecture',
-      speaker: 'Francisco Martín',
-      affiliation: 'Universidad de Granada, Spain',
-      pdf: 'pdfs/francisco-martin.pdf'
-    },
-    {
       title: 'Potentials for sub-Laplacians and geometric applications',
       speaker: 'Jie Qing',
       affiliation: 'University of California, Santa Cruz, USA',
