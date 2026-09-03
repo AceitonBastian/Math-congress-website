@@ -3208,6 +3208,12 @@ const MATERIALS = {
 
   wednesday: [
     {
+      title: 'On a Fully Nonlinear Conformal Flow',
+      speaker: 'María Fernanda Espinal',
+      affiliation: 'Universidad Técnica Federico Santa María, Chile',
+      pdf: 'pdfs/maria-fernanda-espinal.pdf'
+    },
+    {
       title: 'Quantitative stability for the fractional Yamabe problem',
       speaker: 'Benjamín Bórquez',
       affiliation: 'University of California, Santa Cruz',
