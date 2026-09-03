@@ -2147,6 +2147,8 @@ let navDropdownCloseTimer = null;
 let navDropdownCleanupTimer = null;
 let navDropdownOpenTimer = null;
 let mobileNavScrollPosition = null;
+let mobileNavScrollRestoration = null;
+let anchorScrollRequestId = 0;
 
 function setNavDropdownHeight(height) {
   const normalizedHeight = Math.max(
@@ -2400,6 +2402,7 @@ function closeNavDropdown(dropdown) {
 function openNav() {
   if (!siteNav || !navToggle) return;
 
+  cancelPendingAnchorScroll();
   siteNav.classList.add('open');
   navToggle.classList.add('is-open');
 
@@ -2463,6 +2466,21 @@ function closeNav() {
     document.body.style.removeProperty('--mobile-nav-scroll-top');
     // Restore synchronously, before a clicked section link measures its target.
     window.scrollTo({ ...scrollPosition, behavior: 'instant' });
+
+    // iOS can coalesce an instant restore and a smooth scroll in the same
+    // rendering update, starting the animation at the pinned page's offset (0).
+    // Keep restoration separate and allow a rendered frame before animating.
+    const restoration = new Promise((resolve) => {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(resolve);
+      });
+    });
+    mobileNavScrollRestoration = restoration;
+    restoration.then(() => {
+      if (mobileNavScrollRestoration === restoration) {
+        mobileNavScrollRestoration = null;
+      }
+    });
     queueSiteHeaderVisibilitySync();
   }
 
@@ -2925,9 +2943,20 @@ queueSiteHeaderVisibilitySync();
 // Smooth scrolling
 // =========================
 
+function cancelPendingAnchorScroll() {
+  anchorScrollRequestId += 1;
+}
+
+// A fresh gesture must win over a navigation waiting for scroll restoration.
+['touchstart', 'wheel', 'keydown'].forEach((eventType) => {
+  document.addEventListener(eventType, cancelPendingAnchorScroll, {
+    passive: true
+  });
+});
+
 document.addEventListener(
   'click',
-  (event) => {
+  async (event) => {
     const link =
       event.target.closest(
         'a[href^="#"]'
@@ -2946,9 +2975,15 @@ document.addEventListener(
     }
 
     event.preventDefault();
+    const requestId = ++anchorScrollRequestId;
 
     if (usesCompactNavLayout()) {
       closeNav();
+    }
+
+    if (mobileNavScrollRestoration) {
+      await mobileNavScrollRestoration;
+      if (requestId !== anchorScrollRequestId) return;
     }
 
     if (targetId === '#top') {
