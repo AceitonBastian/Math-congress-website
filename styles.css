@@ -233,8 +233,10 @@ body.has-nav-dropdown-closing .site-header {
   white-space: nowrap;
 }
 
-.site-nav a:hover {
-  color: var(--text);
+@media (hover: hover) and (pointer: fine) {
+  .site-nav a:hover {
+    color: var(--text);
+  }
 }
 
 .site-nav > a,
@@ -275,9 +277,14 @@ body.has-nav-dropdown-closing .site-header {
   align-items: center;
 }
 
-.nav-parent-row:hover > a,
 .nav-dropdown.is-open .nav-parent-row > a {
   color: var(--text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-parent-row:hover > a {
+    color: var(--text);
+  }
 }
 
 .nav-dropdown-trigger:focus-visible,
@@ -384,14 +391,22 @@ body.has-nav-dropdown-closing .site-header {
   transition: transform 0.18s ease;
 }
 
-.nav-dropdown-feature:hover,
 .nav-dropdown-feature:focus-visible {
   color: var(--gold-strong) !important;
 }
 
-.nav-dropdown-feature:hover .nav-dropdown-arrow,
 .nav-dropdown-feature:focus-visible .nav-dropdown-arrow {
   transform: translate(0.18rem, -0.18rem);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-dropdown-feature:hover {
+    color: var(--gold-strong) !important;
+  }
+
+  .nav-dropdown-feature:hover .nav-dropdown-arrow {
+    transform: translate(0.18rem, -0.18rem);
+  }
 }
 
 .nav-dropdown-feature:focus-visible {
@@ -3664,6 +3679,8 @@ textarea {
     display: block;
     padding: 0.88rem 0.6rem;
     font-size: 1.02rem;
+    /* Avoid iOS's native gray overlay while a finger swipes across links. */
+    -webkit-tap-highlight-color: transparent;
     
     color: var(--gold);
     
@@ -3797,21 +3814,32 @@ textarea {
     display: none;
   }
   
-  .site-nav a:hover,
   .site-nav a:focus-visible {
     background: rgba(215, 177, 109, 0.08);
     color: var(--gold);
   }
 
-  .site-nav .nav-dropdown-feature:hover,
   .site-nav .nav-dropdown-feature:focus-visible {
     padding-left: 0.6rem;
     color: var(--gold-strong) !important;
   }
 
-  .site-nav a:active {
-    background: rgba(215, 177, 109, 0.18);
-    color: var(--gold-strong);
+  /* Touch browsers can retain :hover/:active during and after a swipe. */
+  @media (hover: hover) and (pointer: fine) {
+    .site-nav a:hover {
+      background: rgba(215, 177, 109, 0.08);
+      color: var(--gold);
+    }
+
+    .site-nav .nav-dropdown-feature:hover {
+      padding-left: 0.6rem;
+      color: var(--gold-strong) !important;
+    }
+
+    .site-nav a:active {
+      background: rgba(215, 177, 109, 0.18);
+      color: var(--gold-strong);
+    }
   }
 
   .site-nav > a:last-child {
