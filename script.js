@@ -15,6 +15,7 @@ const supportersMarqueeTrack = document.querySelector(
 const supportersMarqueeStepButtons = document.querySelectorAll(
   '[data-supporters-direction]'
 );
+const speakersGrid = document.querySelector('.speakers-grid');
 const supportersPauseIcon = document.querySelector(
   '.supporters-toggle-icon-pause'
 );
@@ -131,8 +132,35 @@ function syncNavDropdownAnchors() {
   );
 }
 
+function sortSpeakerCards() {
+  if (!speakersGrid) return;
+
+  const speakerNameCollator = new Intl.Collator(
+    document.documentElement.lang || 'en',
+    { sensitivity: 'base' }
+  );
+  const speakerCards = Array.from(
+    speakersGrid.querySelectorAll('.speaker-card')
+  );
+
+  speakerCards.sort((firstCard, secondCard) => {
+    const firstName =
+      firstCard.querySelector('h3')?.textContent.trim() || '';
+    const secondName =
+      secondCard.querySelector('h3')?.textContent.trim() || '';
+
+    return speakerNameCollator.compare(
+      firstName,
+      secondName
+    );
+  });
+
+  speakersGrid.append(...speakerCards);
+}
+
 syncSiteHeaderHeight();
 syncNavDropdownAnchors();
+sortSpeakerCards();
 
 window.addEventListener(
   'resize',
