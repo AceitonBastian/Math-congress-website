@@ -2142,6 +2142,7 @@ if (
 let navDropdownCloseTimer = null;
 let navDropdownCleanupTimer = null;
 let navDropdownOpenTimer = null;
+let mobileNavScrollPosition = null;
 
 function setNavDropdownHeight(height) {
   const normalizedHeight = Math.max(
@@ -2409,6 +2410,19 @@ function openNav() {
   );
 
   if (usesCompactNavLayout()) {
+    // iOS Safari can scroll the page despite overflow: hidden. Pin the body
+    // at its current offset and remember where to return when the menu closes.
+    if (mobileNavScrollPosition === null) {
+      mobileNavScrollPosition = {
+        left: window.scrollX,
+        top: window.scrollY
+      };
+      document.body.style.setProperty(
+        '--mobile-nav-scroll-top',
+        `${-mobileNavScrollPosition.top}px`
+      );
+    }
+
     document.body.classList.add(
       'has-mobile-nav-open'
     );
@@ -2431,6 +2445,14 @@ function closeNav() {
   document.body.classList.remove(
     'has-mobile-nav-open'
   );
+
+  if (mobileNavScrollPosition !== null) {
+    const scrollPosition = mobileNavScrollPosition;
+    mobileNavScrollPosition = null;
+    document.body.style.removeProperty('--mobile-nav-scroll-top');
+    // Restore synchronously, before a clicked section link measures its target.
+    window.scrollTo({ ...scrollPosition, behavior: 'instant' });
+  }
 
   navToggle.setAttribute(
     'aria-expanded',

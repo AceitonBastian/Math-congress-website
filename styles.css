@@ -3772,13 +3772,25 @@ textarea {
   }
 
   body.has-mobile-nav-open {
+    position: fixed;
+    top: var(--mobile-nav-scroll-top, 0px);
+    width: 100%;
+    /* Reserve the space of the header while it is fixed above the pinned page. */
+    padding-top: var(--site-header-height);
     overflow: hidden;
+  }
+
+  body.has-mobile-nav-open .site-header {
+    position: fixed;
+    left: 0;
+    right: 0;
   }
 
   body.has-mobile-nav-open .nav-backdrop {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    touch-action: none;
   }
 
   .nav-dropdown-surface {
