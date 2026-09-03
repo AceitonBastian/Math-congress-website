@@ -2119,17 +2119,17 @@ textarea {
 }
 
 .day-chip:has(input:checked) {
-  border-color: var(--gold-selection-chip-border);
+  border-color: var(--gold-selection-border);
   background: var(--gold-selection-bg);
   box-shadow: var(--gold-selection-glow);
 }
 
 .day-chip:has(input:checked) .day-chip-main {
-  color: #ffffff;
+  color: var(--gold-strong);
 }
 
 .day-chip:has(input:checked) .day-chip-sub {
-  color: #d7dee7;
+  color: var(--gold-strong);
 }
 
 .day-chip:has(input:focus-visible) {
