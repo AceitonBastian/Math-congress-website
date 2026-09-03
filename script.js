@@ -1987,6 +1987,126 @@ if (
   activateScheduleTab(initialScheduleTab);
 }
 
+const localInfoVenueTabs = Array.from(
+  document.querySelectorAll(
+    '.local-info-venue-tab[data-local-info-venue]'
+  )
+);
+
+const localInfoVenuePanels = Array.from(
+  document.querySelectorAll(
+    '[data-local-info-venue-panel]'
+  )
+);
+
+const localInfoVenueContent = Array.from(
+  document.querySelectorAll(
+    '[data-local-info-venue-content]'
+  )
+);
+
+function activateLocalInfoVenueTab(
+  selectedTab,
+  { moveFocus = false } = {}
+) {
+  const selectedVenue =
+    selectedTab?.dataset.localInfoVenue;
+
+  if (!selectedVenue) return;
+
+  localInfoVenueTabs.forEach((tab) => {
+    const isSelected = tab === selectedTab;
+
+    tab.classList.toggle(
+      'is-active',
+      isSelected
+    );
+
+    tab.setAttribute(
+      'aria-selected',
+      isSelected ? 'true' : 'false'
+    );
+
+    tab.tabIndex = isSelected ? 0 : -1;
+  });
+
+  localInfoVenuePanels.forEach((panel) => {
+    panel.hidden =
+      panel.dataset.localInfoVenuePanel !==
+      selectedVenue;
+  });
+
+  localInfoVenueContent.forEach((content) => {
+    content.hidden =
+      content.dataset.localInfoVenueContent !==
+      selectedVenue;
+  });
+
+  syncDayTabIndicator(selectedTab);
+
+  if (moveFocus) {
+    selectedTab.focus();
+  }
+}
+
+if (
+  localInfoVenueTabs.length &&
+  localInfoVenuePanels.length
+) {
+  localInfoVenueTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      activateLocalInfoVenueTab(tab);
+    });
+
+    tab.addEventListener(
+      'keydown',
+      (event) => {
+        let nextIndex = null;
+
+        if (event.key === 'ArrowRight') {
+          nextIndex =
+            (index + 1) %
+            localInfoVenueTabs.length;
+        }
+
+        if (event.key === 'ArrowLeft') {
+          nextIndex =
+            (index - 1 +
+              localInfoVenueTabs.length) %
+            localInfoVenueTabs.length;
+        }
+
+        if (event.key === 'Home') {
+          nextIndex = 0;
+        }
+
+        if (event.key === 'End') {
+          nextIndex =
+            localInfoVenueTabs.length - 1;
+        }
+
+        if (nextIndex === null) return;
+
+        event.preventDefault();
+
+        activateLocalInfoVenueTab(
+          localInfoVenueTabs[nextIndex],
+          { moveFocus: true }
+        );
+      }
+    );
+  });
+
+  const initialLocalInfoVenueTab =
+    localInfoVenueTabs.find((tab) =>
+      tab.classList.contains('is-active')
+    ) || localInfoVenueTabs[0];
+
+  activateLocalInfoVenueTab(
+    initialLocalInfoVenueTab
+  );
+}
+
 // =========================
 // Navigation
 // =========================

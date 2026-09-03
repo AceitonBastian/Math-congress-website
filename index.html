@@ -1721,6 +1721,53 @@
         <div class="section-heading">
           <span class="eyebrow">Local Information</span>
           <h2>Transportation and Useful Information</h2>
+          <p
+            id="local-info-panel-puc"
+            class="schedule-venue-note local-info-venue-panel"
+            role="tabpanel"
+            aria-labelledby="local-info-tab-puc"
+            data-local-info-venue-panel="puc"
+          >
+            <strong>Monday–Tuesday</strong> at
+            <a href="#venue-puc">Pontificia Universidad Católica de Chile</a>
+          </p>
+          <p
+            id="local-info-panel-uch"
+            class="schedule-venue-note local-info-venue-panel"
+            role="tabpanel"
+            aria-labelledby="local-info-tab-uch"
+            data-local-info-venue-panel="uch"
+            hidden
+          >
+            <strong>Wednesday–Friday</strong> at
+            <a href="#venue-uchile">Universidad de Chile</a>
+          </p>
+        </div>
+
+        <div class="day-tabs local-info-venue-tabs" role="tablist" aria-label="Local information by venue">
+          <button
+            id="local-info-tab-puc"
+            class="day-tab local-info-venue-tab local-info-venue-tab-puc is-active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="local-info-panel-puc"
+            data-local-info-venue="puc"
+          >
+            <strong>PUC</strong>
+          </button>
+          <button
+            id="local-info-tab-uch"
+            class="day-tab local-info-venue-tab local-info-venue-tab-uch"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="local-info-panel-uch"
+            data-local-info-venue="uch"
+            tabindex="-1"
+          >
+            <strong>UCH</strong>
+          </button>
         </div>
 
         <div class="local-info-layout">
@@ -1754,7 +1801,7 @@
               </details>
             </article>
 
-            <article class="info-card campus-map-card">
+            <article class="info-card campus-map-card local-info-venue-content" data-local-info-venue-content="puc">
               <div>
                 <h3>San Joaquín Campus map</h3>
                 <p>An interactive map of the San Joaquín Campus is available here:</p>
@@ -1765,7 +1812,7 @@
           </div>
 
           <div class="local-info-column">
-            <article class="info-card venue-info-card">
+            <article class="info-card venue-info-card local-info-venue-content" data-local-info-venue-content="puc">
               <h3>From the hotel to the conference venue</h3>
               <p>During the first two days, the conference will take place at the <strong>San Joaquín Campus of the Pontificia Universidad Católica de Chile</strong>.</p>
 
