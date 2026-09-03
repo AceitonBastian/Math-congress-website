@@ -52,6 +52,10 @@ function usesCompactNavLayout() {
   return NAV_COMPACT_MEDIA_QUERY.matches;
 }
 
+function isMobileNavOpen() {
+  return usesCompactNavLayout() && siteNav?.classList.contains('open');
+}
+
 function getSiteHeaderHeight() {
   return (
     siteHeader
@@ -2427,6 +2431,13 @@ function openNav() {
       'has-mobile-nav-open'
     );
 
+    // The menu owns the header while the page is pinned. Cancel any pending
+    // scroll animation before it can move the menu or make it inert.
+    stopSiteHeaderAnimation();
+    siteHeaderTargetProgress = 0;
+    siteHeaderRenderedProgress = 0;
+    renderSiteHeaderVisibility(0);
+
     navDropdowns.forEach((dropdown) => {
       dropdown
         .querySelector('.nav-dropdown-trigger')
@@ -2452,6 +2463,7 @@ function closeNav() {
     document.body.style.removeProperty('--mobile-nav-scroll-top');
     // Restore synchronously, before a clicked section link measures its target.
     window.scrollTo({ ...scrollPosition, behavior: 'instant' });
+    queueSiteHeaderVisibilitySync();
   }
 
   navToggle.setAttribute(
@@ -2478,9 +2490,6 @@ function toggleNav() {
   }
 }
 
-let navUsesCompactLayout =
-  usesCompactNavLayout();
-
 if (navToggle && siteNav) {
   navToggle.addEventListener(
     'click',
@@ -2506,23 +2515,18 @@ if (navToggle && siteNav) {
     );
   });
 
+  // Listen to the breakpoint itself: WebKit can update media queries after
+  // firing resize. Browser-toolbar height changes must leave the menu open.
+  if (typeof NAV_COMPACT_MEDIA_QUERY.addEventListener === 'function') {
+    NAV_COMPACT_MEDIA_QUERY.addEventListener('change', closeNav);
+  } else if (typeof NAV_COMPACT_MEDIA_QUERY.addListener === 'function') {
+    NAV_COMPACT_MEDIA_QUERY.addListener(closeNav);
+  }
+
   window.addEventListener(
     'resize',
     () => {
-      const usesCompactLayout =
-        usesCompactNavLayout();
-
-      if (
-        usesCompactLayout !==
-        navUsesCompactLayout
-      ) {
-        closeNav();
-      }
-
-      navUsesCompactLayout =
-        usesCompactLayout;
-
-      if (!usesCompactLayout) {
+      if (!usesCompactNavLayout()) {
         window.requestAnimationFrame(
           syncOpenNavDropdownHeight
         );
@@ -2739,8 +2743,9 @@ function easeSiteHeaderProgress(progress) {
 function renderSiteHeaderVisibility(progress) {
   if (!siteHeader) return;
 
-  const prefersReducedMotion = SUPPORTERS_REDUCED_MOTION_QUERY.matches;
-  const clampedProgress = prefersReducedMotion
+  const keepHeaderVisible =
+    SUPPORTERS_REDUCED_MOTION_QUERY.matches || isMobileNavOpen();
+  const clampedProgress = keepHeaderVisible
     ? 0
     : Math.min(Math.max(progress, 0), 1);
   const movementProgress = easeSiteHeaderProgress(
@@ -2762,7 +2767,7 @@ function renderSiteHeaderVisibility(progress) {
   const maxHideOffset = headerHeight + SECTION_ANCHOR_OVERLAP;
   // Scrolling moves the heading immediately; the damped animation can lag.
   // Keep this clearance even before the animation has caught up.
-  const clearanceOffset = !prefersReducedMotion && supportersHeading
+  const clearanceOffset = !keepHeaderVisible && supportersHeading
     ? Math.max(
         headerHeight + SITE_HEADER_HEADING_CLEARANCE_PX -
           supportersHeading.getBoundingClientRect().top,
@@ -2866,7 +2871,9 @@ function syncSiteHeaderVisibility() {
 
   // Static supporter logos do not need the header/blur workaround.
   // Also restore the header if this preference changes while it is hidden.
-  if (SUPPORTERS_REDUCED_MOTION_QUERY.matches) {
+  // A pinned page can produce transient geometry during viewport changes.
+  // Never let those measurements dismiss or hide an active mobile menu.
+  if (SUPPORTERS_REDUCED_MOTION_QUERY.matches || isMobileNavOpen()) {
     stopSiteHeaderAnimation();
     siteHeaderTargetProgress = 0;
     siteHeaderRenderedProgress = 0;
