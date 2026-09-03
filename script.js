@@ -3250,6 +3250,12 @@ const MATERIALS = {
       pdf: 'pdfs/raquel-perales.pdf?v=20260831-01'
     },
     {
+      title: 'Exponential growth of commensurability classes of almost totally geodesic surface subgroups in hyperbolic 3-manifolds',
+      speaker: 'Franco Vargas',
+      affiliation: 'IMPA, Brazil',
+      pdf: 'pdfs/franco-vargas.pdf'
+    },
+    {
       title: 'Higher Codimensional Isoperimetric Problems',
       speaker: 'Frank Pacard',
       affiliation: 'École Polytechnique, France',
