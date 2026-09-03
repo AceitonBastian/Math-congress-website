@@ -462,10 +462,11 @@ body.has-nav-dropdown-open .nav-backdrop {
     background-color 0.18s ease;
 }
 
-.nav-toggle:hover,
-.nav-toggle.is-open {
-  border-color: rgba(215, 177, 109, 0.52);
-  background: rgba(215, 177, 109, 0.1);
+@media (hover: hover) and (pointer: fine) {
+  .nav-toggle:not(.is-open):hover {
+    border-color: rgba(215, 177, 109, 0.52);
+    background: rgba(215, 177, 109, 0.1);
+  }
 }
 
 .nav-toggle:focus-visible {
