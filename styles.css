@@ -442,7 +442,8 @@ body.has-nav-dropdown-closing .site-header {
   background: #07111d;
   box-shadow: none;
   pointer-events: none;
-  transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Discard the closing overlap immediately instead of animating it again. */
+  transition: none;
 }
 
 /* Join the two backgrounds even when zoom places their edges between pixels. */
@@ -450,6 +451,7 @@ body.has-nav-dropdown-open .nav-dropdown-surface,
 body.has-nav-dropdown-closing .nav-dropdown-surface {
   top: calc(var(--site-header-visible-height) - 1px);
   height: calc(var(--nav-dropdown-height) + 1px);
+  transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-backdrop {
@@ -3863,6 +3865,8 @@ textarea {
   .nav-dropdown-content,
   .nav-dropdown-arrow,
   .nav-dropdown-surface,
+  body.has-nav-dropdown-open .nav-dropdown-surface,
+  body.has-nav-dropdown-closing .nav-dropdown-surface,
   .nav-backdrop {
     transition: none;
   }

@@ -444,3 +444,29 @@ test('CSS anchors external layers to the visible edge but leaves nested menus in
   // This menu is inside the transformed/filtered header, not a viewport sibling.
   assert.match(rule('.nav-dropdown-menu'), /top:\s*var\(--site-header-height\)/);
 });
+
+test('dropdown cleanup removes the overlap without starting a second height animation', () => {
+  const idleSurface = styles.match(/^\.nav-dropdown-surface \{([^}]+)\}/m)?.[1];
+  assert.ok(idleSurface, 'The idle dropdown surface rule must exist');
+  assert.match(idleSurface, /height:\s*var\(--nav-dropdown-height\);/);
+  assert.match(idleSurface, /transition:\s*none;/);
+
+  // Opening, switching menus, and rolling up must retain their shared animation
+  // and one-pixel overlap. Only the final, inactive cleanup is instantaneous.
+  const activeSurface = styles.match(
+    /body\.has-nav-dropdown-open \.nav-dropdown-surface,\s*body\.has-nav-dropdown-closing \.nav-dropdown-surface \{([^}]+)\}/
+  )?.[1];
+  assert.ok(activeSurface, 'Opening and closing must share the animated surface rule');
+  assert.match(activeSurface, /height:\s*calc\(var\(--nav-dropdown-height\) \+ 1px\);/);
+  assert.match(activeSurface, /transition:\s*height 0\.2s cubic-bezier\(0\.4, 0, 0\.2, 1\);/);
+});
+
+test('reduced motion also disables the state-specific dropdown surface animation', () => {
+  const reducedMotion = styles.match(
+    /@media \(prefers-reduced-motion: reduce\) \{([^{}]*\.nav-dropdown-surface[^{}]*\{[^}]*\})/
+  )?.[1];
+  assert.ok(reducedMotion, 'The reduced-motion dropdown rule must exist');
+  assert.match(reducedMotion, /body\.has-nav-dropdown-open \.nav-dropdown-surface,/);
+  assert.match(reducedMotion, /body\.has-nav-dropdown-closing \.nav-dropdown-surface,/);
+  assert.match(reducedMotion, /transition:\s*none;/);
+});
