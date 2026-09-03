@@ -1381,6 +1381,7 @@ main > .section + .section::before {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
+  min-height: 44px;
   min-width: 0;
   padding: 0.85rem 0.7rem;
   border: 1px solid transparent;
@@ -1389,6 +1390,7 @@ main > .section + .section::before {
   color: var(--muted);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition:
     color 0.18s ease,
     background 0.18s ease,
@@ -1649,6 +1651,75 @@ main > .section + .section::before {
   overflow-wrap: anywhere;
 }
 
+.schedule-event-with-location {
+  flex-wrap: wrap;
+  align-content: center;
+  row-gap: 0.35rem;
+}
+
+.schedule-event-location {
+  display: flex;
+  order: 3;
+  flex: 0 0 100%;
+  align-items: center;
+  gap: 0.42rem;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  color: rgba(184, 193, 203, 0.86);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.schedule-event-location span {
+  flex: 0 0 auto;
+  color: var(--gold);
+  font-size: 0.52rem;
+}
+
+.schedule-event-location a {
+  color: inherit;
+  text-decoration: none;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition:
+    color 0.18s ease,
+    text-decoration-color 0.18s ease;
+}
+
+.schedule-event-location a::after {
+  content: "↗";
+  display: inline-block;
+  margin-left: 0.32rem;
+  color: currentColor;
+  font-size: 0.78em;
+  font-weight: 800;
+  line-height: 1;
+  transform: translateY(-0.04em);
+  transition: transform 0.18s ease;
+}
+
+.schedule-event-location a:hover {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+}
+
+.schedule-event-location a:hover::after {
+  transform: translate(0.06em, -0.1em);
+}
+
+.schedule-event-location a:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--gold-strong);
+  outline-offset: 3px;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+}
+
 .schedule-item-break,
 .schedule-item-meal,
 .schedule-item-social,
@@ -1736,6 +1807,19 @@ main > .section + .section::before {
 
   .schedule-event {
     padding: 0.6rem 1.25rem 1.05rem;
+  }
+
+  .schedule-event-with-location {
+    row-gap: 0.45rem;
+  }
+
+  .schedule-event-location {
+    align-items: flex-start;
+    font-size: 0.8rem;
+  }
+
+  .schedule-event-location span {
+    margin-top: 0.42em;
   }
 
   .schedule-event h4 {
