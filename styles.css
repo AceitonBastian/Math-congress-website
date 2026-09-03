@@ -18,6 +18,11 @@
     0 4px 12px rgba(0,0,0,0.16);
   --max-width: 1180px;
   --site-header-height: 79px;
+  --site-header-hide-offset: 0px;
+  --site-header-visible-height: max(
+    0px,
+    calc(var(--site-header-height) - var(--site-header-hide-offset))
+  );
   --section-anchor-overlap: 1px;
   --nav-dropdown-height: 0px;
 
@@ -427,7 +432,8 @@ body.has-nav-dropdown-closing .site-header {
 
 .nav-dropdown-surface {
   position: fixed;
-  top: var(--site-header-height);
+  /* This sibling is not translated with the header's nested menu. */
+  top: var(--site-header-visible-height);
   right: 0;
   left: 0;
   z-index: 999;
@@ -442,13 +448,13 @@ body.has-nav-dropdown-closing .site-header {
 /* Join the two backgrounds even when zoom places their edges between pixels. */
 body.has-nav-dropdown-open .nav-dropdown-surface,
 body.has-nav-dropdown-closing .nav-dropdown-surface {
-  top: calc(var(--site-header-height) - 1px);
+  top: calc(var(--site-header-visible-height) - 1px);
   height: calc(var(--nav-dropdown-height) + 1px);
 }
 
 .nav-backdrop {
   position: fixed;
-  top: var(--site-header-height);
+  top: var(--site-header-visible-height);
   right: 0;
   bottom: 0;
   left: 0;

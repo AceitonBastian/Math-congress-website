@@ -2801,7 +2801,9 @@ function renderSiteHeaderVisibility(progress) {
   const isFullyHidden = hideOffset >= maxHideOffset - 0.01;
 
   if (shouldStartHiding) {
-    siteHeader.style.setProperty(
+    // Share the translation with the viewport-fixed surface and backdrop,
+    // which are siblings of the header rather than transformed descendants.
+    document.documentElement.style.setProperty(
       '--site-header-hide-offset',
       `${hideOffset.toFixed(3)}px`
     );
@@ -2810,7 +2812,7 @@ function renderSiteHeaderVisibility(progress) {
       contentOpacity.toFixed(4)
     );
   } else {
-    siteHeader.style.removeProperty(
+    document.documentElement.style.removeProperty(
       '--site-header-hide-offset'
     );
     siteHeader.style.removeProperty(
@@ -2827,6 +2829,12 @@ function renderSiteHeaderVisibility(progress) {
     isFullyHidden
   );
   siteHeader.inert = isFullyHidden;
+
+  // A dropdown can be reopened while the header is only partially hidden.
+  // Do not leave its separate background open after its links leave view.
+  if (isFullyHidden && document.body.classList.contains('has-nav-dropdown-open')) {
+    closeNavDropdowns();
+  }
 }
 
 function stopSiteHeaderAnimation() {

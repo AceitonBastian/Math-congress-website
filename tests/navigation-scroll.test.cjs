@@ -14,11 +14,21 @@ const anchors = script.slice(
   script.indexOf('// Smooth scrolling'),
   script.indexOf('// Registration listeners')
 );
+const headerHelpers = script.slice(
+  script.indexOf('const DEFAULT_SITE_HEADER_HEIGHT'),
+  script.indexOf('function sortSpeakerCards()')
+);
+const headerVisibility = script.slice(
+  script.indexOf('function getSiteHeaderTargetProgress()'),
+  script.indexOf('// Smooth scrolling')
+);
+const styles = readFileSync(path.join(__dirname, '..', 'styles.css'), 'utf8');
 
 function element() {
   const classes = new Set();
   const attributes = new Map();
   const listeners = new Map();
+  const properties = new Map();
   return {
     classList: {
       add: (...names) => names.forEach(name => classes.add(name)),
@@ -31,7 +41,11 @@ function element() {
         return enabled;
       }
     },
-    style: { setProperty() {}, removeProperty() {} },
+    style: {
+      setProperty: (name, value) => properties.set(name, value),
+      removeProperty: name => properties.delete(name),
+      getPropertyValue: name => properties.get(name) ?? ''
+    },
     setAttribute: (name, value) => attributes.set(name, value),
     getAttribute: name => attributes.get(name) ?? null,
     addEventListener(type, listener) {
@@ -46,7 +60,8 @@ function element() {
   };
 }
 
-function createPage({ compact = true, initialTop = 4000 } = {}) {
+function createPage({ compact = true, initialTop = 4000, headingTop = 2000,
+  headerHeight = 79, reducedMotion = false } = {}) {
   let scrollY = initialTop;
   let renderedScrollY = initialTop;
   let pendingInstant = null;
@@ -55,12 +70,34 @@ function createPage({ compact = true, initialTop = 4000 } = {}) {
   const frames = new Map();
   const scrolls = [];
   const hashes = [];
+  const timers = new Map();
+  let timerId = 0;
   const document = element();
   document.body = element();
   document.documentElement = element();
   const siteNav = element();
   const navToggle = element();
   const navBackdrop = element();
+  const siteHeader = element();
+  siteHeader.getBoundingClientRect = () => ({ height: headerHeight });
+  const supportersHeading = {
+    getBoundingClientRect: () => ({ top: initialTop + headingTop - scrollY })
+  };
+  const dropdown = element();
+  const trigger = element();
+  const menu = element();
+  const content = element();
+  content.scrollWidth = 220;
+  content.getBoundingClientRect = () => ({ height: 150 });
+  const parentRow = { getBoundingClientRect: () => ({ left: 800 }) };
+  dropdown.querySelector = selector => ({
+    '.nav-dropdown-trigger': trigger,
+    '.nav-dropdown-menu': menu,
+    '.nav-dropdown-content': content,
+    '.nav-parent-row': parentRow
+  })[selector];
+  dropdown.matches = selector => selector === ':hover';
+  dropdown.contains = () => false;
   const targets = new Map([
     ['#speakers', 1200], ['#registration', 5000], ['#organizers', 9000]
   ]);
@@ -88,8 +125,13 @@ function createPage({ compact = true, initialTop = 4000 } = {}) {
       return frameId;
     },
     cancelAnimationFrame: id => frames.delete(id),
-    setTimeout,
-    clearTimeout,
+    setTimeout(callback) {
+      timers.set(++timerId, callback);
+      return timerId;
+    },
+    clearTimeout: id => timers.delete(id),
+    innerWidth: compact ? 412 : 1440,
+    getComputedStyle: () => ({ paddingTop: '8px', paddingBottom: '22px' }),
     matchMedia: () => ({ matches: !compact }),
     scrollTo(options) {
       scrolls.push({ ...options, from: renderedScrollY, frame: frameNumber });
@@ -116,21 +158,32 @@ function createPage({ compact = true, initialTop = 4000 } = {}) {
     }
   };
   const context = vm.createContext({
-    window, document, siteNav, navToggle, navBackdrop,
-    navLinks: links, navDropdowns: [],
-    NAV_COMPACT_MEDIA_QUERY: { addEventListener() {} },
-    usesCompactNavLayout: () => compact,
-    isMobileNavOpen: () => compact && siteNav.classList.contains('open'),
-    getSectionAnchorOffset: () => 78,
-    stopSiteHeaderAnimation() {}, renderSiteHeaderVisibility() {},
-    queueSiteHeaderVisibilitySync() {},
-    siteHeaderTargetProgress: 0, siteHeaderRenderedProgress: 0,
+    window, document, siteNav, navToggle, navBackdrop, siteHeader, supportersHeading,
+    navLinks: links, navDropdowns: [dropdown],
+    NAV_COMPACT_MEDIA_QUERY: { matches: compact, addEventListener() {} },
+    SUPPORTERS_REDUCED_MOTION_QUERY: { matches: reducedMotion },
     history: { replaceState: (_state, _title, hash) => hashes.push(hash) }
   });
-  vm.runInContext(navigation + '\n' + anchors, context);
+  vm.runInContext(headerHelpers + '\n' + navigation + '\n' + headerVisibility + '\n' + anchors, context);
+  context.syncSiteHeaderHeight();
 
   return {
-    scrolls, hashes, siteNav, targets,
+    scrolls, hashes, siteNav, targets, siteHeader, dropdown, trigger, document,
+    renderHeader: progress => context.renderSiteHeaderVisibility(progress),
+    syncHeader: () => context.syncSiteHeaderVisibility(),
+    hover() {
+      dropdown.dispatch('pointerenter');
+      const callbacks = [...timers.values()];
+      timers.clear();
+      callbacks.forEach(callback => callback());
+    },
+    focusDropdown: () => dropdown.dispatch('focusin', { target: trigger }),
+    scrollTo: top => { scrollY = top; },
+    resizeHeader(height) {
+      headerHeight = height;
+      context.syncSiteHeaderHeight();
+      context.syncSiteHeaderVisibility();
+    },
     open: () => context.openNav(),
     close: () => context.closeNav(),
     click(href) {
@@ -294,4 +347,100 @@ test('navigation also works when the menu was opened at the top of the page', as
   assert.equal(page.scrolls.at(-1).behavior, 'smooth');
   assert.equal(page.scrolls.at(-1).from, 0);
   assert.equal(page.scrolls.at(-1).top, 1122);
+});
+
+function sharedHideOffset(page) {
+  return parseFloat(page.document.documentElement.style.getPropertyValue('--site-header-hide-offset')) || 0;
+}
+
+for (const input of ['hover', 'focusDropdown']) {
+  test(`desktop ${input}: overlay siblings share the partially hidden header offset`, () => {
+    const page = createPage({ compact: false, headingTop: 53 });
+    page.syncHeader();
+    page[input]();
+    assert.equal(page.dropdown.classList.contains('is-open'), true);
+    assert.equal(page.siteHeader.classList.contains('is-hiding-past-supporters'), true);
+    assert.equal(page.siteHeader.inert, false);
+    assert.equal(sharedHideOffset(page), 38);
+    // No private value may override the offset inherited by the header.
+    assert.equal(page.siteHeader.style.getPropertyValue('--site-header-hide-offset'), '');
+  });
+}
+
+test('overlay offset follows each animation frame, including heading clearance', () => {
+  const page = createPage({ compact: false });
+  for (const progress of [0.1, 0.3, 0.5, 0.8, 1, 0.8, 0.4, 0]) {
+    page.renderHeader(progress);
+    const expected = Number((progress * progress * (3 - 2 * progress) * 80).toFixed(3));
+    assert.equal(sharedHideOffset(page), expected);
+  }
+  page.scrollTo(5980); // Heading is at 20px; clearance leads the damped progress.
+  page.renderHeader(0.1);
+  assert.equal(sharedHideOffset(page), 71);
+});
+
+test('scrolling an open desktop dropdown fully offscreen also dismisses its overlay', () => {
+  const page = createPage({ compact: false, headingTop: 53 });
+  page.syncHeader();
+  page.hover();
+  page.renderHeader(1);
+  assert.equal(page.siteHeader.inert, true);
+  assert.equal(page.document.body.classList.contains('has-nav-dropdown-open'), false);
+  assert.equal(page.dropdown.classList.contains('is-open'), false);
+  assert.equal(page.trigger.getAttribute('aria-expanded'), 'false');
+});
+
+test('mobile opening at the hide threshold restores both header and backdrop positions', async () => {
+  const page = createPage({ headingTop: 53 });
+  page.syncHeader();
+  assert.equal(sharedHideOffset(page), 38);
+  page.open();
+  assert.equal(sharedHideOffset(page), 0);
+  assert.equal(page.siteHeader.classList.contains('is-hiding-past-supporters'), false);
+  assert.equal(page.siteHeader.inert, false);
+  // A queued frame or browser-toolbar resize must not re-hide the pinned header.
+  await page.frame();
+  page.resizeHeader(91);
+  page.renderHeader(0.8);
+  assert.equal(sharedHideOffset(page), 0);
+  assert.equal(page.document.documentElement.style.getPropertyValue('--site-header-height'), '91px');
+  assert.equal(page.siteNav.classList.contains('open'), true);
+  page.close();
+  await page.frame();
+  await page.frame();
+  assert.ok(sharedHideOffset(page) > 0);
+  assert.equal(page.scrolls[0].top, 4000);
+});
+
+test('reduced motion keeps the shared overlay offset at zero', () => {
+  const page = createPage({ reducedMotion: true, headingTop: -20 });
+  page.renderHeader(1);
+  assert.equal(sharedHideOffset(page), 0);
+  assert.equal(page.siteHeader.classList.contains('is-hiding-past-supporters'), false);
+  assert.equal(page.siteHeader.inert, false);
+});
+
+test('fractional header heights retain subpixel alignment with the overlays', () => {
+  const page = createPage({ compact: false, headerHeight: 98.75, headingTop: 65.5 });
+  page.syncHeader();
+  page.hover();
+  assert.equal(sharedHideOffset(page), 45.25);
+  assert.equal(page.document.documentElement.style.getPropertyValue('--site-header-height'), '98.75px');
+});
+
+test('CSS anchors external layers to the visible edge but leaves nested menus in header coordinates', () => {
+  const rule = selector => {
+    const start = styles.indexOf(selector + ' {');
+    assert.notEqual(start, -1, `Missing CSS rule: ${selector}`);
+    return styles.slice(start, styles.indexOf('}', start));
+  };
+  assert.match(rule(':root'), /--site-header-hide-offset:\s*0px/);
+  assert.match(rule(':root'), /--site-header-visible-height:\s*max\(\s*0px,\s*calc\(var\(--site-header-height\)\s*-\s*var\(--site-header-hide-offset\)\)\s*\)/);
+  for (const selector of ['.nav-dropdown-surface', '.nav-backdrop']) {
+    assert.match(rule(selector), /top:\s*var\(--site-header-visible-height\)/);
+  }
+  assert.match(rule('body.has-nav-dropdown-closing .nav-dropdown-surface'),
+    /top:\s*calc\(var\(--site-header-visible-height\) - 1px\)/);
+  // This menu is inside the transformed/filtered header, not a viewport sibling.
+  assert.match(rule('.nav-dropdown-menu'), /top:\s*var\(--site-header-height\)/);
 });
