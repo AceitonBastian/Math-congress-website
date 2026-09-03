@@ -3187,6 +3187,12 @@ const MATERIALS = {
       pdf: 'pdfs/yoshihiro-tonegawa.pdf'
     },
     {
+      title: 'Stability of extremal domains',
+      speaker: 'Marcos Petrucio Cavalcante',
+      affiliation: 'Universidade Federal de Alagoas, Brazil',
+      pdf: 'pdfs/marcos-petrucio-cavalcante.pdf'
+    },
+    {
       title: 'A non local PDE model for fire fronts',
       speaker: 'Valentina Wheeler',
       affiliation: 'University of Wollongong, Australia',
