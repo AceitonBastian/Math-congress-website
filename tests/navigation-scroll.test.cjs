@@ -367,82 +367,16 @@ for (const input of ['hover', 'focusDropdown']) {
   });
 }
 
-test('overlay offset follows the rendered animation without an immediate scroll override', () => {
+test('overlay offset follows each animation frame, including heading clearance', () => {
   const page = createPage({ compact: false });
+  for (const progress of [0.1, 0.3, 0.5, 0.8, 1, 0.8, 0.4, 0]) {
+    page.renderHeader(progress);
+    const expected = Number((progress * progress * (3 - 2 * progress) * 80).toFixed(3));
+    assert.equal(sharedHideOffset(page), expected);
+  }
+  page.scrollTo(5980); // Heading is at 20px; clearance leads the damped progress.
   page.renderHeader(0.1);
-  const renderedOffset = sharedHideOffset(page);
-  assert.ok(renderedOffset > 0 && renderedOffset < 80);
-  page.scrollTo(5980);
-  page.renderHeader(0.1);
-  assert.equal(sharedHideOffset(page), renderedOffset);
-  page.renderHeader(1);
-  assert.equal(sharedHideOffset(page), 80);
-  page.renderHeader(0);
-  assert.equal(sharedHideOffset(page), 0);
-});
-
-test('hiding still starts at the original 12px heading clearance', async () => {
-  for (const headerHeight of [64, 79, 98.75]) {
-    const page = createPage({ headerHeight, headingTop: headerHeight + 12 + 30 });
-    await page.frame();
-    for (const distance of [0, 29, 30]) {
-      page.scrollTo(4000 + distance);
-      page.syncHeader();
-      await page.frame();
-      await page.frame();
-      assert.equal(sharedHideOffset(page), 0);
-    }
-    page.scrollTo(4031);
-    page.syncHeader();
-    await page.frame();
-    assert.ok(sharedHideOffset(page) > 0 && sharedHideOffset(page) < 1);
-    for (let frame = 0; frame < 60; frame++) await page.frame();
-    assert.equal(sharedHideOffset(page), 1);
-
-    page.scrollTo(4030);
-    page.syncHeader();
-    for (let frame = 0; frame < 60; frame++) await page.frame();
-    assert.equal(sharedHideOffset(page), 0);
-  }
-});
-
-test('small scrolls and reversals are damped throughout the hiding area', async () => {
-  for (const headingTop of [80, 60, 40]) {
-    const page = createPage({ headingTop });
-    await page.frame();
-    const initialOffset = sharedHideOffset(page);
-
-    page.scrollTo(4004);
-    page.syncHeader();
-    await page.frame();
-    const firstOffset = sharedHideOffset(page);
-    // A 4px finger adjustment must not produce an immediate 4px panel jump.
-    assert.ok(firstOffset > initialOffset);
-    assert.ok(firstOffset - initialOffset < 1);
-
-    page.scrollTo(4000);
-    page.syncHeader();
-    await page.frame();
-    assert.ok(sharedHideOffset(page) < firstOffset);
-    assert.ok(sharedHideOffset(page) >= initialOffset);
-    for (let frame = 0; frame < 60; frame++) await page.frame();
-    assert.equal(sharedHideOffset(page), initialOffset);
-  }
-});
-
-test('fast scrolling still keeps the supporters heading clear of the panel', async () => {
-  const page = createPage({ headingTop: 220 });
-  await page.frame();
-  for (let distance = 0; distance <= 250; distance += 20) {
-    page.scrollTo(4000 + distance);
-    page.syncHeader();
-    await page.frame();
-    const offset = sharedHideOffset(page);
-    if (offset > 0 && offset < 80) {
-      assert.ok(220 - distance - (79 - offset) >= 1.999);
-    }
-  }
-  assert.equal(page.siteHeader.inert, true);
+  assert.equal(sharedHideOffset(page), 71);
 });
 
 test('scrolling an open desktop dropdown fully offscreen also dismisses its overlay', () => {

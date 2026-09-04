@@ -40,7 +40,6 @@ const NAV_DROPDOWN_HOVER_DELAY_MS = 160;
 const SITE_HEADER_HEADING_CLEARANCE_PX = 12;
 const SITE_HEADER_HIDE_SCROLL_MULTIPLIER = 1.35;
 const SITE_HEADER_DAMPING_TIME_MS = 95;
-const SITE_HEADER_MAX_SMOOTHING_LAG_PX = 10;
 const SITE_HEADER_CONTENT_FADE_START_PROGRESS = 0.45;
 let siteHeaderVisibilityFrame = null;
 let siteHeaderAnimationFrame = null;
@@ -2767,6 +2766,9 @@ function renderSiteHeaderVisibility(progress) {
   const clampedProgress = keepHeaderVisible
     ? 0
     : Math.min(Math.max(progress, 0), 1);
+  const movementProgress = easeSiteHeaderProgress(
+    clampedProgress
+  );
   const contentFadeProgress = Math.min(
     Math.max(
       (clampedProgress -
@@ -2781,13 +2783,17 @@ function renderSiteHeaderVisibility(progress) {
   );
   const headerHeight = getSiteHeaderHeight();
   const maxHideOffset = headerHeight + SECTION_ANCHOR_OVERLAP;
-  // Follow the damped scroll distance instead of overriding it with the live
-  // heading position. This preserves the original resting position and trigger.
+  // Scrolling moves the heading immediately; the damped animation can lag.
+  // Keep this clearance even before the animation has caught up.
+  const clearanceOffset = !keepHeaderVisible && supportersHeading
+    ? Math.max(
+        headerHeight + SITE_HEADER_HEADING_CLEARANCE_PX -
+          supportersHeading.getBoundingClientRect().top,
+        0
+      )
+    : 0;
   const hideOffset = Math.min(
-    clampedProgress * Math.max(
-      headerHeight * SITE_HEADER_HIDE_SCROLL_MULTIPLIER,
-      1
-    ),
+    Math.max(movementProgress * maxHideOffset, clearanceOffset),
     maxHideOffset
   );
   const contentOpacity = 1 - easedContentFadeProgress;
@@ -2862,23 +2868,6 @@ function animateSiteHeaderVisibility(timestamp) {
   ) {
     siteHeaderRenderedProgress = siteHeaderTargetProgress;
   }
-
-  // Use up to 10px of the existing 12px gap to absorb small scroll changes.
-  // Bound the animation state itself so fast scrolling cannot cover the heading
-  // or leave a hidden correction for the next direction change to catch up with.
-  const hideScrollDistance = Math.max(
-    getSiteHeaderHeight() * SITE_HEADER_HIDE_SCROLL_MULTIPLIER,
-    1
-  );
-  const minimumProgress = Math.max(
-    getSiteHeaderTargetProgress() -
-      SITE_HEADER_MAX_SMOOTHING_LAG_PX / hideScrollDistance,
-    0
-  );
-  siteHeaderRenderedProgress = Math.max(
-    siteHeaderRenderedProgress,
-    minimumProgress
-  );
 
   renderSiteHeaderVisibility(siteHeaderRenderedProgress);
 
