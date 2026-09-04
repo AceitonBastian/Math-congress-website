@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260903-08" />
+  <link rel="stylesheet" href="styles.css?v=20260903-09" />
 
   <script type="application/ld+json">
   {
@@ -841,9 +841,15 @@
                   <span aria-hidden="true">–</span>
                   <time datetime="2026-09-09T10:30">10:30</time>
                 </div>
-                <div class="schedule-event">
-                  <span class="schedule-event-type">Break</span>
-                  <h4>Coffee break</h4>
+                <div class="schedule-event schedule-event-stacked">
+                  <div class="schedule-event-row">
+                    <h4>Coffee break</h4>
+                    <span class="schedule-event-type">Break</span>
+                  </div>
+                  <div class="schedule-event-row">
+                    <h4>Poster session</h4>
+                    <span class="schedule-event-type schedule-event-type-poster">Poster</span>
+                  </div>
                 </div>
               </li>
               <li class="schedule-item">
@@ -1438,6 +1444,14 @@
                 The submission period has ended. Thank you to everyone who
                 sent a proposal. Presenters will be contacted directly when
                 acceptance decisions are ready.
+              </p>
+
+              <p>
+                The poster session will take place on
+                <strong><time datetime="2026-09-09">Wednesday, September 9</time></strong>,
+                from <strong><time datetime="2026-09-09T10:00">10:00</time>
+                to <time datetime="2026-09-09T10:30">10:30</time></strong>,
+                during the morning coffee break.
               </p>
             </div>
 

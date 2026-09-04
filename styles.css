@@ -1639,6 +1639,21 @@ main > .section + .section::before {
   padding: 1rem 1.6rem;
 }
 
+.schedule-event-stacked {
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  row-gap: 0.65rem;
+}
+
+.schedule-event-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.65rem;
+  min-width: 0;
+}
+
 .schedule-event-type {
   display: inline-flex;
   order: 2;
@@ -1743,6 +1758,12 @@ main > .section + .section::before {
   color: #9ccad8;
   border-color: rgba(156, 202, 216, 0.28);
   background: rgba(156, 202, 216, 0.08);
+}
+
+.schedule-event-type.schedule-event-type-poster {
+  color: #e8a3cb;
+  border-color: rgba(232, 163, 203, 0.28);
+  background: rgba(232, 163, 203, 0.08);
 }
 
 .schedule-item-meal .schedule-event-type {
@@ -2493,6 +2514,14 @@ textarea {
   margin: 0;
   color: var(--muted);
   line-height: 1.65;
+}
+
+.poster-form-launcher p + p {
+  margin-top: 1rem;
+}
+
+.poster-form-launcher strong {
+  color: var(--text);
 }
 
 .poster-call-button {
