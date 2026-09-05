@@ -38,15 +38,15 @@ const NAV_DROPDOWN_CLOSE_DELAY_MS = 220;
 const NAV_DROPDOWN_TRANSITION_MS = 200;
 const NAV_DROPDOWN_HOVER_DELAY_MS = 160;
 const SITE_HEADER_HEADING_CLEARANCE_PX = 12;
-const SITE_HEADER_DAMPING_TIME_MS = 95;
-const SITE_HEADER_MAX_SMOOTHING_LAG_PX = 4;
 const SITE_HEADER_CONTENT_FADE_START_PROGRESS = 0.45;
+const SITE_HEADER_NATIVE_SCROLL_SUPPORTED = Boolean(
+  window.CSS?.supports('animation-timeline: --site-header-scroll') &&
+  window.CSS.supports('timeline-scope: --site-header-scroll') &&
+  window.CSS.supports('animation-range: exit-crossing 0px exit-crossing 80px') &&
+  window.CSS.supports('overflow: clip')
+);
 let siteHeaderVisibilityFrame = null;
-let siteHeaderAnimationFrame = null;
-let siteHeaderAnimationTimestamp = null;
 let siteHeaderTargetProgress = 0;
-let siteHeaderRenderedProgress = 0;
-let siteHeaderAnimationInitialized = false;
 
 function usesCompactNavLayout() {
   return NAV_COMPACT_MEDIA_QUERY.matches;
@@ -76,6 +76,14 @@ function syncSiteHeaderHeight() {
   document.documentElement.style.setProperty(
     '--site-header-height',
     `${getSiteHeaderHeight()}px`
+  );
+  document.documentElement.style.setProperty(
+    '--site-header-heading-clearance',
+    `${SITE_HEADER_HEADING_CLEARANCE_PX}px`
+  );
+  document.documentElement.classList.toggle(
+    'has-native-header-scroll',
+    SITE_HEADER_NATIVE_SCROLL_SUPPORTED
   );
 }
 
@@ -2434,11 +2442,9 @@ function openNav() {
       'has-mobile-nav-open'
     );
 
-    // The menu owns the header while the page is pinned. Cancel any pending
-    // scroll animation before it can move the menu or make it inert.
-    stopSiteHeaderAnimation();
+    // The menu owns the header while the page is pinned. Its CSS also disables
+    // the native scroll timeline until the saved page position is restored.
     siteHeaderTargetProgress = 0;
-    siteHeaderRenderedProgress = 0;
     renderSiteHeaderVisibility(0);
 
     navDropdowns.forEach((dropdown) => {
@@ -2742,8 +2748,7 @@ function getSiteHeaderTargetProgress() {
   const scrollPastHideStart =
     hideStart -
     supportersHeading.getBoundingClientRect().top;
-  // Keep the original trigger and resting position. Only the journey to that
-  // position is damped; no advance hiding or wider scroll range is needed.
+  // Match the native timeline's inset and range, including the original gap.
   const hideScrollDistance = headerHeight + SECTION_ANCHOR_OVERLAP;
   const hideProgress = Math.min(
     Math.max(scrollPastHideStart / hideScrollDistance, 0),
@@ -2758,7 +2763,7 @@ function easeSiteHeaderProgress(progress) {
 }
 
 function renderSiteHeaderVisibility(progress) {
-  if (!siteHeader) return 0;
+  if (!siteHeader) return;
 
   const keepHeaderVisible =
     SUPPORTERS_REDUCED_MOTION_QUERY.matches || isMobileNavOpen();
@@ -2767,24 +2772,9 @@ function renderSiteHeaderVisibility(progress) {
     : Math.min(Math.max(progress, 0), 1);
   const headerHeight = getSiteHeaderHeight();
   const maxHideOffset = headerHeight + SECTION_ANCHOR_OVERLAP;
-  // Use a little of the existing 12px gap to absorb small scroll steps. Bound
-  // that lag during fast swipes so the heading still clears the visible panel.
-  const clearanceOffset = !keepHeaderVisible && supportersHeading
-    ? Math.max(
-        headerHeight + SITE_HEADER_HEADING_CLEARANCE_PX -
-          SITE_HEADER_MAX_SMOOTHING_LAG_PX -
-          supportersHeading.getBoundingClientRect().top,
-        0
-      )
-    : 0;
-  const visibleProgress = Math.min(
-    Math.max(clampedProgress, clearanceOffset / maxHideOffset),
-    1
-  );
-  const hideOffset = visibleProgress * maxHideOffset;
-  // Fade with the actual translation, including clearance during a fast swipe.
+  const hideOffset = clampedProgress * maxHideOffset;
   const contentFadeProgress = Math.max(
-    (visibleProgress - SITE_HEADER_CONTENT_FADE_START_PROGRESS) /
+    (clampedProgress - SITE_HEADER_CONTENT_FADE_START_PROGRESS) /
       (1 - SITE_HEADER_CONTENT_FADE_START_PROGRESS),
     0
   );
@@ -2830,68 +2820,11 @@ function renderSiteHeaderVisibility(progress) {
   if (isFullyHidden && document.body.classList.contains('has-nav-dropdown-open')) {
     closeNavDropdowns();
   }
-
-  return visibleProgress;
 }
 
-function stopSiteHeaderAnimation() {
-  if (siteHeaderAnimationFrame !== null) {
-    window.cancelAnimationFrame(siteHeaderAnimationFrame);
-  }
-
-  siteHeaderAnimationFrame = null;
-  siteHeaderAnimationTimestamp = null;
-}
-
-function animateSiteHeaderVisibility(timestamp) {
-  siteHeaderAnimationFrame = null;
-
-  const elapsed =
-    siteHeaderAnimationTimestamp === null
-      ? 1000 / 60
-      : Math.min(timestamp - siteHeaderAnimationTimestamp, 64);
-  siteHeaderAnimationTimestamp = timestamp;
-  const damping =
-    1 - Math.exp(-elapsed / SITE_HEADER_DAMPING_TIME_MS);
-
-  siteHeaderRenderedProgress +=
-    (siteHeaderTargetProgress - siteHeaderRenderedProgress) *
-    damping;
-
-  if (
-    Math.abs(
-      siteHeaderTargetProgress - siteHeaderRenderedProgress
-    ) < 0.001
-  ) {
-    siteHeaderRenderedProgress = siteHeaderTargetProgress;
-  }
-
-  // Continue from the position actually shown if a fast swipe required an
-  // immediate clearance adjustment. Reversing direction must not jump back
-  // to an older animation position.
-  siteHeaderRenderedProgress = renderSiteHeaderVisibility(
-    siteHeaderRenderedProgress
-  );
-
-  if (siteHeaderRenderedProgress !== siteHeaderTargetProgress) {
-    siteHeaderAnimationFrame = window.requestAnimationFrame(
-      animateSiteHeaderVisibility
-    );
-  } else {
-    siteHeaderAnimationTimestamp = null;
-  }
-}
-
-function startSiteHeaderAnimation() {
-  if (siteHeaderAnimationFrame !== null) return;
-
-  siteHeaderAnimationFrame = window.requestAnimationFrame(
-    animateSiteHeaderVisibility
-  );
-}
-
-// Keep the original hide position near "Supported By" and ease small scroll
-// changes in both directions without moving the trigger earlier.
+// Native CSS owns the visual motion. Keep overlays and accessibility in sync;
+// browsers without scroll timelines use this same position once per frame.
+// A second, time-based catch-up loop would fight the browser's touch scrolling.
 function syncSiteHeaderVisibility() {
   siteHeaderVisibilityFrame = null;
 
@@ -2902,9 +2835,7 @@ function syncSiteHeaderVisibility() {
   // A pinned page can produce transient geometry during viewport changes.
   // Never let those measurements dismiss or hide an active mobile menu.
   if (SUPPORTERS_REDUCED_MOTION_QUERY.matches || isMobileNavOpen()) {
-    stopSiteHeaderAnimation();
     siteHeaderTargetProgress = 0;
-    siteHeaderRenderedProgress = 0;
     renderSiteHeaderVisibility(0);
     return;
   }
@@ -2918,16 +2849,7 @@ function syncSiteHeaderVisibility() {
     closeNav();
   }
 
-  if (!siteHeaderAnimationInitialized) {
-    siteHeaderAnimationInitialized = true;
-    siteHeaderRenderedProgress = nextTargetProgress;
-    siteHeaderRenderedProgress = renderSiteHeaderVisibility(
-      siteHeaderRenderedProgress
-    );
-    return;
-  }
-
-  startSiteHeaderAnimation();
+  renderSiteHeaderVisibility(nextTargetProgress);
 }
 
 function queueSiteHeaderVisibilitySync() {

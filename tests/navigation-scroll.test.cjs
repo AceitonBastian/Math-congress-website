@@ -370,18 +370,18 @@ for (const input of ['hover', 'focusDropdown']) {
   });
 }
 
-test('overlay offset follows each animation frame, including heading clearance', () => {
+test('overlay offset follows the current progress and heading clearance', () => {
   const page = createPage({ compact: false });
   for (const progress of [0.1, 0.3, 0.5, 0.8, 1, 0.8, 0.4, 0]) {
     page.renderHeader(progress);
     const expected = Number((progress * 80).toFixed(3));
     assert.equal(sharedHideOffset(page), expected);
   }
-  page.scrollTo(5980); // Heading is at 20px; clearance leads the damped progress.
-  page.renderHeader(0.1);
-  assert.equal(sharedHideOffset(page), 67);
+  page.scrollTo(5980); // Heading is at 20px, with the original 12px clearance.
+  page.syncHeader();
+  assert.equal(sharedHideOffset(page), 71);
   assert.ok(Number(page.siteHeader.style.getPropertyValue('--site-header-content-opacity')) < 0.4,
-    'Content must fade with the actual offset, even when clearance leads the animation');
+    'Content must fade with the actual offset');
 });
 
 test('scrolling an open desktop dropdown fully offscreen also dismisses its overlay', () => {
@@ -442,51 +442,36 @@ test('header hiding retains the original trigger and resting positions', async (
   }
 });
 
-test('small scrolls ease from the current position and settle in both directions', async () => {
+test('fallback scrolling stays aligned and does not keep moving after input stops', async () => {
   const page = createPage({ headingTop: 60 });
   await page.frame();
-  const initial = sharedHideOffset(page);
-  page.scrollTo(4004);
-  page.syncHeader();
-  await page.frame();
-  const first = sharedHideOffset(page);
-  assert.ok(first > initial && first - initial < 1,
-    'A four-pixel scroll should start with less than one pixel of movement');
-  for (let frame = 0; frame < 60; frame++) await page.frame();
-  const settled = sharedHideOffset(page);
-  assert.ok(settled > first);
-  assert.equal(page.pendingFrameCount(), 0, 'Stop requesting frames once settled');
-
-  page.scrollTo(4000);
-  page.syncHeader();
-  await page.frame();
-  const reversed = sharedHideOffset(page);
-  assert.ok(reversed < settled && settled - reversed < 1);
-  for (let frame = 0; frame < 60; frame++) await page.frame();
-  assert.ok(Math.abs(sharedHideOffset(page) - initial) < 0.01);
-  assert.equal(page.pendingFrameCount(), 0);
+  for (const top of [4001, 4003, 4004.5, 4004, 4002, 4000]) {
+    page.scrollTo(top);
+    page.input('scroll');
+    await page.frame();
+    const offset = sharedHideOffset(page);
+    assert.equal(offset, 31 + top - 4000);
+    assert.equal(page.pendingFrameCount(), 0, 'No catch-up loop after the scroll frame');
+    await page.frame();
+    assert.equal(sharedHideOffset(page), offset, 'The stationary page must stay stationary');
+  }
 });
 
-test('a fast swipe preserves clearance and reverses from the displayed position', async () => {
+test('queued visibility updates use the newest position when a swipe reverses', async () => {
   const page = createPage({ headingTop: 220 });
   await page.frame();
-  page.scrollTo(4200); // Heading jumps to 20px before the easing can catch up.
-  page.syncHeader();
+  page.scrollTo(4200);
+  page.input('scroll');
+  page.scrollTo(4190);
+  page.input('scroll');
+  assert.equal(page.pendingFrameCount(), 1, 'Coalesce input into one visibility update');
   await page.frame();
-  const forced = sharedHideOffset(page);
-  assert.ok(forced >= 67, 'Keep at least 8px of clearance while easing catches up');
-
-  page.scrollTo(4190); // A small reversal must not expose an old animation state.
-  page.syncHeader();
-  await page.frame();
-  assert.ok(sharedHideOffset(page) < forced && sharedHideOffset(page) > forced - 2,
-    'Reverse smoothly from the displayed position, without jumping to the clearance limit');
+  assert.equal(sharedHideOffset(page), 61, 'Use the current 30px heading position');
+  assert.equal(page.pendingFrameCount(), 0);
 
   page.scrollTo(4000);
-  page.syncHeader();
+  page.input('scroll');
   await page.frame();
-  assert.ok(sharedHideOffset(page) > 50, 'Returning should glide down, not snap open');
-  for (let frame = 0; frame < 60; frame++) await page.frame();
   assert.equal(sharedHideOffset(page), 0);
   assert.equal(page.siteHeader.inert, false);
 });

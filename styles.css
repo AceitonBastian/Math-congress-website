@@ -141,6 +141,64 @@ textarea {
   visibility: hidden;
 }
 
+@keyframes site-header-scroll-hide {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, calc(-100% - 1px), 0); }
+}
+
+@keyframes site-header-scroll-fade {
+  0%, 45% {
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.333333, 0, 0.666667, 1);
+  }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .has-native-header-scroll {
+    timeline-scope: --site-header-scroll;
+  }
+
+  .has-native-header-scroll .supporters-section {
+    /* Clip the logo strip without creating a separate scroll container for
+       the heading's view timeline. */
+    overflow: clip;
+  }
+
+  .has-native-header-scroll #supporters-heading {
+    view-timeline: --site-header-scroll block;
+    view-timeline-inset: calc(
+      var(--site-header-height) + var(--site-header-heading-clearance, 12px)
+    ) 0px;
+  }
+
+  .has-native-header-scroll .site-header,
+  .has-native-header-scroll .site-header .nav-wrap {
+    animation: site-header-scroll-hide linear both;
+    animation-timeline: --site-header-scroll;
+    animation-range: exit-crossing 0px exit-crossing calc(var(--site-header-height) + 1px);
+  }
+
+  .has-native-header-scroll .site-header {
+    /* The timeline moves it completely offscreen. A delayed JS visibility
+       toggle must not make it pop back into view during a reverse swipe. */
+    visibility: visible;
+    will-change: transform;
+  }
+
+  .has-native-header-scroll .site-header .nav-wrap {
+    animation-name: site-header-scroll-fade;
+    will-change: opacity;
+  }
+
+  body.has-mobile-nav-open .site-header,
+  body.has-mobile-nav-open .site-header .nav-wrap {
+    animation: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
 body.has-nav-dropdown-open .site-header,
 body.has-nav-dropdown-closing .site-header {
   background: #07111d;
@@ -3898,6 +3956,17 @@ textarea {
   body.has-nav-dropdown-closing .nav-dropdown-surface,
   .nav-backdrop {
     transition: none;
+  }
+
+  .site-header.is-hiding-past-supporters,
+  .site-header.is-hidden-past-supporters {
+    transform: none;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .site-header.is-hiding-past-supporters .nav-wrap {
+    opacity: 1;
   }
 }
 
