@@ -3130,7 +3130,7 @@ const MATERIALS = {
       title: 'Future stability of Maxwell-Jüttner equilibria and vacuum for the massless Boltzmann equation on FLRW spacetimes',
       speaker: 'Renato Velozo Ruiz',
       affiliation: 'Imperial College London, UK',
-      pdf: 'pdfs/renato-velozo-ruiz.pdf'
+      pdf: 'pdfs/renato-velozo-ruiz.pdf?v=20260904-05'
     },
     {
       title: 'A non local PDE model for fire fronts',
