@@ -3127,6 +3127,12 @@ const MATERIALS = {
       pdf: 'pdfs/marcos-petrucio-cavalcante.pdf'
     },
     {
+      title: 'Future stability of Maxwell-Jüttner equilibria and vacuum for the massless Boltzmann equation on FLRW spacetimes',
+      speaker: 'Renato Velozo Ruiz',
+      affiliation: 'Imperial College London, UK',
+      pdf: 'pdfs/renato-velozo-ruiz.pdf'
+    },
+    {
       title: 'A non local PDE model for fire fronts',
       speaker: 'Valentina Wheeler',
       affiliation: 'University of Wollongong, Australia',
