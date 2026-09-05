@@ -171,6 +171,7 @@ function createPage({ compact = true, initialTop = 4000, headingTop = 2000,
     scrolls, hashes, siteNav, targets, siteHeader, dropdown, trigger, document,
     renderHeader: progress => context.renderSiteHeaderVisibility(progress),
     syncHeader: () => context.syncSiteHeaderVisibility(),
+    pendingFrameCount: () => frames.size,
     hover() {
       dropdown.dispatch('pointerenter');
       const callbacks = [...timers.values()];
@@ -357,11 +358,13 @@ for (const input of ['hover', 'focusDropdown']) {
   test(`desktop ${input}: overlay siblings share the partially hidden header offset`, () => {
     const page = createPage({ compact: false, headingTop: 53 });
     page.syncHeader();
+    const offset = sharedHideOffset(page);
+    assert.equal(offset, 38);
     page[input]();
     assert.equal(page.dropdown.classList.contains('is-open'), true);
     assert.equal(page.siteHeader.classList.contains('is-hiding-past-supporters'), true);
     assert.equal(page.siteHeader.inert, false);
-    assert.equal(sharedHideOffset(page), 38);
+    assert.equal(sharedHideOffset(page), offset);
     // No private value may override the offset inherited by the header.
     assert.equal(page.siteHeader.style.getPropertyValue('--site-header-hide-offset'), '');
   });
@@ -371,12 +374,14 @@ test('overlay offset follows each animation frame, including heading clearance',
   const page = createPage({ compact: false });
   for (const progress of [0.1, 0.3, 0.5, 0.8, 1, 0.8, 0.4, 0]) {
     page.renderHeader(progress);
-    const expected = Number((progress * progress * (3 - 2 * progress) * 80).toFixed(3));
+    const expected = Number((progress * 80).toFixed(3));
     assert.equal(sharedHideOffset(page), expected);
   }
   page.scrollTo(5980); // Heading is at 20px; clearance leads the damped progress.
   page.renderHeader(0.1);
-  assert.equal(sharedHideOffset(page), 71);
+  assert.equal(sharedHideOffset(page), 67);
+  assert.ok(Number(page.siteHeader.style.getPropertyValue('--site-header-content-opacity')) < 0.4,
+    'Content must fade with the actual offset, even when clearance leads the animation');
 });
 
 test('scrolling an open desktop dropdown fully offscreen also dismisses its overlay', () => {
@@ -426,6 +431,64 @@ test('fractional header heights retain subpixel alignment with the overlays', ()
   page.hover();
   assert.equal(sharedHideOffset(page), 45.25);
   assert.equal(page.document.documentElement.style.getPropertyValue('--site-header-height'), '98.75px');
+});
+
+test('header hiding retains the original trigger and resting positions', async () => {
+  for (const [headingTop, offset] of [[130, 0], [100, 0], [91, 0], [80, 11],
+    [60, 31], [40, 51], [20, 71], [11, 80], [-20, 80]]) {
+    const page = createPage({ headingTop });
+    await page.frame();
+    assert.equal(sharedHideOffset(page), offset, `Heading at ${headingTop}px`);
+  }
+});
+
+test('small scrolls ease from the current position and settle in both directions', async () => {
+  const page = createPage({ headingTop: 60 });
+  await page.frame();
+  const initial = sharedHideOffset(page);
+  page.scrollTo(4004);
+  page.syncHeader();
+  await page.frame();
+  const first = sharedHideOffset(page);
+  assert.ok(first > initial && first - initial < 1,
+    'A four-pixel scroll should start with less than one pixel of movement');
+  for (let frame = 0; frame < 60; frame++) await page.frame();
+  const settled = sharedHideOffset(page);
+  assert.ok(settled > first);
+  assert.equal(page.pendingFrameCount(), 0, 'Stop requesting frames once settled');
+
+  page.scrollTo(4000);
+  page.syncHeader();
+  await page.frame();
+  const reversed = sharedHideOffset(page);
+  assert.ok(reversed < settled && settled - reversed < 1);
+  for (let frame = 0; frame < 60; frame++) await page.frame();
+  assert.ok(Math.abs(sharedHideOffset(page) - initial) < 0.01);
+  assert.equal(page.pendingFrameCount(), 0);
+});
+
+test('a fast swipe preserves clearance and reverses from the displayed position', async () => {
+  const page = createPage({ headingTop: 220 });
+  await page.frame();
+  page.scrollTo(4200); // Heading jumps to 20px before the easing can catch up.
+  page.syncHeader();
+  await page.frame();
+  const forced = sharedHideOffset(page);
+  assert.ok(forced >= 67, 'Keep at least 8px of clearance while easing catches up');
+
+  page.scrollTo(4190); // A small reversal must not expose an old animation state.
+  page.syncHeader();
+  await page.frame();
+  assert.ok(sharedHideOffset(page) < forced && sharedHideOffset(page) > forced - 2,
+    'Reverse smoothly from the displayed position, without jumping to the clearance limit');
+
+  page.scrollTo(4000);
+  page.syncHeader();
+  await page.frame();
+  assert.ok(sharedHideOffset(page) > 50, 'Returning should glide down, not snap open');
+  for (let frame = 0; frame < 60; frame++) await page.frame();
+  assert.equal(sharedHideOffset(page), 0);
+  assert.equal(page.siteHeader.inert, false);
 });
 
 test('CSS anchors external layers to the visible edge but leaves nested menus in header coordinates', () => {

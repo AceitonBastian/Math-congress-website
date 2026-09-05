@@ -38,8 +38,8 @@ const NAV_DROPDOWN_CLOSE_DELAY_MS = 220;
 const NAV_DROPDOWN_TRANSITION_MS = 200;
 const NAV_DROPDOWN_HOVER_DELAY_MS = 160;
 const SITE_HEADER_HEADING_CLEARANCE_PX = 12;
-const SITE_HEADER_HIDE_SCROLL_MULTIPLIER = 1.35;
 const SITE_HEADER_DAMPING_TIME_MS = 95;
+const SITE_HEADER_MAX_SMOOTHING_LAG_PX = 4;
 const SITE_HEADER_CONTENT_FADE_START_PROGRESS = 0.45;
 let siteHeaderVisibilityFrame = null;
 let siteHeaderAnimationFrame = null;
@@ -2742,10 +2742,9 @@ function getSiteHeaderTargetProgress() {
   const scrollPastHideStart =
     hideStart -
     supportersHeading.getBoundingClientRect().top;
-  const hideScrollDistance = Math.max(
-    headerHeight * SITE_HEADER_HIDE_SCROLL_MULTIPLIER,
-    1
-  );
+  // Keep the original trigger and resting position. Only the journey to that
+  // position is damped; no advance hiding or wider scroll range is needed.
+  const hideScrollDistance = headerHeight + SECTION_ANCHOR_OVERLAP;
   const hideProgress = Math.min(
     Math.max(scrollPastHideStart / hideScrollDistance, 0),
     1
@@ -2759,42 +2758,38 @@ function easeSiteHeaderProgress(progress) {
 }
 
 function renderSiteHeaderVisibility(progress) {
-  if (!siteHeader) return;
+  if (!siteHeader) return 0;
 
   const keepHeaderVisible =
     SUPPORTERS_REDUCED_MOTION_QUERY.matches || isMobileNavOpen();
   const clampedProgress = keepHeaderVisible
     ? 0
     : Math.min(Math.max(progress, 0), 1);
-  const movementProgress = easeSiteHeaderProgress(
-    clampedProgress
-  );
-  const contentFadeProgress = Math.min(
-    Math.max(
-      (clampedProgress -
-        SITE_HEADER_CONTENT_FADE_START_PROGRESS) /
-        (1 - SITE_HEADER_CONTENT_FADE_START_PROGRESS),
-      0
-    ),
-    1
-  );
-  const easedContentFadeProgress = easeSiteHeaderProgress(
-    contentFadeProgress
-  );
   const headerHeight = getSiteHeaderHeight();
   const maxHideOffset = headerHeight + SECTION_ANCHOR_OVERLAP;
-  // Scrolling moves the heading immediately; the damped animation can lag.
-  // Keep this clearance even before the animation has caught up.
+  // Use a little of the existing 12px gap to absorb small scroll steps. Bound
+  // that lag during fast swipes so the heading still clears the visible panel.
   const clearanceOffset = !keepHeaderVisible && supportersHeading
     ? Math.max(
         headerHeight + SITE_HEADER_HEADING_CLEARANCE_PX -
+          SITE_HEADER_MAX_SMOOTHING_LAG_PX -
           supportersHeading.getBoundingClientRect().top,
         0
       )
     : 0;
-  const hideOffset = Math.min(
-    Math.max(movementProgress * maxHideOffset, clearanceOffset),
-    maxHideOffset
+  const visibleProgress = Math.min(
+    Math.max(clampedProgress, clearanceOffset / maxHideOffset),
+    1
+  );
+  const hideOffset = visibleProgress * maxHideOffset;
+  // Fade with the actual translation, including clearance during a fast swipe.
+  const contentFadeProgress = Math.max(
+    (visibleProgress - SITE_HEADER_CONTENT_FADE_START_PROGRESS) /
+      (1 - SITE_HEADER_CONTENT_FADE_START_PROGRESS),
+    0
+  );
+  const easedContentFadeProgress = easeSiteHeaderProgress(
+    contentFadeProgress
   );
   const contentOpacity = 1 - easedContentFadeProgress;
   const shouldStartHiding = hideOffset > 0;
@@ -2835,6 +2830,8 @@ function renderSiteHeaderVisibility(progress) {
   if (isFullyHidden && document.body.classList.contains('has-nav-dropdown-open')) {
     closeNavDropdowns();
   }
+
+  return visibleProgress;
 }
 
 function stopSiteHeaderAnimation() {
@@ -2869,7 +2866,12 @@ function animateSiteHeaderVisibility(timestamp) {
     siteHeaderRenderedProgress = siteHeaderTargetProgress;
   }
 
-  renderSiteHeaderVisibility(siteHeaderRenderedProgress);
+  // Continue from the position actually shown if a fast swipe required an
+  // immediate clearance adjustment. Reversing direction must not jump back
+  // to an older animation position.
+  siteHeaderRenderedProgress = renderSiteHeaderVisibility(
+    siteHeaderRenderedProgress
+  );
 
   if (siteHeaderRenderedProgress !== siteHeaderTargetProgress) {
     siteHeaderAnimationFrame = window.requestAnimationFrame(
@@ -2888,8 +2890,8 @@ function startSiteHeaderAnimation() {
   );
 }
 
-// Start hiding while there is still space above "Supported By", so the heading
-// does not have to touch the panel before the upward glide begins.
+// Keep the original hide position near "Supported By" and ease small scroll
+// changes in both directions without moving the trigger earlier.
 function syncSiteHeaderVisibility() {
   siteHeaderVisibilityFrame = null;
 
@@ -2919,7 +2921,9 @@ function syncSiteHeaderVisibility() {
   if (!siteHeaderAnimationInitialized) {
     siteHeaderAnimationInitialized = true;
     siteHeaderRenderedProgress = nextTargetProgress;
-    renderSiteHeaderVisibility(siteHeaderRenderedProgress);
+    siteHeaderRenderedProgress = renderSiteHeaderVisibility(
+      siteHeaderRenderedProgress
+    );
     return;
   }
 
