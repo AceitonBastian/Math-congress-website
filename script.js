@@ -2786,8 +2786,8 @@ function renderSiteHeaderVisibility(progress) {
   const isFullyHidden = hideOffset >= maxHideOffset - 0.01;
 
   if (shouldStartHiding) {
-    // Share the translation with the viewport-fixed surface and backdrop,
-    // which are siblings of the header rather than transformed descendants.
+    // Share the fallback translation with the viewport-fixed siblings.
+    // Native scroll timelines move all of these layers together in CSS.
     document.documentElement.style.setProperty(
       '--site-header-hide-offset',
       `${hideOffset.toFixed(3)}px`
@@ -2822,7 +2822,7 @@ function renderSiteHeaderVisibility(progress) {
   }
 }
 
-// Native CSS owns the visual motion. Keep overlays and accessibility in sync;
+// Native CSS owns the visual motion, including overlays. Sync accessibility;
 // browsers without scroll timelines use this same position once per frame.
 // A second, time-based catch-up loop would fight the browser's touch scrolling.
 function syncSiteHeaderVisibility() {

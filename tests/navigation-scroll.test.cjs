@@ -478,9 +478,11 @@ test('queued visibility updates use the newest position when a swipe reverses', 
 
 test('CSS anchors external layers to the visible edge but leaves nested menus in header coordinates', () => {
   const rule = selector => {
-    const start = styles.indexOf(selector + ' {');
+    // Match the complete top-level selector, not the end of a scoped rule.
+    const source = '\n' + styles;
+    const start = source.indexOf('\n' + selector + ' {');
     assert.notEqual(start, -1, `Missing CSS rule: ${selector}`);
-    return styles.slice(start, styles.indexOf('}', start));
+    return source.slice(start, source.indexOf('}', start));
   };
   assert.match(rule(':root'), /--site-header-hide-offset:\s*0px/);
   assert.match(rule(':root'), /--site-header-visible-height:\s*max\(\s*0px,\s*calc\(var\(--site-header-height\)\s*-\s*var\(--site-header-hide-offset\)\)\s*\)/);

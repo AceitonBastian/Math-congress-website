@@ -143,7 +143,9 @@ textarea {
 
 @keyframes site-header-scroll-hide {
   from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, calc(-100% - 1px), 0); }
+  to {
+    transform: translate3d(0, calc(-1 * (var(--site-header-height) + 1px)), 0);
+  }
 }
 
 @keyframes site-header-scroll-fade {
@@ -173,7 +175,9 @@ textarea {
   }
 
   .has-native-header-scroll .site-header,
-  .has-native-header-scroll .site-header .nav-wrap {
+  .has-native-header-scroll .site-header .nav-wrap,
+  .has-native-header-scroll .nav-dropdown-surface,
+  .has-native-header-scroll .nav-backdrop {
     animation: site-header-scroll-hide linear both;
     animation-timeline: --site-header-scroll;
     animation-range: exit-crossing 0px exit-crossing calc(var(--site-header-height) + 1px);
@@ -191,11 +195,31 @@ textarea {
     will-change: opacity;
   }
 
+  .has-native-header-scroll .nav-dropdown-surface,
+  .has-native-header-scroll .nav-backdrop {
+    /* Move these viewport siblings on the same timeline as the header and
+       its menu. A JS-updated top can lag behind compositor scrolling and
+       expose a white seam between the dropdown's background and its links. */
+    --site-header-visible-height: var(--site-header-height);
+    will-change: transform;
+  }
+
+  .has-native-header-scroll .nav-backdrop {
+    /* Keep the scrim covering the viewport as the whole layer moves up. */
+    bottom: calc(-1 * (var(--site-header-height) + 1px));
+  }
+
   body.has-mobile-nav-open .site-header,
   body.has-mobile-nav-open .site-header .nav-wrap {
     animation: none;
     transform: none;
     opacity: 1;
+  }
+
+  body.has-mobile-nav-open .nav-backdrop {
+    animation: none;
+    transform: none;
+    bottom: 0;
   }
 }
 
