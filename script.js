@@ -3148,6 +3148,12 @@ const MATERIALS = {
 
   wednesday: [
     {
+      title: 'Genus two embedded minimal surfaces in S³ with bi-dihedral symmetry',
+      speaker: 'Joaquín Pérez',
+      affiliation: 'Universidad de Granada, Spain',
+      pdf: 'pdfs/joaquin-perez.pdf?v=20260908-01'
+    },
+    {
       title: 'On a Fully Nonlinear Conformal Flow',
       speaker: 'María Fernanda Espinal',
       affiliation: 'Universidad Técnica Federico Santa María, Chile',
