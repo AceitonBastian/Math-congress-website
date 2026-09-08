@@ -855,6 +855,7 @@ window.onloadTurnstileCallback = () => {
     );
 
   if (
+    window.CONFERENCE_CONFIG?.registrationOpen !== false &&
     registrationContainer &&
     !turnstileRendered
   ) {
@@ -934,6 +935,15 @@ function clearStoredSubmissionId() {
 
 async function submitRegistration(event) {
   event.preventDefault();
+
+  if (window.CONFERENCE_CONFIG?.registrationOpen === false) {
+    if (formStatus) {
+      formStatus.textContent =
+        'Registration is now closed. Participation submissions are no longer being accepted.';
+    }
+
+    return;
+  }
 
   if (
     !registrationForm ||

@@ -228,15 +228,6 @@
       "@type": "Organization",
       "name": "Geometric Analysis by the Andes",
       "url": "https://gaandes.com/"
-    },
-    
-    "offers": {
-      "@type": "Offer",
-      "url": "https://gaandes.com/#registration",
-      "availability": "https://schema.org/InStock",
-      "price": 0,
-      "priceCurrency": "CLP",
-      "validFrom": "2026-05-12"
     }
   }
   </script>
@@ -370,7 +361,7 @@
           minimal surfaces, geometric flows, and partial differential equations.
         </p>
         <div class="hero-actions">
-          <a href="#registration" class="btn btn-primary">Register</a>
+          <a href="#registration" class="btn btn-primary">Registration closed</a>
           <a href="#speakers" class="btn btn-secondary">See speakers</a>
         </div>
         <div class="hero-meta">
@@ -1153,169 +1144,31 @@
 
     <section class="section section-alt" id="registration">
       <div class="container form-layout">
-        <div>
-          <div class="section-heading left-aligned">
-            <span class="eyebrow">Registration</span>
-            <h2>Register for the conference</h2>
-          </div>
-
-          <div class="info-card">
-            <h3>Registration tips</h3>
-            <ol>
-              <li>Please check your information carefully before submitting the form.</li>
-              <li>After submitting, you will receive an automatic confirmation email within 10 minutes.</li>
-              <li>If you do not receive the confirmation email within 10 minutes, please check your spam folder. If you still cannot find it, feel free to submit your registration again.</li>
-              <li>If you experience persistent issues with the registration form, please contact us using the email below, with the subject “Registration – Gaandes Conference”.</li>
-            </ol>
-            <div class="contact-email-box">
-              <div class="contact-email-header">
-                <span class="contact-email-eyebrow">Contact</span>
-              </div>
-              <p>
-                For inquiries, reach us at<br>
-                <strong><a href="mailto:contact@gaandes.com">contact@gaandes.com</a></strong>
-              </p>
-            </div>
-          </div>
+        <div class="section-heading left-aligned">
+          <span class="eyebrow">Registration</span>
+          <h2>Registration is now closed</h2>
+          <p>
+            We are no longer accepting participation submissions for
+            <strong>Geometric Analysis by the Andes</strong>.
+            Thank you for your interest in the conference.
+          </p>
         </div>
 
-        <form id="registrationForm" class="registration-form">
-          <div class="form-row">
-            <label for="fullName">Full name *</label>
-            <input id="fullName" name="fullName" type="text" maxlength="114" required />
-            <small id="fullNameCounter" class="note-counter">0 / 114</small>
-          </div>
-
-          <div class="form-row two-up">
-            <div>
-              <label for="email">Email *</label>
-              <input id="email" name="email" type="email" required />
-            </div>
-            <div>
-              <label for="affiliation">Affiliation *</label>
-              <input id="affiliation" name="affiliation" type="text" maxlength="114" required />
-              <small id="affiliationCounter" class="note-counter">0 / 114</small>
-            </div>
-          </div>
-          
-          <div class="form-row two-up">
-            <div>
-              <label for="country">Country *</label>
-              <input id="country" name="country" type="text" maxlength="30" required />
-              <small id="countryCounter" class="note-counter">0 / 30</small>
-            </div>
-            
-            <div>
-              <label id="attendance-label" for="attendance-trigger">Participation *</label>
-              
-              <div class="custom-select" id="attendanceSelectWrap" data-value="">
-                <input type="hidden" id="attendance" name="attendance">
-                
-                <button
-                  type="button"
-                  id="attendance-trigger"
-                  class="custom-select-trigger"
-                  aria-haspopup="listbox"
-                  aria-expanded="false"
-                  aria-labelledby="attendance-label attendance-trigger"
-                  >
-                  <span class="custom-select-text">Select option</span>
-                  <span class="custom-select-arrow" aria-hidden="true"></span>
-                </button>
-                
-                <div class="custom-select-menu" role="listbox" aria-label="Participation options">
-                  <button type="button" class="custom-select-option" role="option" data-value="all-days">
-                    All days
-                  </button>
-                  <button type="button" class="custom-select-option" role="option" data-value="selected-days">
-                    Some days
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div id="daysSelector" class="form-row days-selector" hidden>
-            <label id="daysSelectorLabel">Select the days you will attend *</label>
-            <p class="days-selector-help">
-              Choose one or more days between September 7 and September 11.
-            </p>
-            
-            <div class="day-chip-group" role="group" aria-labelledby="daysSelectorLabel">
-              <label class="day-chip">
-                <input type="checkbox" name="days[]" value="monday" />
-                <span class="day-chip-main">Monday</span>
-                <span class="day-chip-sub">Sep 7</span>
-              </label>
-              
-              <label class="day-chip">
-                <input type="checkbox" name="days[]" value="tuesday" />
-                <span class="day-chip-main">Tuesday</span>
-                <span class="day-chip-sub">Sep 8</span>
-              </label>
-              
-              <label class="day-chip">
-                <input type="checkbox" name="days[]" value="wednesday" />
-                <span class="day-chip-main">Wednesday</span>
-                <span class="day-chip-sub">Sep 9</span>
-              </label>
-              
-              <label class="day-chip">
-                <input type="checkbox" name="days[]" value="thursday" />
-                <span class="day-chip-main">Thursday</span>
-                <span class="day-chip-sub">Sep 10</span>
-              </label>
-              
-              <label class="day-chip">
-                <input type="checkbox" name="days[]" value="friday" />
-                <span class="day-chip-main">Friday</span>
-                <span class="day-chip-sub">Sep 11</span>
-              </label>
-            </div>
-            
-            <p id="daysError" class="form-error" hidden>Please select at least one day.</p>
-          </div>
-          
-          <fieldset class="form-row radio-group">
-            <legend>Are you an invited speaker? *</legend>
-            
-            <div class="radio-options">
-              <label><input type="radio" name="invitedSpeaker" value="yes" required /> Yes</label>
-              <label><input type="radio" name="invitedSpeaker" value="no" required /> No</label>
-            </div>
-          </fieldset>
-          
-          <div class="form-row">
-            <label for="additionalComments">Additional comments</label>
-            <textarea
-              id="additionalComments"
-              name="comments"
-              rows="5"
-              maxlength="400"
-              placeholder="Dietary restrictions, accessibility needs, arrival details, etc."
-              ></textarea>
-            <small id="additionalCommentsCounter" class="note-counter">0 / 400</small>
-          </div>
-          
-          <div class="form-row turnstile-wrap">
-            <div id="turnstile-container"></div>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-full">Submit registration</button>
-          <p id="formStatus" class="form-status" aria-live="polite"></p>
-        </form>
-        <div id="registrationSuccess" class="registration-success" hidden>
-          <div class="registration-success-header">
-            <span class="registration-success-icon" aria-hidden="true">✔</span>
-            <span class="registration-success-eyebrow">Registration received</span>
-          </div>
-          <h3>Your registration was submitted successfully</h3>
+        <div class="info-card">
+          <h3>Already registered?</h3>
           <p>
-            A confirmation email has been sent to <strong id="successEmail"></strong>.
+            For questions about an existing registration, please contact
+            the organizers.
           </p>
-          <p class="registration-success-note">
-            If you do not receive it within 10 minutes, please check your spam folder. If needed, you may submit the form again.
-          </p>
+          <div class="contact-email-box">
+            <div class="contact-email-header">
+              <span class="contact-email-eyebrow">Contact</span>
+            </div>
+            <p>
+              Reach us at<br>
+              <strong><a href="mailto:contact@gaandes.com">contact@gaandes.com</a></strong>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -2143,14 +1996,15 @@
   
   <script>
     window.CONFERENCE_CONFIG = {
-      registrationEndpoint:
-        "https://math-congress-worker.aceiton-bastian.workers.dev",
+      // Participation submissions are closed.
+      registrationOpen: false,
+      registrationEndpoint: "",
 
       // Poster submissions are closed.
       posterEndpoint: ""
     };
   </script>
-  <script src="script.js?v=20260908-01" defer></script>
+  <script src="script.js?v=20260908-02" defer></script>
   <script
     src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
     defer
