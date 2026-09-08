@@ -3100,10 +3100,10 @@ const MATERIALS = {
       pdf: 'pdfs/davide-parise.pdf'
     },
     {
-      title: 'Singularity models for the one-phase free boundary problem',
-      speaker: 'Zihui Zhao',
-      affiliation: 'Johns Hopkins University, USA',
-      pdf: 'pdfs/zihui-zhao.pdf'
+      title: 'A non local PDE model for fire fronts',
+      speaker: 'Valentina Wheeler',
+      affiliation: 'University of Wollongong, Australia',
+      pdf: 'pdfs/valentina-wheeler.pdf'
     },
     {
       title: 'Zoll families of minimal spheres and min-max theory',
@@ -3133,16 +3133,16 @@ const MATERIALS = {
       pdf: 'pdfs/renato-velozo-ruiz.pdf?v=20260904-05'
     },
     {
-      title: 'A non local PDE model for fire fronts',
-      speaker: 'Valentina Wheeler',
-      affiliation: 'University of Wollongong, Australia',
-      pdf: 'pdfs/valentina-wheeler.pdf'
-    },
-    {
       title: 'Band Width Estimates and Rigidity of Manifolds with Negative Curvature',
       speaker: 'Tiarlos Cruz',
       affiliation: 'Universidade Federal de Alagoas, Brazil',
       pdf: 'pdfs/tiarlos-cruz.pdf'
+    },
+    {
+      title: 'Singularity models for the one-phase free boundary problem',
+      speaker: 'Zihui Zhao',
+      affiliation: 'Johns Hopkins University, USA',
+      pdf: 'pdfs/zihui-zhao.pdf'
     }
   ],
 
